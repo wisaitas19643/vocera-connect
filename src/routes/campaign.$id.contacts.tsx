@@ -1,18 +1,405 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { useMemo, useRef, useState } from "react";
+import { createFileRoute, useNavigate } from "@tanstack/react-router";
+import {
+  Search,
+  ChevronLeft,
+  ChevronRight,
+  BarChart3,
+  CheckCircle2,
+  XCircle,
+  PhoneMissed,
+  Clock,
+  Download,
+  Upload,
+  Headphones,
+} from "lucide-react";
+
 import { AppLayout } from "@/components/vocera/AppLayout";
+import { Button } from "@/components/vocera/Button";
+import { KPICard } from "@/components/vocera/KPICard";
+import { StatusBadge, type StatusVariant } from "@/components/vocera/StatusBadge";
+import { cn } from "@/lib/utils";
 
 export const Route = createFileRoute("/campaign/$id/contacts")({
   head: () => ({ meta: [{ title: "Contacts — Vocera" }] }),
   component: CampaignContactsPage,
 });
 
+type Filter = "all" | StatusVariant;
+
+interface Contact {
+  id: string;
+  name: string;
+  phone: string;
+  status: StatusVariant;
+  date: string;
+  time: string;
+}
+
+const campaignsById: Record<string, { name: string }> = {
+  "1": { name: "ประชุมผู้ถือหุ้น ประจำปี 2026" },
+  "2": { name: "อบรมพนักงานใหม่ รุ่นที่ 12" },
+  "3": { name: "สัมมนาเทคโนโลยี AI" },
+};
+
+const initialContacts: Contact[] = [
+  { id: "1", name: "กฤษฎา มานะธรรม", phone: "081-234-5678", status: "confirmed", date: "12/04/2026", time: "10:32" },
+  { id: "2", name: "พงศกร รัตนสิริ", phone: "089-111-2233", status: "rejected", date: "12/04/2026", time: "10:35" },
+  { id: "3", name: "ชนากานต์ ใจดี", phone: "082-555-7788", status: "missed", date: "12/04/2026", time: "10:40" },
+  { id: "4", name: "อรทัย ศรีสุข", phone: "086-222-3344", status: "pending", date: "12/04/2026", time: "10:42" },
+  { id: "5", name: "ธนกร สุขเกษม", phone: "084-987-6543", status: "confirmed", date: "12/04/2026", time: "10:45" },
+  { id: "6", name: "นภัสสร พงษ์ไพศาล", phone: "087-345-2211", status: "confirmed", date: "12/04/2026", time: "10:48" },
+  { id: "7", name: "ปวีณา วงศ์วิทย์", phone: "081-998-1122", status: "missed", date: "12/04/2026", time: "10:52" },
+  { id: "8", name: "สมชาย ใจกล้า", phone: "083-444-5566", status: "pending", date: "12/04/2026", time: "10:55" },
+  { id: "9", name: "วิภาวี ตั้งใจ", phone: "088-321-9988", status: "confirmed", date: "12/04/2026", time: "10:58" },
+  { id: "10", name: "เกียรติศักดิ์ พรชัย", phone: "085-654-3210", status: "rejected", date: "12/04/2026", time: "11:02" },
+];
+
+const filterStyles: Record<Filter, string> = {
+  all: "border-brand-700 bg-brand-50",
+  confirmed: "border-green-500 bg-green-50",
+  rejected: "border-red-500 bg-red-50",
+  missed: "border-yellow-500 bg-yellow-50",
+  pending: "border-blue-500 bg-blue-50",
+};
+
+const PAGE_SIZE = 10;
+
 function CampaignContactsPage() {
   const { id } = Route.useParams();
+  const navigate = useNavigate();
+  const campaign = campaignsById[id] ?? { name: `Campaign ${id}` };
+
+  const [contacts, setContacts] = useState<Contact[]>(initialContacts);
+  const [filter, setFilter] = useState<Filter>("all");
+  const [search, setSearch] = useState("");
+  const [page, setPage] = useState(1);
+  const fileRef = useRef<HTMLInputElement>(null);
+
+  const filtered = useMemo(() => {
+    let list = filter === "all" ? contacts : contacts.filter((c) => c.status === filter);
+    if (search.trim()) {
+      const q = search.trim().toLowerCase();
+      list = list.filter(
+        (c) => c.name.toLowerCase().includes(q) || c.phone.toLowerCase().includes(q),
+      );
+    }
+    return list;
+  }, [contacts, filter, search]);
+
+  const totalPages = Math.max(1, Math.ceil(filtered.length / PAGE_SIZE));
+  const currentPage = Math.min(page, totalPages);
+  const start = (currentPage - 1) * PAGE_SIZE;
+  const visible = filtered.slice(start, start + PAGE_SIZE);
+
+  const counts = useMemo(() => {
+    const c = { all: contacts.length, confirmed: 0, rejected: 0, missed: 0, pending: 0 };
+    for (const x of contacts) c[x.status]++;
+    return c;
+  }, [contacts]);
+
+  const setFilterReset = (f: Filter) => {
+    setFilter(f);
+    setPage(1);
+  };
+
+  const handleExport = () => {
+    const rows = [
+      ["ชื่อ-นามสกุล", "เบอร์โทรศัพท์", "สถานะ", "วันที่โทร", "เวลาโทร"],
+      ...filtered.map((c) => [c.name, c.phone, c.status, c.date, c.time]),
+    ];
+    const csv = rows
+      .map((r) => r.map((v) => `"${String(v).replace(/"/g, '""')}"`).join(","))
+      .join("\n");
+    const blob = new Blob(["\uFEFF" + csv], { type: "text/csv;charset=utf-8;" });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = `contacts-${id}.csv`;
+    a.click();
+    URL.revokeObjectURL(url);
+  };
+
+  const handleImport = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onload = () => {
+      const text = String(reader.result || "");
+      const lines = text.split(/\r?\n/).filter((l) => l.trim());
+      if (lines.length <= 1) return;
+      const parsed: Contact[] = lines.slice(1).map((line, i) => {
+        const cols = line.split(",").map((s) => s.replace(/^"|"$/g, "").trim());
+        const status = (["confirmed", "rejected", "missed", "pending"] as StatusVariant[]).includes(
+          cols[2] as StatusVariant,
+        )
+          ? (cols[2] as StatusVariant)
+          : "pending";
+        return {
+          id: `imp-${Date.now()}-${i}`,
+          name: cols[0] || "",
+          phone: cols[1] || "",
+          status,
+          date: cols[3] || "",
+          time: cols[4] || "",
+        };
+      });
+      setContacts((prev) => [...prev, ...parsed]);
+      setPage(1);
+    };
+    reader.readAsText(file);
+    e.target.value = "";
+  };
+
   return (
     <AppLayout>
-      <div className="p-8">
-        <h1 className="text-2xl font-semibold text-gray-900">Contacts — Campaign {id}</h1>
+      <div className="mx-auto max-w-7xl px-8 py-8">
+        {/* Header */}
+        <div className="flex flex-wrap items-center justify-between gap-4">
+          <div className="flex items-center gap-2">
+            <button
+              type="button"
+              onClick={() => navigate({ to: "/campaign" })}
+              className="inline-flex items-center gap-1 rounded-lg px-2 py-1.5 text-sm text-gray-500 hover:bg-brand-50 hover:text-brand-700"
+            >
+              <ChevronLeft className="h-4 w-4" />
+              กลับ
+            </button>
+            <h1 className="text-2xl font-bold text-brand-700">{campaign.name}</h1>
+          </div>
+          <div className="relative">
+            <Search className="pointer-events-none absolute left-4 top-1/2 h-4 w-4 -translate-y-1/2 text-gray-400" />
+            <input
+              type="text"
+              value={search}
+              onChange={(e) => {
+                setSearch(e.target.value);
+                setPage(1);
+              }}
+              placeholder="ค้นหาแขก"
+              className="w-64 rounded-full border border-gray-200 bg-white py-2.5 pl-10 pr-4 text-sm outline-none focus:border-brand-700 focus:ring-1 focus:ring-brand-300"
+            />
+          </div>
+        </div>
+
+        {/* KPI cards */}
+        <div className="mt-6 grid grid-cols-2 gap-4 md:grid-cols-3 xl:grid-cols-5">
+          <FilterCard active={filter === "all"} variant="all" onClick={() => setFilterReset("all")}>
+            <KPICardInner
+              icon={<BarChart3 className="h-5 w-5" />}
+              value={counts.all}
+              label="การโทรทั้งหมด"
+            />
+          </FilterCard>
+          <FilterCard active={filter === "confirmed"} variant="confirmed" onClick={() => setFilterReset("confirmed")}>
+            <KPICardInner
+              icon={<CheckCircle2 className="h-5 w-5 text-green-600" />}
+              value={counts.confirmed}
+              label="ยืนยัน"
+            />
+          </FilterCard>
+          <FilterCard active={filter === "rejected"} variant="rejected" onClick={() => setFilterReset("rejected")}>
+            <KPICardInner
+              icon={<XCircle className="h-5 w-5 text-red-500" />}
+              value={counts.rejected}
+              label="ปฏิเสธ"
+            />
+          </FilterCard>
+          <FilterCard active={filter === "missed"} variant="missed" onClick={() => setFilterReset("missed")}>
+            <KPICardInner
+              icon={<PhoneMissed className="h-5 w-5 text-yellow-500" />}
+              value={counts.missed}
+              label="ไม่รับสาย"
+            />
+          </FilterCard>
+          <FilterCard active={filter === "pending"} variant="pending" onClick={() => setFilterReset("pending")}>
+            <KPICardInner
+              icon={<Clock className="h-5 w-5 text-blue-500" />}
+              value={counts.pending}
+              label="รอสาย"
+            />
+          </FilterCard>
+        </div>
+
+        {/* Table */}
+        <div className="mt-6 rounded-2xl bg-white p-6 shadow-card">
+          <div className="flex flex-wrap items-center justify-between gap-3">
+            <h3 className="font-semibold text-gray-700">รายชื่อแขกทั้งหมด</h3>
+            <div className="flex items-center gap-2">
+              <input
+                ref={fileRef}
+                type="file"
+                accept=".csv"
+                onChange={handleImport}
+                className="hidden"
+              />
+              <Button
+                variant="secondary"
+                size="sm"
+                className="gap-2"
+                onClick={() => fileRef.current?.click()}
+              >
+                <Download className="h-4 w-4" />
+                นำเข้า CSV.
+              </Button>
+              <Button variant="primary" size="sm" className="gap-2" onClick={handleExport}>
+                <Upload className="h-4 w-4" />
+                นำออก CSV.
+              </Button>
+            </div>
+          </div>
+
+          <div className="mt-4 overflow-x-auto">
+            <table className="w-full min-w-[760px] text-left text-sm">
+              <thead>
+                <tr className="border-b border-gray-100 text-sm font-medium text-gray-400">
+                  <th className="py-3 pr-4 font-medium">ชื่อ-นามสกุล</th>
+                  <th className="py-3 pr-4 font-medium">เบอร์โทรศัพท์</th>
+                  <th className="py-3 pr-4 font-medium">สถานะ</th>
+                  <th className="py-3 pr-4 font-medium">วันที่โทร</th>
+                  <th className="py-3 pr-4 font-medium">เวลาโทร</th>
+                  <th className="py-3 pr-4 font-medium">รายละเอียด</th>
+                </tr>
+              </thead>
+              <tbody>
+                {visible.map((r) => (
+                  <tr
+                    key={r.id}
+                    className="border-b border-gray-50 transition-colors hover:bg-brand-50"
+                  >
+                    <td className="py-4 pr-4">
+                      <div className="flex items-center gap-3">
+                        <span className="flex h-9 w-9 items-center justify-center rounded-full bg-brand-100 text-sm font-semibold text-brand-700">
+                          {r.name.charAt(0)}
+                        </span>
+                        <div className="flex flex-col">
+                          <span className="text-gray-800">{r.name}</span>
+                          <span className="text-xs text-gray-400">{campaign.name}</span>
+                        </div>
+                      </div>
+                    </td>
+                    <td className="py-4 pr-4 text-gray-600">{r.phone}</td>
+                    <td className="py-4 pr-4">
+                      <StatusBadge variant={r.status} />
+                    </td>
+                    <td className="py-4 pr-4 text-gray-600">{r.date}</td>
+                    <td className="py-4 pr-4 text-gray-600">{r.time}</td>
+                    <td className="py-4 pr-4">
+                      <button
+                        type="button"
+                        className="inline-flex items-center gap-1 rounded-full border border-brand-200 px-4 py-1.5 text-sm font-medium text-brand-700 transition-colors hover:bg-brand-50"
+                      >
+                        <Headphones className="h-4 w-4" />
+                        ฟังสาย
+                      </button>
+                    </td>
+                  </tr>
+                ))}
+                {visible.length === 0 && (
+                  <tr>
+                    <td colSpan={6} className="py-10 text-center text-sm text-gray-400">
+                      ไม่พบข้อมูล
+                    </td>
+                  </tr>
+                )}
+              </tbody>
+            </table>
+          </div>
+
+          {/* Pagination */}
+          <div className="mt-4 flex flex-wrap items-center justify-between gap-3">
+            <span className="text-sm text-gray-400">
+              แสดง {visible.length} จากทั้งหมด {filtered.length} รายการ
+            </span>
+            <div className="flex items-center gap-2">
+              <button
+                type="button"
+                onClick={() => setPage(Math.max(1, currentPage - 1))}
+                disabled={currentPage === 1}
+                className="rounded-full p-1.5 text-gray-400 hover:bg-brand-50 hover:text-brand-700 disabled:opacity-40"
+                aria-label="ก่อนหน้า"
+              >
+                <ChevronLeft className="h-4 w-4" />
+              </button>
+              {Array.from({ length: totalPages }).map((_, i) => {
+                const n = i + 1;
+                const active = n === currentPage;
+                return (
+                  <button
+                    key={n}
+                    type="button"
+                    onClick={() => setPage(n)}
+                    className={cn(
+                      "inline-flex h-7 min-w-7 items-center justify-center rounded-full px-2 text-xs font-semibold",
+                      active
+                        ? "bg-brand-700 text-white"
+                        : "text-gray-500 hover:bg-brand-50 hover:text-brand-700",
+                    )}
+                  >
+                    {n}
+                  </button>
+                );
+              })}
+              <button
+                type="button"
+                onClick={() => setPage(Math.min(totalPages, currentPage + 1))}
+                disabled={currentPage === totalPages}
+                className="rounded-full p-1.5 text-gray-400 hover:bg-brand-50 hover:text-brand-700 disabled:opacity-40"
+                aria-label="ถัดไป"
+              >
+                <ChevronRight className="h-4 w-4" />
+              </button>
+            </div>
+          </div>
+        </div>
       </div>
     </AppLayout>
+  );
+}
+
+function FilterCard({
+  active,
+  variant,
+  onClick,
+  children,
+}: {
+  active: boolean;
+  variant: Filter;
+  onClick: () => void;
+  children: React.ReactNode;
+}) {
+  return (
+    <button
+      type="button"
+      onClick={onClick}
+      className={cn(
+        "flex w-full flex-col gap-2 rounded-2xl border-2 bg-white p-5 text-left shadow-card transition-all",
+        active ? filterStyles[variant] : "border-transparent hover:border-brand-300",
+      )}
+    >
+      {children}
+    </button>
+  );
+}
+
+function KPICardInner({
+  icon,
+  value,
+  label,
+}: {
+  icon: React.ReactNode;
+  value: number;
+  label: string;
+}) {
+  // Reuses KPICard visual without its own button wrapper.
+  void KPICard;
+  return (
+    <>
+      <div className="flex items-center gap-3">
+        <div className="text-brand-700">{icon}</div>
+        <div className="text-3xl font-semibold text-gray-900">{value.toLocaleString()}</div>
+      </div>
+      <div className="text-sm font-medium text-gray-700">{label}</div>
+    </>
   );
 }
