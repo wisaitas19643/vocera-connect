@@ -36,7 +36,7 @@ export function AppLayout({ children, userName = "User", points = 1250 }: AppLay
           <div className="flex h-9 w-9 items-center justify-center rounded-full bg-brand-700 text-white shadow-brand">
             <Phone className="h-4 w-4" />
           </div>
-          <span className="text-base font-semibold text-brand-700">Voice Confirm</span>
+          <span className="text-base font-semibold text-brand-700">Vocera</span>
         </Link>
 
         <nav className="flex flex-1 flex-col gap-1">
