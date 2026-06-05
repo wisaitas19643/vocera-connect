@@ -77,14 +77,13 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "Lovable App" },
-      { name: "description", content: "Lovable Generated Project" },
-      { name: "author", content: "Lovable" },
-      { property: "og:title", content: "Lovable App" },
-      { property: "og:description", content: "Lovable Generated Project" },
+      { title: "Vocera — The new era of outbound calling" },
+      { name: "description", content: "Vocera is a campaign management system for automated outbound calling." },
+      { name: "author", content: "Vocera" },
+      { property: "og:title", content: "Vocera — The new era of outbound calling" },
+      { property: "og:description", content: "Campaign management system for automated outbound calling." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary" },
-      { name: "twitter:site", content: "@Lovable" },
     ],
     links: [
       {
