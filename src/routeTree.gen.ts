@@ -9,38 +9,193 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as RegisterRouteImport } from './routes/register'
+import { Route as LoginRouteImport } from './routes/login'
+import { Route as DashboardRouteImport } from './routes/dashboard'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as SettingsIndexRouteImport } from './routes/settings.index'
+import { Route as CampaignIndexRouteImport } from './routes/campaign.index'
+import { Route as SettingsCallDefaultsRouteImport } from './routes/settings.call-defaults'
+import { Route as CampaignCreateRouteImport } from './routes/campaign.create'
+import { Route as CampaignIdIndexRouteImport } from './routes/campaign.$id.index'
+import { Route as CampaignIdEditRouteImport } from './routes/campaign.$id.edit'
+import { Route as CampaignIdContactsRouteImport } from './routes/campaign.$id.contacts'
 
+const RegisterRoute = RegisterRouteImport.update({
+  id: '/register',
+  path: '/register',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const LoginRoute = LoginRouteImport.update({
+  id: '/login',
+  path: '/login',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const DashboardRoute = DashboardRouteImport.update({
+  id: '/dashboard',
+  path: '/dashboard',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const SettingsIndexRoute = SettingsIndexRouteImport.update({
+  id: '/settings/',
+  path: '/settings/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const CampaignIndexRoute = CampaignIndexRouteImport.update({
+  id: '/campaign/',
+  path: '/campaign/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SettingsCallDefaultsRoute = SettingsCallDefaultsRouteImport.update({
+  id: '/settings/call-defaults',
+  path: '/settings/call-defaults',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const CampaignCreateRoute = CampaignCreateRouteImport.update({
+  id: '/campaign/create',
+  path: '/campaign/create',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const CampaignIdIndexRoute = CampaignIdIndexRouteImport.update({
+  id: '/campaign/$id/',
+  path: '/campaign/$id/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const CampaignIdEditRoute = CampaignIdEditRouteImport.update({
+  id: '/campaign/$id/edit',
+  path: '/campaign/$id/edit',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const CampaignIdContactsRoute = CampaignIdContactsRouteImport.update({
+  id: '/campaign/$id/contacts',
+  path: '/campaign/$id/contacts',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/dashboard': typeof DashboardRoute
+  '/login': typeof LoginRoute
+  '/register': typeof RegisterRoute
+  '/campaign/create': typeof CampaignCreateRoute
+  '/settings/call-defaults': typeof SettingsCallDefaultsRoute
+  '/campaign/': typeof CampaignIndexRoute
+  '/settings/': typeof SettingsIndexRoute
+  '/campaign/$id/contacts': typeof CampaignIdContactsRoute
+  '/campaign/$id/edit': typeof CampaignIdEditRoute
+  '/campaign/$id/': typeof CampaignIdIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/dashboard': typeof DashboardRoute
+  '/login': typeof LoginRoute
+  '/register': typeof RegisterRoute
+  '/campaign/create': typeof CampaignCreateRoute
+  '/settings/call-defaults': typeof SettingsCallDefaultsRoute
+  '/campaign': typeof CampaignIndexRoute
+  '/settings': typeof SettingsIndexRoute
+  '/campaign/$id/contacts': typeof CampaignIdContactsRoute
+  '/campaign/$id/edit': typeof CampaignIdEditRoute
+  '/campaign/$id': typeof CampaignIdIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/dashboard': typeof DashboardRoute
+  '/login': typeof LoginRoute
+  '/register': typeof RegisterRoute
+  '/campaign/create': typeof CampaignCreateRoute
+  '/settings/call-defaults': typeof SettingsCallDefaultsRoute
+  '/campaign/': typeof CampaignIndexRoute
+  '/settings/': typeof SettingsIndexRoute
+  '/campaign/$id/contacts': typeof CampaignIdContactsRoute
+  '/campaign/$id/edit': typeof CampaignIdEditRoute
+  '/campaign/$id/': typeof CampaignIdIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/'
+  fullPaths:
+    | '/'
+    | '/dashboard'
+    | '/login'
+    | '/register'
+    | '/campaign/create'
+    | '/settings/call-defaults'
+    | '/campaign/'
+    | '/settings/'
+    | '/campaign/$id/contacts'
+    | '/campaign/$id/edit'
+    | '/campaign/$id/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/'
-  id: '__root__' | '/'
+  to:
+    | '/'
+    | '/dashboard'
+    | '/login'
+    | '/register'
+    | '/campaign/create'
+    | '/settings/call-defaults'
+    | '/campaign'
+    | '/settings'
+    | '/campaign/$id/contacts'
+    | '/campaign/$id/edit'
+    | '/campaign/$id'
+  id:
+    | '__root__'
+    | '/'
+    | '/dashboard'
+    | '/login'
+    | '/register'
+    | '/campaign/create'
+    | '/settings/call-defaults'
+    | '/campaign/'
+    | '/settings/'
+    | '/campaign/$id/contacts'
+    | '/campaign/$id/edit'
+    | '/campaign/$id/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  DashboardRoute: typeof DashboardRoute
+  LoginRoute: typeof LoginRoute
+  RegisterRoute: typeof RegisterRoute
+  CampaignCreateRoute: typeof CampaignCreateRoute
+  SettingsCallDefaultsRoute: typeof SettingsCallDefaultsRoute
+  CampaignIndexRoute: typeof CampaignIndexRoute
+  SettingsIndexRoute: typeof SettingsIndexRoute
+  CampaignIdContactsRoute: typeof CampaignIdContactsRoute
+  CampaignIdEditRoute: typeof CampaignIdEditRoute
+  CampaignIdIndexRoute: typeof CampaignIdIndexRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/register': {
+      id: '/register'
+      path: '/register'
+      fullPath: '/register'
+      preLoaderRoute: typeof RegisterRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/login': {
+      id: '/login'
+      path: '/login'
+      fullPath: '/login'
+      preLoaderRoute: typeof LoginRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/dashboard': {
+      id: '/dashboard'
+      path: '/dashboard'
+      fullPath: '/dashboard'
+      preLoaderRoute: typeof DashboardRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/': {
       id: '/'
       path: '/'
@@ -48,11 +203,70 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/settings/': {
+      id: '/settings/'
+      path: '/settings'
+      fullPath: '/settings/'
+      preLoaderRoute: typeof SettingsIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/campaign/': {
+      id: '/campaign/'
+      path: '/campaign'
+      fullPath: '/campaign/'
+      preLoaderRoute: typeof CampaignIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/settings/call-defaults': {
+      id: '/settings/call-defaults'
+      path: '/settings/call-defaults'
+      fullPath: '/settings/call-defaults'
+      preLoaderRoute: typeof SettingsCallDefaultsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/campaign/create': {
+      id: '/campaign/create'
+      path: '/campaign/create'
+      fullPath: '/campaign/create'
+      preLoaderRoute: typeof CampaignCreateRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/campaign/$id/': {
+      id: '/campaign/$id/'
+      path: '/campaign/$id'
+      fullPath: '/campaign/$id/'
+      preLoaderRoute: typeof CampaignIdIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/campaign/$id/edit': {
+      id: '/campaign/$id/edit'
+      path: '/campaign/$id/edit'
+      fullPath: '/campaign/$id/edit'
+      preLoaderRoute: typeof CampaignIdEditRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/campaign/$id/contacts': {
+      id: '/campaign/$id/contacts'
+      path: '/campaign/$id/contacts'
+      fullPath: '/campaign/$id/contacts'
+      preLoaderRoute: typeof CampaignIdContactsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  DashboardRoute: DashboardRoute,
+  LoginRoute: LoginRoute,
+  RegisterRoute: RegisterRoute,
+  CampaignCreateRoute: CampaignCreateRoute,
+  SettingsCallDefaultsRoute: SettingsCallDefaultsRoute,
+  CampaignIndexRoute: CampaignIndexRoute,
+  SettingsIndexRoute: SettingsIndexRoute,
+  CampaignIdContactsRoute: CampaignIdContactsRoute,
+  CampaignIdEditRoute: CampaignIdEditRoute,
+  CampaignIdIndexRoute: CampaignIdIndexRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
