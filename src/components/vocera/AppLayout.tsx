@@ -13,7 +13,7 @@ interface NavItem {
 const navItems: NavItem[] = [
   { to: "/dashboard", label: "Dashboard", icon: <LayoutGrid className="h-5 w-5" /> },
   { to: "/campaign", label: "Campaign", icon: <User className="h-5 w-5" />, matchPrefix: "/campaign" },
-  { to: "/settings", label: "Settings", icon: <SettingsIcon className="h-5 w-5" />, matchPrefix: "/settings" },
+  { to: "/settings", label: "ตั้งค่า", icon: <SettingsIcon className="h-5 w-5" />, matchPrefix: "/settings" },
 ];
 
 interface AppLayoutProps {
@@ -33,7 +33,7 @@ export function AppLayout({ children, userName = "User", points = 1250 }: AppLay
         style={{ width: 240 }}
       >
         <Link to="/dashboard" className="mb-8 flex items-center gap-2 px-2">
-          <div className="flex h-9 w-9 items-center justify-center rounded-full bg-brand-700 text-white shadow-brand">
+          <div className="flex h-9 w-9 items-center justify-center rounded-full bg-brand-700 text-white shadow-card">
             <Phone className="h-4 w-4" />
           </div>
           <span className="text-base font-semibold text-brand-700">Vocera</span>

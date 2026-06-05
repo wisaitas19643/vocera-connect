@@ -1,4 +1,4 @@
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import {
   Search,
@@ -13,6 +13,7 @@ import {
   Download,
   Upload,
   Headphones,
+  LayoutGrid,
 } from "lucide-react";
 import { PieChart, Pie, Cell, ResponsiveContainer } from "recharts";
 
@@ -20,14 +21,13 @@ import { AppLayout } from "@/components/vocera/AppLayout";
 import { Button } from "@/components/vocera/Button";
 import { KPICard } from "@/components/vocera/KPICard";
 import { StatusBadge, type StatusVariant } from "@/components/vocera/StatusBadge";
+import { Skeleton } from "@/components/ui/skeleton";
 import { cn } from "@/lib/utils";
 
 export const Route = createFileRoute("/dashboard")({
   head: () => ({ meta: [{ title: "แดชบอร์ด — Vocera" }] }),
   component: DashboardPage,
 });
-
-// ---------------- Mock data ----------------
 
 type Filter = "all" | StatusVariant;
 
@@ -67,23 +67,30 @@ const responseData = [
   { key: "pending", label: "รอสาย", value: 32.35, color: "#3b82f6" },
 ];
 
-// ---------------- Page ----------------
-
 function DashboardPage() {
   const [filter, setFilter] = useState<Filter>("all");
   const [page, setPage] = useState(1);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const t = setTimeout(() => setLoading(false), 600);
+    return () => clearTimeout(t);
+  }, []);
 
   const filtered = useMemo(
     () => (filter === "all" ? activities : activities.filter((a) => a.status === filter)),
     [filter],
   );
   const visible = filtered.slice(0, 10);
+  const hasMore = filtered.length > 10;
 
   const toggle = (next: Filter) => setFilter((cur) => (cur === next ? "all" : next));
 
+  const isEmpty = activities.length === 0;
+
   return (
     <AppLayout>
-      <div className="mx-auto max-w-7xl px-8 py-8">
+      <div className="mx-auto max-w-7xl animate-page-in px-8 py-8">
         {/* Top bar */}
         <div className="flex flex-wrap items-center justify-between gap-4">
           <h1 className="text-2xl font-bold text-brand-700">แดชบอร์ด</h1>
@@ -106,72 +113,158 @@ function DashboardPage() {
           </div>
         </div>
 
-        {/* KPI cards */}
-        <div className="mt-6 grid grid-cols-2 gap-4 md:grid-cols-3 xl:grid-cols-5">
-          <KPICard
-            icon={<BarChart3 className="h-5 w-5" />}
-            value={1425}
-            label="การโทรทั้งหมด"
-            subText="ทุกแคมเปญ"
-            isActive={filter === "all"}
-            onClick={() => setFilter("all")}
-          />
-          <KPICard
-            icon={<CheckCircle2 className="h-5 w-5 text-green-600" />}
-            value={520}
-            label="ยืนยัน"
-            subText="36.5% จากทั้งหมด"
-            isActive={filter === "confirmed"}
-            onClick={() => toggle("confirmed")}
-          />
-          <KPICard
-            icon={<XCircle className="h-5 w-5 text-red-500" />}
-            value={202}
-            label="ปฏิเสธ"
-            subText="14.2% จากทั้งหมด"
-            isActive={filter === "rejected"}
-            onClick={() => toggle("rejected")}
-          />
-          <KPICard
-            icon={<PhoneMissed className="h-5 w-5 text-yellow-500" />}
-            value={245}
-            label="ไม่รับสาย"
-            subText="17.2% จากทั้งหมด"
-            isActive={filter === "missed"}
-            onClick={() => toggle("missed")}
-          />
-          <KPICard
-            icon={<Clock className="h-5 w-5 text-blue-500" />}
-            value={461}
-            label="รอสาย"
-            subText="32.4% จากทั้งหมด"
-            isActive={filter === "pending"}
-            onClick={() => toggle("pending")}
-          />
-        </div>
+        {loading ? (
+          <DashboardSkeleton />
+        ) : isEmpty ? (
+          <EmptyDashboard />
+        ) : (
+          <>
+            {/* KPI cards */}
+            <div className="mt-6 grid grid-cols-2 gap-4 md:grid-cols-3 xl:grid-cols-5">
+              <KPICard
+                icon={<BarChart3 className="h-5 w-5" />}
+                value={1425}
+                label="การโทรทั้งหมด"
+                subText="ทุกแคมเปญ"
+                isActive={filter === "all"}
+                onClick={() => setFilter("all")}
+              />
+              <KPICard
+                icon={<CheckCircle2 className="h-5 w-5 text-green-600" />}
+                value={520}
+                label="ยืนยัน"
+                subText="36.5% จากทั้งหมด"
+                isActive={filter === "confirmed"}
+                onClick={() => toggle("confirmed")}
+              />
+              <KPICard
+                icon={<XCircle className="h-5 w-5 text-red-500" />}
+                value={202}
+                label="ปฏิเสธ"
+                subText="14.2% จากทั้งหมด"
+                isActive={filter === "rejected"}
+                onClick={() => toggle("rejected")}
+              />
+              <KPICard
+                icon={<PhoneMissed className="h-5 w-5 text-yellow-500" />}
+                value={245}
+                label="ไม่รับสาย"
+                subText="17.2% จากทั้งหมด"
+                isActive={filter === "missed"}
+                onClick={() => toggle("missed")}
+              />
+              <KPICard
+                icon={<Clock className="h-5 w-5 text-blue-500" />}
+                value={461}
+                label="รอสาย"
+                subText="32.4% จากทั้งหมด"
+                isActive={filter === "pending"}
+                onClick={() => toggle("pending")}
+              />
+            </div>
 
-        {/* Middle row */}
-        <div className="mt-6 grid grid-cols-1 gap-4 lg:grid-cols-5">
-          <SuccessByCampaign page={page} onPage={setPage} />
-          <ResponseDonut />
-        </div>
+            {/* Middle row */}
+            <div className="mt-6 grid grid-cols-1 gap-4 lg:grid-cols-5">
+              <SuccessByCampaign page={page} onPage={setPage} />
+              <ResponseDonut />
+            </div>
 
-        {/* Bottom — activity table */}
-        <RecentActivity rows={visible} />
+            {/* Activity table */}
+            <RecentActivity rows={visible} hasMore={hasMore} />
+          </>
+        )}
       </div>
     </AppLayout>
   );
 }
 
-// ---------------- Subcomponents ----------------
+function DashboardSkeleton() {
+  return (
+    <>
+      <div className="mt-6 grid grid-cols-2 gap-4 md:grid-cols-3 xl:grid-cols-5">
+        {Array.from({ length: 5 }).map((_, i) => (
+          <div key={i} className="rounded-2xl bg-white p-5 shadow-card">
+            <div className="flex items-center gap-3">
+              <Skeleton className="h-5 w-5 rounded" />
+              <Skeleton className="h-8 w-20" />
+            </div>
+            <Skeleton className="mt-2 h-4 w-16" />
+            <Skeleton className="mt-1 h-3 w-28" />
+          </div>
+        ))}
+      </div>
+      <div className="mt-6 grid grid-cols-1 gap-4 lg:grid-cols-5">
+        <div className="rounded-2xl bg-white p-6 shadow-card lg:col-span-3">
+          <Skeleton className="mb-4 h-5 w-40" />
+          <div className="flex flex-col gap-5">
+            {Array.from({ length: 3 }).map((_, i) => (
+              <div key={i}>
+                <div className="flex justify-between">
+                  <Skeleton className="h-4 w-48" />
+                  <Skeleton className="h-4 w-12" />
+                </div>
+                <Skeleton className="mt-2 h-2 w-full rounded-full" />
+              </div>
+            ))}
+          </div>
+        </div>
+        <div className="rounded-2xl bg-white p-6 shadow-card lg:col-span-2">
+          <Skeleton className="mb-4 h-5 w-24" />
+          <div className="flex items-center gap-4">
+            <Skeleton className="h-44 w-44 rounded-full" />
+            <div className="flex flex-1 flex-col gap-3">
+              {Array.from({ length: 4 }).map((_, i) => (
+                <Skeleton key={i} className="h-4 w-full" />
+              ))}
+            </div>
+          </div>
+        </div>
+      </div>
+      <div className="mt-6 rounded-2xl bg-white p-6 shadow-card">
+        <Skeleton className="mb-4 h-5 w-32" />
+        <table className="w-full">
+          <tbody>
+            {Array.from({ length: 3 }).map((_, i) => (
+              <tr key={i} className="border-b border-gray-50">
+                <td className="py-4 pr-4">
+                  <div className="flex items-center gap-3">
+                    <Skeleton className="h-9 w-9 rounded-full" />
+                    <Skeleton className="h-4 w-32" />
+                  </div>
+                </td>
+                <td className="py-4 pr-4"><Skeleton className="h-4 w-28" /></td>
+                <td className="py-4 pr-4"><Skeleton className="h-5 w-16 rounded-full" /></td>
+                <td className="py-4 pr-4"><Skeleton className="h-4 w-20" /></td>
+                <td className="py-4 pr-4"><Skeleton className="h-4 w-12" /></td>
+                <td className="py-4 pr-4"><Skeleton className="h-7 w-20 rounded-full" /></td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+    </>
+  );
+}
 
-function SuccessByCampaign({
-  page,
-  onPage,
-}: {
-  page: number;
-  onPage: (n: number) => void;
-}) {
+function EmptyDashboard() {
+  return (
+    <div className="mt-12 flex flex-col items-center justify-center py-20">
+      <div className="flex h-20 w-20 items-center justify-center rounded-2xl bg-brand-50">
+        <LayoutGrid className="h-10 w-10 text-brand-300" />
+      </div>
+      <p className="mt-4 text-lg font-semibold text-gray-700">ยังไม่มีข้อมูล</p>
+      <p className="mt-1 text-sm text-gray-400">เริ่มสร้างแคมเปญแรกของคุณ</p>
+      <Link
+        to="/campaign/create"
+        className="mt-6 inline-flex items-center gap-1.5 rounded-full bg-brand-700 px-6 py-2.5 text-sm font-medium text-white hover:bg-brand-900"
+      >
+        สร้างแคมเปญแรก
+      </Link>
+    </div>
+  );
+}
+
+function SuccessByCampaign({ page, onPage }: { page: number; onPage: (n: number) => void }) {
   const totalPages = 1;
   return (
     <div className="rounded-2xl bg-white p-6 shadow-card lg:col-span-3">
@@ -188,16 +281,12 @@ function SuccessByCampaign({
                 </span>
               </div>
               <div className="mt-2 h-2 w-full overflow-hidden rounded-full bg-brand-100">
-                <div
-                  className="h-full rounded-full bg-brand-700"
-                  style={{ width: `${Math.min(100, pct)}%` }}
-                />
+                <div className="h-full rounded-full bg-brand-700" style={{ width: `${Math.min(100, pct)}%` }} />
               </div>
             </div>
           );
         })}
       </div>
-
       <div className="mt-6 flex items-center justify-end gap-2">
         <button
           type="button"
@@ -251,10 +340,7 @@ function ResponseDonut() {
           {responseData.map((d) => (
             <li key={d.key} className="flex items-center justify-between gap-3 text-sm">
               <span className="inline-flex items-center gap-2 text-gray-600">
-                <span
-                  className="inline-block h-2.5 w-2.5 rounded-full"
-                  style={{ backgroundColor: d.color }}
-                />
+                <span className="inline-block h-2.5 w-2.5 rounded-full" style={{ backgroundColor: d.color }} />
                 {d.label}
               </span>
               <span className="font-semibold text-brand-700">{d.value}%</span>
@@ -266,7 +352,7 @@ function ResponseDonut() {
   );
 }
 
-function RecentActivity({ rows }: { rows: Activity[] }) {
+function RecentActivity({ rows, hasMore }: { rows: Activity[]; hasMore: boolean }) {
   return (
     <div className="mt-6 rounded-2xl bg-white p-6 shadow-card">
       <div className="flex flex-wrap items-center justify-between gap-3">
@@ -297,10 +383,7 @@ function RecentActivity({ rows }: { rows: Activity[] }) {
           </thead>
           <tbody>
             {rows.map((r) => (
-              <tr
-                key={r.id}
-                className="border-b border-gray-50 transition-colors hover:bg-brand-50"
-              >
+              <tr key={r.id} className="border-b border-gray-50 transition-colors hover:bg-brand-50">
                 <td className="py-4 pr-4">
                   <div className="flex items-center gap-3">
                     <span className="flex h-9 w-9 items-center justify-center rounded-full bg-brand-100 text-sm font-semibold text-brand-700">
@@ -316,15 +399,10 @@ function RecentActivity({ rows }: { rows: Activity[] }) {
                 <td className="py-4 pr-4 text-gray-600">{r.date}</td>
                 <td className="py-4 pr-4 text-gray-600">{r.time}</td>
                 <td className="py-4 pr-4">
-                  <button
-                    type="button"
-                    className={cn(
-                      "inline-flex items-center gap-1.5 rounded-full border border-brand-300 px-4 py-1.5 text-sm font-medium text-brand-700 transition-colors hover:bg-brand-50",
-                    )}
-                  >
+                  <Button variant="ghost" size="sm">
                     <Headphones className="h-4 w-4" />
                     ฟังสาย
-                  </button>
+                  </Button>
                 </td>
               </tr>
             ))}
@@ -339,15 +417,17 @@ function RecentActivity({ rows }: { rows: Activity[] }) {
         </table>
       </div>
 
-      <div className="mt-4 flex justify-end">
-        <Link
-          to="/campaign/$id/contacts"
-          params={{ id: "1" }}
-          className="text-sm font-medium text-brand-700 hover:underline"
-        >
-          ดูทั้งหมด →
-        </Link>
-      </div>
+      {hasMore && (
+        <div className="mt-4 flex justify-end">
+          <Link
+            to="/campaign/$id/contacts"
+            params={{ id: "1" }}
+            className={cn("text-sm font-medium text-brand-700 hover:underline")}
+          >
+            ดูทั้งหมด →
+          </Link>
+        </div>
+      )}
     </div>
   );
 }

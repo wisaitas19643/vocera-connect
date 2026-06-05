@@ -29,7 +29,7 @@ export function CampaignCard({ campaign }: CampaignCardProps) {
   const pct = Math.min(100, Math.max(0, percent));
 
   return (
-    <div className="group relative rounded-2xl border border-gray-100 bg-white p-6 shadow-card transition-shadow hover:shadow-brand">
+    <div className="group relative rounded-2xl border border-gray-100 bg-white p-6 shadow-card transition-shadow hover:shadow-modal">
       <span className="absolute right-6 top-6 rounded-full border border-brand-300 bg-brand-50 px-3 py-1 text-xs font-medium text-brand-700">
         {status}
       </span>

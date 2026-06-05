@@ -1,5 +1,5 @@
-import { useMemo, useState } from "react";
-import { createFileRoute, useNavigate } from "@tanstack/react-router";
+import { useEffect, useMemo, useState } from "react";
+import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import {
   Search,
   ChevronDown,
@@ -19,6 +19,7 @@ import { AppLayout } from "@/components/vocera/AppLayout";
 import { Button } from "@/components/vocera/Button";
 import { KPICard } from "@/components/vocera/KPICard";
 import { StatusBadge, type StatusVariant } from "@/components/vocera/StatusBadge";
+import { Skeleton } from "@/components/ui/skeleton";
 
 export const Route = createFileRoute("/campaign/$id/")({
   head: () => ({ meta: [{ title: "Campaign — Vocera" }] }),
@@ -110,30 +111,33 @@ function CampaignDetailPage() {
 
   const [filter, setFilter] = useState<Filter>("all");
   const [dropdownOpen, setDropdownOpen] = useState(false);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const t = setTimeout(() => setLoading(false), 600);
+    return () => clearTimeout(t);
+  }, [id]);
 
   const filtered = useMemo(
     () => (filter === "all" ? data.activities : data.activities.filter((a) => a.status === filter)),
     [filter, data.activities],
   );
   const visible = filtered.slice(0, 10);
+  const hasMore = filtered.length > 10;
   const toggle = (next: Filter) => setFilter((cur) => (cur === next ? "all" : next));
 
   const allCampaigns = Object.values(campaignsById);
 
   return (
     <AppLayout>
-      <div className="mx-auto max-w-7xl px-8 py-8">
+      <div className="mx-auto max-w-7xl animate-page-in px-8 py-8">
         {/* Top bar */}
         <div className="flex flex-wrap items-center justify-between gap-4">
           <div className="flex items-center gap-2">
-            <button
-              type="button"
-              onClick={() => navigate({ to: "/campaign" })}
-              className="inline-flex items-center gap-1 rounded-lg px-2 py-1.5 text-sm text-gray-500 hover:bg-brand-50 hover:text-brand-700"
-            >
+            <Button variant="ghost" size="sm" onClick={() => navigate({ to: "/campaign" })}>
               <ChevronLeft className="h-4 w-4" />
               กลับ
-            </button>
+            </Button>
             <h1 className="text-2xl font-bold text-brand-700">{data.name}</h1>
           </div>
           <div className="flex items-center gap-3">
@@ -155,7 +159,7 @@ function CampaignDetailPage() {
                 <ChevronDown className="h-4 w-4 text-brand-700" />
               </button>
               {dropdownOpen && (
-                <div className="absolute right-0 top-full z-10 mt-2 w-72 overflow-hidden rounded-2xl border border-gray-100 bg-white shadow-card">
+                <div className="absolute right-0 top-full z-10 mt-2 w-72 overflow-hidden rounded-2xl border border-gray-100 bg-white shadow-modal">
                   <button
                     type="button"
                     onClick={() => {
@@ -188,131 +192,211 @@ function CampaignDetailPage() {
           </div>
         </div>
 
-        {/* KPI cards */}
-        <div className="mt-6 grid grid-cols-2 gap-4 md:grid-cols-3 xl:grid-cols-5">
-          <KPICard icon={<BarChart3 className="h-5 w-5" />} value={data.kpis.all} label="การโทรทั้งหมด" subText="แคมเปญนี้" isActive={filter === "all"} onClick={() => setFilter("all")} />
-          <KPICard icon={<CheckCircle2 className="h-5 w-5 text-green-600" />} value={data.kpis.confirmed} label="ยืนยัน" subText={`${pct(data.kpis.confirmed, data.kpis.all)}% จากทั้งหมด`} isActive={filter === "confirmed"} onClick={() => toggle("confirmed")} />
-          <KPICard icon={<XCircle className="h-5 w-5 text-red-500" />} value={data.kpis.rejected} label="ปฏิเสธ" subText={`${pct(data.kpis.rejected, data.kpis.all)}% จากทั้งหมด`} isActive={filter === "rejected"} onClick={() => toggle("rejected")} />
-          <KPICard icon={<PhoneMissed className="h-5 w-5 text-yellow-500" />} value={data.kpis.missed} label="ไม่รับสาย" subText={`${pct(data.kpis.missed, data.kpis.all)}% จากทั้งหมด`} isActive={filter === "missed"} onClick={() => toggle("missed")} />
-          <KPICard icon={<Clock className="h-5 w-5 text-blue-500" />} value={data.kpis.pending} label="รอสาย" subText={`${pct(data.kpis.pending, data.kpis.all)}% จากทั้งหมด`} isActive={filter === "pending"} onClick={() => toggle("pending")} />
-        </div>
-
-        {/* Middle row */}
-        <div className="mt-6 grid grid-cols-1 gap-4 lg:grid-cols-5">
-          <div className="rounded-2xl bg-white p-6 shadow-card lg:col-span-3">
-            <h3 className="mb-4 font-semibold text-gray-700">อัตราสำเร็จ</h3>
-            <div className="flex items-center justify-between">
-              <span className="text-sm text-gray-700">{data.name}</span>
-              <span className="text-right text-xl font-bold text-brand-700">
-                {data.percent.toFixed(data.percent % 1 === 0 ? 0 : 2)}%
-              </span>
+        {loading ? (
+          <CampaignDetailSkeleton />
+        ) : (
+          <>
+            {/* KPI cards */}
+            <div className="mt-6 grid grid-cols-2 gap-4 md:grid-cols-3 xl:grid-cols-5">
+              <KPICard icon={<BarChart3 className="h-5 w-5" />} value={data.kpis.all} label="การโทรทั้งหมด" subText="แคมเปญนี้" isActive={filter === "all"} onClick={() => setFilter("all")} />
+              <KPICard icon={<CheckCircle2 className="h-5 w-5 text-green-600" />} value={data.kpis.confirmed} label="ยืนยัน" subText={`${pct(data.kpis.confirmed, data.kpis.all)}% จากทั้งหมด`} isActive={filter === "confirmed"} onClick={() => toggle("confirmed")} />
+              <KPICard icon={<XCircle className="h-5 w-5 text-red-500" />} value={data.kpis.rejected} label="ปฏิเสธ" subText={`${pct(data.kpis.rejected, data.kpis.all)}% จากทั้งหมด`} isActive={filter === "rejected"} onClick={() => toggle("rejected")} />
+              <KPICard icon={<PhoneMissed className="h-5 w-5 text-yellow-500" />} value={data.kpis.missed} label="ไม่รับสาย" subText={`${pct(data.kpis.missed, data.kpis.all)}% จากทั้งหมด`} isActive={filter === "missed"} onClick={() => toggle("missed")} />
+              <KPICard icon={<Clock className="h-5 w-5 text-blue-500" />} value={data.kpis.pending} label="รอสาย" subText={`${pct(data.kpis.pending, data.kpis.all)}% จากทั้งหมด`} isActive={filter === "pending"} onClick={() => toggle("pending")} />
             </div>
-            <div className="mt-3 h-3 w-full overflow-hidden rounded-full bg-brand-100">
-              <div
-                className="h-full rounded-full bg-brand-700"
-                style={{ width: `${Math.min(100, data.percent)}%` }}
-              />
-            </div>
-          </div>
 
-          <div className="rounded-2xl bg-white p-6 shadow-card lg:col-span-2">
-            <h3 className="mb-4 font-semibold text-gray-700">ผลตอบรับ</h3>
-            <div className="flex items-center gap-4">
-              <div className="h-44 w-44 shrink-0">
-                <ResponsiveContainer width="100%" height="100%">
-                  <PieChart>
-                    <Pie data={data.response} dataKey="value" nameKey="label" innerRadius={60} outerRadius={90} stroke="none" paddingAngle={2}>
-                      {data.response.map((d) => (
-                        <Cell key={d.key} fill={d.color} />
-                      ))}
-                    </Pie>
-                  </PieChart>
-                </ResponsiveContainer>
+            {/* Middle row */}
+            <div className="mt-6 grid grid-cols-1 gap-4 lg:grid-cols-5">
+              <div className="rounded-2xl bg-white p-6 shadow-card lg:col-span-3">
+                <h3 className="mb-4 font-semibold text-gray-700">อัตราสำเร็จ</h3>
+                <div className="flex items-center justify-between">
+                  <span className="text-sm text-gray-700">{data.name}</span>
+                  <span className="text-right text-xl font-bold text-brand-700">
+                    {data.percent.toFixed(data.percent % 1 === 0 ? 0 : 2)}%
+                  </span>
+                </div>
+                <div className="mt-3 h-3 w-full overflow-hidden rounded-full bg-brand-100">
+                  <div className="h-full rounded-full bg-brand-700" style={{ width: `${Math.min(100, data.percent)}%` }} />
+                </div>
               </div>
-              <ul className="flex flex-1 flex-col gap-2.5">
-                {data.response.map((d) => (
-                  <li key={d.key} className="flex items-center justify-between gap-3 text-sm">
-                    <span className="inline-flex items-center gap-2 text-gray-600">
-                      <span className="inline-block h-2.5 w-2.5 rounded-full" style={{ backgroundColor: d.color }} />
-                      {d.label}
-                    </span>
-                    <span className="font-semibold text-brand-700">{d.value}%</span>
-                  </li>
-                ))}
-              </ul>
-            </div>
-          </div>
-        </div>
 
-        {/* Activity table */}
-        <div className="mt-6 rounded-2xl bg-white p-6 shadow-card">
-          <div className="flex flex-wrap items-center justify-between gap-3">
-            <h3 className="font-semibold text-gray-700">กิจกรรมล่าสุด</h3>
-            <div className="flex items-center gap-2">
-              <Button variant="secondary" size="sm" className="gap-2">
-                <Download className="h-4 w-4" />
-                นำเข้า CSV.
-              </Button>
-              <Button variant="primary" size="sm" className="gap-2">
-                <Upload className="h-4 w-4" />
-                นำออก CSV.
-              </Button>
-            </div>
-          </div>
-
-          <div className="mt-4 overflow-x-auto">
-            <table className="w-full min-w-[760px] text-left text-sm">
-              <thead>
-                <tr className="border-b border-gray-100 text-sm font-medium text-gray-400">
-                  <th className="py-3 pr-4 font-medium">ชื่อ-นามสกุล</th>
-                  <th className="py-3 pr-4 font-medium">เบอร์โทรศัพท์</th>
-                  <th className="py-3 pr-4 font-medium">สถานะ</th>
-                  <th className="py-3 pr-4 font-medium">วันที่โทร</th>
-                  <th className="py-3 pr-4 font-medium">เวลาโทร</th>
-                  <th className="py-3 pr-4 font-medium">รายละเอียด</th>
-                </tr>
-              </thead>
-              <tbody>
-                {visible.map((r) => (
-                  <tr key={r.id} className="border-b border-gray-50 transition-colors hover:bg-brand-50">
-                    <td className="py-4 pr-4">
-                      <div className="flex items-center gap-3">
-                        <span className="flex h-9 w-9 items-center justify-center rounded-full bg-brand-100 text-sm font-semibold text-brand-700">
-                          {r.name.charAt(0)}
+              <div className="rounded-2xl bg-white p-6 shadow-card lg:col-span-2">
+                <h3 className="mb-4 font-semibold text-gray-700">ผลตอบรับ</h3>
+                <div className="flex items-center gap-4">
+                  <div className="h-44 w-44 shrink-0">
+                    <ResponsiveContainer width="100%" height="100%">
+                      <PieChart>
+                        <Pie data={data.response} dataKey="value" nameKey="label" innerRadius={60} outerRadius={90} stroke="none" paddingAngle={2}>
+                          {data.response.map((d) => (
+                            <Cell key={d.key} fill={d.color} />
+                          ))}
+                        </Pie>
+                      </PieChart>
+                    </ResponsiveContainer>
+                  </div>
+                  <ul className="flex flex-1 flex-col gap-2.5">
+                    {data.response.map((d) => (
+                      <li key={d.key} className="flex items-center justify-between gap-3 text-sm">
+                        <span className="inline-flex items-center gap-2 text-gray-600">
+                          <span className="inline-block h-2.5 w-2.5 rounded-full" style={{ backgroundColor: d.color }} />
+                          {d.label}
                         </span>
-                        <span className="text-gray-800">{r.name}</span>
-                      </div>
-                    </td>
-                    <td className="py-4 pr-4 text-gray-600">{r.phone}</td>
-                    <td className="py-4 pr-4">
-                      <StatusBadge variant={r.status} />
-                    </td>
-                    <td className="py-4 pr-4 text-gray-600">{r.date}</td>
-                    <td className="py-4 pr-4 text-gray-600">{r.time}</td>
-                    <td className="py-4 pr-4">
-                      <button
-                        type="button"
-                        className="inline-flex items-center gap-1.5 rounded-full border border-brand-300 px-4 py-1.5 text-sm font-medium text-brand-700 transition-colors hover:bg-brand-50"
-                      >
-                        <Headphones className="h-4 w-4" />
-                        ฟังสาย
-                      </button>
-                    </td>
-                  </tr>
-                ))}
-                {visible.length === 0 && (
-                  <tr>
-                    <td colSpan={6} className="py-10 text-center text-sm text-gray-400">
-                      ไม่พบข้อมูล
-                    </td>
-                  </tr>
-                )}
-              </tbody>
-            </table>
+                        <span className="font-semibold text-brand-700">{d.value}%</span>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              </div>
+            </div>
+
+            {/* Activity table */}
+            <div className="mt-6 rounded-2xl bg-white p-6 shadow-card">
+              <div className="flex flex-wrap items-center justify-between gap-3">
+                <h3 className="font-semibold text-gray-700">กิจกรรมล่าสุด</h3>
+                <div className="flex items-center gap-2">
+                  <Button variant="secondary" size="sm" className="gap-2">
+                    <Download className="h-4 w-4" />
+                    นำเข้า CSV.
+                  </Button>
+                  <Button variant="primary" size="sm" className="gap-2">
+                    <Upload className="h-4 w-4" />
+                    นำออก CSV.
+                  </Button>
+                </div>
+              </div>
+
+              <div className="mt-4 overflow-x-auto">
+                <table className="w-full min-w-[760px] text-left text-sm">
+                  <thead>
+                    <tr className="border-b border-gray-100 text-sm font-medium text-gray-400">
+                      <th className="py-3 pr-4 font-medium">ชื่อ-นามสกุล</th>
+                      <th className="py-3 pr-4 font-medium">เบอร์โทรศัพท์</th>
+                      <th className="py-3 pr-4 font-medium">สถานะ</th>
+                      <th className="py-3 pr-4 font-medium">วันที่โทร</th>
+                      <th className="py-3 pr-4 font-medium">เวลาโทร</th>
+                      <th className="py-3 pr-4 font-medium">รายละเอียด</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {visible.map((r) => (
+                      <tr key={r.id} className="border-b border-gray-50 transition-colors hover:bg-brand-50">
+                        <td className="py-4 pr-4">
+                          <div className="flex items-center gap-3">
+                            <span className="flex h-9 w-9 items-center justify-center rounded-full bg-brand-100 text-sm font-semibold text-brand-700">
+                              {r.name.charAt(0)}
+                            </span>
+                            <span className="text-gray-800">{r.name}</span>
+                          </div>
+                        </td>
+                        <td className="py-4 pr-4 text-gray-600">{r.phone}</td>
+                        <td className="py-4 pr-4">
+                          <StatusBadge variant={r.status} />
+                        </td>
+                        <td className="py-4 pr-4 text-gray-600">{r.date}</td>
+                        <td className="py-4 pr-4 text-gray-600">{r.time}</td>
+                        <td className="py-4 pr-4">
+                          <Button
+                            variant="ghost"
+                            size="sm"
+                            onClick={() =>
+                              navigate({
+                                to: "/campaign/$id/contacts/$contactId",
+                                params: { id, contactId: r.id },
+                              })
+                            }
+                          >
+                            <Headphones className="h-4 w-4" />
+                            ฟังสาย
+                          </Button>
+                        </td>
+                      </tr>
+                    ))}
+                    {visible.length === 0 && (
+                      <tr>
+                        <td colSpan={6} className="py-10 text-center text-sm text-gray-400">
+                          ไม่พบข้อมูล
+                        </td>
+                      </tr>
+                    )}
+                  </tbody>
+                </table>
+              </div>
+
+              {hasMore && (
+                <div className="mt-4 flex justify-end">
+                  <Link
+                    to="/campaign/$id/contacts"
+                    params={{ id }}
+                    className="text-sm font-medium text-brand-700 hover:underline"
+                  >
+                    ดูทั้งหมด →
+                  </Link>
+                </div>
+              )}
+            </div>
+          </>
+        )}
+      </div>
+    </AppLayout>
+  );
+}
+
+function CampaignDetailSkeleton() {
+  return (
+    <>
+      <div className="mt-6 grid grid-cols-2 gap-4 md:grid-cols-3 xl:grid-cols-5">
+        {Array.from({ length: 5 }).map((_, i) => (
+          <div key={i} className="rounded-2xl bg-white p-5 shadow-card">
+            <div className="flex items-center gap-3">
+              <Skeleton className="h-5 w-5 rounded" />
+              <Skeleton className="h-8 w-16" />
+            </div>
+            <Skeleton className="mt-2 h-4 w-14" />
+            <Skeleton className="mt-1 h-3 w-28" />
+          </div>
+        ))}
+      </div>
+      <div className="mt-6 grid grid-cols-1 gap-4 lg:grid-cols-5">
+        <div className="rounded-2xl bg-white p-6 shadow-card lg:col-span-3">
+          <Skeleton className="mb-4 h-5 w-32" />
+          <Skeleton className="h-4 w-2/3" />
+          <Skeleton className="mt-3 h-3 w-full rounded-full" />
+        </div>
+        <div className="rounded-2xl bg-white p-6 shadow-card lg:col-span-2">
+          <Skeleton className="mb-4 h-5 w-24" />
+          <div className="flex items-center gap-4">
+            <Skeleton className="h-44 w-44 rounded-full" />
+            <div className="flex flex-1 flex-col gap-3">
+              {Array.from({ length: 4 }).map((_, i) => (
+                <Skeleton key={i} className="h-4 w-full" />
+              ))}
+            </div>
           </div>
         </div>
       </div>
-    </AppLayout>
+      <div className="mt-6 rounded-2xl bg-white p-6 shadow-card">
+        <Skeleton className="mb-4 h-5 w-32" />
+        <table className="w-full">
+          <tbody>
+            {Array.from({ length: 3 }).map((_, i) => (
+              <tr key={i} className="border-b border-gray-50">
+                <td className="py-4 pr-4">
+                  <div className="flex items-center gap-3">
+                    <Skeleton className="h-9 w-9 rounded-full" />
+                    <Skeleton className="h-4 w-32" />
+                  </div>
+                </td>
+                <td className="py-4 pr-4"><Skeleton className="h-4 w-28" /></td>
+                <td className="py-4 pr-4"><Skeleton className="h-5 w-16 rounded-full" /></td>
+                <td className="py-4 pr-4"><Skeleton className="h-4 w-20" /></td>
+                <td className="py-4 pr-4"><Skeleton className="h-4 w-12" /></td>
+                <td className="py-4 pr-4"><Skeleton className="h-7 w-20 rounded-full" /></td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+    </>
   );
 }
 
