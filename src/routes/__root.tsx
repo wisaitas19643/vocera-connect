@@ -81,9 +81,13 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { name: "description", content: "Vocera is a campaign management system for automated outbound calling." },
       { name: "author", content: "Vocera" },
       { property: "og:title", content: "Vocera — The new era of outbound calling" },
-      { property: "og:description", content: "Campaign management system for automated outbound calling." },
+      { property: "og:description", content: "Vocera is a campaign management system for automated outbound calling." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary" },
+      { name: "twitter:title", content: "Vocera — The new era of outbound calling" },
+      { name: "twitter:description", content: "Vocera is a campaign management system for automated outbound calling." },
+      { property: "og:image", content: "https://storage.googleapis.com/gpt-engineer-file-uploads/attachments/og-images/e94cc842-8f43-4aab-8f8c-bede29b4a61f" },
+      { name: "twitter:image", content: "https://storage.googleapis.com/gpt-engineer-file-uploads/attachments/og-images/e94cc842-8f43-4aab-8f8c-bede29b4a61f" },
     ],
     links: [
       {
