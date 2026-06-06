@@ -20,6 +20,7 @@ import { Route as CampaignCreateRouteImport } from './routes/campaign.create'
 import { Route as CampaignIdIndexRouteImport } from './routes/campaign.$id.index'
 import { Route as CampaignIdEditRouteImport } from './routes/campaign.$id.edit'
 import { Route as CampaignIdContactsRouteImport } from './routes/campaign.$id.contacts'
+import { Route as CampaignIdContactsContactIdRouteImport } from './routes/campaign.$id.contacts.$contactId'
 
 const RegisterRoute = RegisterRouteImport.update({
   id: '/register',
@@ -76,6 +77,12 @@ const CampaignIdContactsRoute = CampaignIdContactsRouteImport.update({
   path: '/campaign/$id/contacts',
   getParentRoute: () => rootRouteImport,
 } as any)
+const CampaignIdContactsContactIdRoute =
+  CampaignIdContactsContactIdRouteImport.update({
+    id: '/$contactId',
+    path: '/$contactId',
+    getParentRoute: () => CampaignIdContactsRoute,
+  } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -86,9 +93,10 @@ export interface FileRoutesByFullPath {
   '/settings/call-defaults': typeof SettingsCallDefaultsRoute
   '/campaign/': typeof CampaignIndexRoute
   '/settings/': typeof SettingsIndexRoute
-  '/campaign/$id/contacts': typeof CampaignIdContactsRoute
+  '/campaign/$id/contacts': typeof CampaignIdContactsRouteWithChildren
   '/campaign/$id/edit': typeof CampaignIdEditRoute
   '/campaign/$id/': typeof CampaignIdIndexRoute
+  '/campaign/$id/contacts/$contactId': typeof CampaignIdContactsContactIdRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -99,9 +107,10 @@ export interface FileRoutesByTo {
   '/settings/call-defaults': typeof SettingsCallDefaultsRoute
   '/campaign': typeof CampaignIndexRoute
   '/settings': typeof SettingsIndexRoute
-  '/campaign/$id/contacts': typeof CampaignIdContactsRoute
+  '/campaign/$id/contacts': typeof CampaignIdContactsRouteWithChildren
   '/campaign/$id/edit': typeof CampaignIdEditRoute
   '/campaign/$id': typeof CampaignIdIndexRoute
+  '/campaign/$id/contacts/$contactId': typeof CampaignIdContactsContactIdRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -113,9 +122,10 @@ export interface FileRoutesById {
   '/settings/call-defaults': typeof SettingsCallDefaultsRoute
   '/campaign/': typeof CampaignIndexRoute
   '/settings/': typeof SettingsIndexRoute
-  '/campaign/$id/contacts': typeof CampaignIdContactsRoute
+  '/campaign/$id/contacts': typeof CampaignIdContactsRouteWithChildren
   '/campaign/$id/edit': typeof CampaignIdEditRoute
   '/campaign/$id/': typeof CampaignIdIndexRoute
+  '/campaign/$id/contacts/$contactId': typeof CampaignIdContactsContactIdRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -131,6 +141,7 @@ export interface FileRouteTypes {
     | '/campaign/$id/contacts'
     | '/campaign/$id/edit'
     | '/campaign/$id/'
+    | '/campaign/$id/contacts/$contactId'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -144,6 +155,7 @@ export interface FileRouteTypes {
     | '/campaign/$id/contacts'
     | '/campaign/$id/edit'
     | '/campaign/$id'
+    | '/campaign/$id/contacts/$contactId'
   id:
     | '__root__'
     | '/'
@@ -157,6 +169,7 @@ export interface FileRouteTypes {
     | '/campaign/$id/contacts'
     | '/campaign/$id/edit'
     | '/campaign/$id/'
+    | '/campaign/$id/contacts/$contactId'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -168,7 +181,7 @@ export interface RootRouteChildren {
   SettingsCallDefaultsRoute: typeof SettingsCallDefaultsRoute
   CampaignIndexRoute: typeof CampaignIndexRoute
   SettingsIndexRoute: typeof SettingsIndexRoute
-  CampaignIdContactsRoute: typeof CampaignIdContactsRoute
+  CampaignIdContactsRoute: typeof CampaignIdContactsRouteWithChildren
   CampaignIdEditRoute: typeof CampaignIdEditRoute
   CampaignIdIndexRoute: typeof CampaignIdIndexRoute
 }
@@ -252,8 +265,26 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof CampaignIdContactsRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/campaign/$id/contacts/$contactId': {
+      id: '/campaign/$id/contacts/$contactId'
+      path: '/$contactId'
+      fullPath: '/campaign/$id/contacts/$contactId'
+      preLoaderRoute: typeof CampaignIdContactsContactIdRouteImport
+      parentRoute: typeof CampaignIdContactsRoute
+    }
   }
 }
+
+interface CampaignIdContactsRouteChildren {
+  CampaignIdContactsContactIdRoute: typeof CampaignIdContactsContactIdRoute
+}
+
+const CampaignIdContactsRouteChildren: CampaignIdContactsRouteChildren = {
+  CampaignIdContactsContactIdRoute: CampaignIdContactsContactIdRoute,
+}
+
+const CampaignIdContactsRouteWithChildren =
+  CampaignIdContactsRoute._addFileChildren(CampaignIdContactsRouteChildren)
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
@@ -264,10 +295,20 @@ const rootRouteChildren: RootRouteChildren = {
   SettingsCallDefaultsRoute: SettingsCallDefaultsRoute,
   CampaignIndexRoute: CampaignIndexRoute,
   SettingsIndexRoute: SettingsIndexRoute,
-  CampaignIdContactsRoute: CampaignIdContactsRoute,
+  CampaignIdContactsRoute: CampaignIdContactsRouteWithChildren,
   CampaignIdEditRoute: CampaignIdEditRoute,
   CampaignIdIndexRoute: CampaignIdIndexRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
+
+import type { getRouter } from './router.tsx'
+import type { startInstance } from './start.ts'
+declare module '@tanstack/react-start' {
+  interface Register {
+    ssr: true
+    router: Awaited<ReturnType<typeof getRouter>>
+    config: Awaited<ReturnType<typeof startInstance.getOptions>>
+  }
+}
