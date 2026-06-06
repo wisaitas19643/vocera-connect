@@ -78,9 +78,14 @@ export function CampaignCard({ campaign }: CampaignCardProps) {
       </div>
 
       <div className="mt-6 flex items-center gap-3">
+        <Link to="/campaign/$id" params={{ id }} className="flex-1">
+          <Button variant="primary" className="w-full justify-center">
+            ดูแคมเปญ
+          </Button>
+        </Link>
         <Link to="/campaign/$id/contacts" params={{ id }} className="flex-1">
           <Button variant="secondary" className="w-full justify-center">
-            ดูรายชื่อแขกทั้งหมด
+            รายชื่อแขก
           </Button>
         </Link>
         <Link to="/campaign/$id/edit" params={{ id }}>
