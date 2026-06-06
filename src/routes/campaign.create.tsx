@@ -13,11 +13,15 @@ import {
   Minus,
   ChevronDown,
 } from "lucide-react";
+// toast ใช้แสดง notification มุมขวาบน
+import { toast } from "sonner";
 
 import { Button } from "@/components/vocera/Button";
 import { Calendar } from "@/components/ui/calendar";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { cn } from "@/lib/utils";
+// import store ที่เราสร้างใน Step 1
+import * as campaignStore from "@/lib/campaignStore";
 
 export const Route = createFileRoute("/campaign/create")({
   head: () => ({ meta: [{ title: "Create campaign — Vocera" }] }),
@@ -82,6 +86,30 @@ function CampaignCreatePage() {
   };
 
   const submit = () => {
+    // สร้าง object แคมเปญใหม่จากข้อมูลที่กรอกในฟอร์ม
+    const newCampaign = {
+      // generateId() สร้าง ID ไม่ซ้ำ เช่น "1749123456789-ab3f"
+      id: campaignStore.generateId(),
+      name: name.trim(),
+      // format() แปลง Date object → string "dd/MM/yyyy"
+      date: eventDate ? format(eventDate, "dd/MM/yyyy") : "-",
+      time: eventTime,
+      // csvFile?.name แสดงชื่อไฟล์ถ้ามี ไม่งั้นใส่ 0
+      total: 0,
+      confirmed: 0,
+      percent: 0,
+      status: "กำลังดำเนินงาน",
+      // แคมเปญใหม่ยังไม่มี contacts (ต้องรอเชื่อม CSV parser จริงๆ)
+      contacts: [],
+    };
+
+    // บันทึกลง localStorage ผ่าน campaignStore
+    campaignStore.add(newCampaign);
+
+    // แสดง toast success มุมขวาบน พร้อมชื่อแคมเปญ
+    toast.success(`✅ สร้างแคมเปญสำเร็จ! "${name.trim()}"`);
+
+    // redirect กลับหน้า List — ผู้ใช้จะเห็นแคมเปญใหม่โผล่ทันที
     navigate({ to: "/campaign" });
   };
 
