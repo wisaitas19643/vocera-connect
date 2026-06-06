@@ -1,5 +1,4 @@
 import { useEffect, useMemo, useState } from "react";
-import { CampaignRunner } from "@/components/CampaignRunner";
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import {
   Search,
@@ -113,7 +112,6 @@ function CampaignDetailPage() {
   const [filter, setFilter] = useState<Filter>("all");
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const [loading, setLoading] = useState(true);
-  const [showRunner, setShowRunner] = useState(false);
 
   useEffect(() => {
     const t = setTimeout(() => setLoading(false), 600);
@@ -143,14 +141,6 @@ function CampaignDetailPage() {
             <h1 className="text-2xl font-bold text-brand-700">{data.name}</h1>
           </div>
           <div className="flex items-center gap-3">
-            <Button
-              variant="primary"
-              size="sm"
-              className="gap-1.5"
-              onClick={() => setShowRunner((v) => !v)}
-            >
-              🚀 เริ่มรันแคมเปญ
-            </Button>
             <div className="relative">
               <Search className="pointer-events-none absolute left-4 top-1/2 h-4 w-4 -translate-y-1/2 text-gray-400" />
               <input
@@ -214,13 +204,6 @@ function CampaignDetailPage() {
               <KPICard icon={<PhoneMissed className="h-5 w-5 text-yellow-500" />} value={data.kpis.missed} label="ไม่รับสาย" subText={`${pct(data.kpis.missed, data.kpis.all)}% จากทั้งหมด`} isActive={filter === "missed"} onClick={() => toggle("missed")} />
               <KPICard icon={<Clock className="h-5 w-5 text-blue-500" />} value={data.kpis.pending} label="รอสาย" subText={`${pct(data.kpis.pending, data.kpis.all)}% จากทั้งหมด`} isActive={filter === "pending"} onClick={() => toggle("pending")} />
             </div>
-
-            {/* Campaign Runner */}
-            {showRunner && (
-              <div className="mt-6">
-                <CampaignRunner campaignId={id} contacts={data.activities} />
-              </div>
-            )}
 
             {/* Middle row */}
             <div className="mt-6 grid grid-cols-1 gap-4 lg:grid-cols-5">
