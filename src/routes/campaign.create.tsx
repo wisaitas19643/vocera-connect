@@ -20,13 +20,21 @@ import { Button } from "@/components/vocera/Button";
 import { Calendar } from "@/components/ui/calendar";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { cn } from "@/lib/utils";
-// import store ที่เราสร้างใน Step 1
 import * as campaignStore from "@/lib/campaignStore";
+import { RequireAuth } from "@/components/vocera/RequireAuth";
 
 export const Route = createFileRoute("/campaign/create")({
-  head: () => ({ meta: [{ title: "Create campaign — Vocera" }] }),
+  head: () => ({ meta: [{ title: "Create campaign — Ringo" }] }),
   component: CampaignCreatePage,
 });
+
+function CampaignCreatePage() {
+  return (
+    <RequireAuth>
+      <CampaignCreatePageInner />
+    </RequireAuth>
+  );
+}
 
 const DEFAULT_SCRIPT = `สวัสดีค่ะ คุณ {ชื่อ} ดิฉันโทรมาจาก {ชื่องาน}
 
@@ -42,7 +50,7 @@ const VOICES = [
 
 const INTERVALS = [10, 20, 30, 60];
 
-function CampaignCreatePage() {
+function CampaignCreatePageInner() {
   const navigate = useNavigate();
   const [step, setStep] = useState<1 | 2>(1);
 
@@ -67,6 +75,7 @@ function CampaignCreatePage() {
 
   const close = () => navigate({ to: "/campaign" });
 
+
   const goNext = () => {
     if (
       !name.trim() ||
@@ -86,31 +95,34 @@ function CampaignCreatePage() {
   };
 
   const submit = () => {
-    // สร้าง object แคมเปญใหม่จากข้อมูลที่กรอกในฟอร์ม
-    const newCampaign = {
-      // generateId() สร้าง ID ไม่ซ้ำ เช่น "1749123456789-ab3f"
-      id: campaignStore.generateId(),
-      name: name.trim(),
-      // format() แปลง Date object → string "dd/MM/yyyy"
-      date: eventDate ? format(eventDate, "dd/MM/yyyy") : "-",
-      time: eventTime,
-      // csvFile?.name แสดงชื่อไฟล์ถ้ามี ไม่งั้นใส่ 0
-      total: 0,
-      confirmed: 0,
-      percent: 0,
-      status: "กำลังดำเนินงาน",
-      // แคมเปญใหม่ยังไม่มี contacts (ต้องรอเชื่อม CSV parser จริงๆ)
-      contacts: [],
+    if (!csvFile) return;
+
+    const reader = new FileReader();
+    reader.onload = async () => {
+      const text = String(reader.result || "");
+      const lines = text.split(/\r?\n/).filter((l) => l.trim());
+      const contacts = lines.slice(1).map((line, i) => {
+        const cols = line.split(",").map((s) => s.replace(/^"|"$/g, "").trim());
+        return { id: `imp-${Date.now()}-${i}`, name: cols[0] || "", phone: cols[1] || "" };
+      }).filter((c) => c.name || c.phone);
+
+      const newCampaign = {
+        id: campaignStore.generateId(),
+        name: name.trim(),
+        date: eventDate ? format(eventDate, "dd/MM/yyyy") : "-",
+        time: eventTime,
+        total: contacts.length,
+        confirmed: 0,
+        percent: 0,
+        status: "กำลังดำเนินงาน",
+        contacts,
+      };
+
+      await campaignStore.add(newCampaign);
+      toast.success(`✅ สร้างแคมเปญสำเร็จ! "${name.trim()}" (${contacts.length} รายชื่อ)`);
+      navigate({ to: "/campaign" });
     };
-
-    // บันทึกลง localStorage ผ่าน campaignStore
-    campaignStore.add(newCampaign);
-
-    // แสดง toast success มุมขวาบน พร้อมชื่อแคมเปญ
-    toast.success(`✅ สร้างแคมเปญสำเร็จ! "${name.trim()}"`);
-
-    // redirect กลับหน้า List — ผู้ใช้จะเห็นแคมเปญใหม่โผล่ทันที
-    navigate({ to: "/campaign" });
+    reader.readAsText(csvFile);
   };
 
   const handleFile = (file: File | null) => {

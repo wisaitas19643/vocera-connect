@@ -19,9 +19,10 @@ import { Button } from "@/components/vocera/Button";
 import { StatusBadge, type StatusVariant } from "@/components/vocera/StatusBadge";
 import { Skeleton } from "@/components/ui/skeleton";
 import { cn } from "@/lib/utils";
+import * as campaignStore from "@/lib/campaignStore";
 
 export const Route = createFileRoute("/campaign/$id/contacts")({
-  head: () => ({ meta: [{ title: "Contacts — Vocera" }] }),
+  head: () => ({ meta: [{ title: "Contacts — Ringo" }] }),
   component: CampaignContactsPage,
 });
 
@@ -36,25 +37,6 @@ interface Contact {
   time: string;
 }
 
-const campaignsById: Record<string, { name: string }> = {
-  "1": { name: "ประชุมผู้ถือหุ้น ประจำปี 2026" },
-  "2": { name: "อบรมพนักงานใหม่ รุ่นที่ 12" },
-  "3": { name: "สัมมนาเทคโนโลยี AI" },
-};
-
-const initialContacts: Contact[] = [
-  { id: "1", name: "กฤษฎา มานะธรรม", phone: "081-234-5678", status: "confirmed", date: "12/04/2026", time: "10:32" },
-  { id: "2", name: "พงศกร รัตนสิริ", phone: "089-111-2233", status: "rejected", date: "12/04/2026", time: "10:35" },
-  { id: "3", name: "ชนากานต์ ใจดี", phone: "082-555-7788", status: "missed", date: "12/04/2026", time: "10:40" },
-  { id: "4", name: "อรทัย ศรีสุข", phone: "086-222-3344", status: "pending", date: "12/04/2026", time: "10:42" },
-  { id: "5", name: "ธนกร สุขเกษม", phone: "084-987-6543", status: "confirmed", date: "12/04/2026", time: "10:45" },
-  { id: "6", name: "นภัสสร พงษ์ไพศาล", phone: "087-345-2211", status: "confirmed", date: "12/04/2026", time: "10:48" },
-  { id: "7", name: "ปวีณา วงศ์วิทย์", phone: "081-998-1122", status: "missed", date: "12/04/2026", time: "10:52" },
-  { id: "8", name: "สมชาย ใจกล้า", phone: "083-444-5566", status: "pending", date: "12/04/2026", time: "10:55" },
-  { id: "9", name: "วิภาวี ตั้งใจ", phone: "088-321-9988", status: "confirmed", date: "12/04/2026", time: "10:58" },
-  { id: "10", name: "เกียรติศักดิ์ พรชัย", phone: "085-654-3210", status: "rejected", date: "12/04/2026", time: "11:02" },
-];
-
 const filterStyles: Record<Filter, string> = {
   all: "border-brand-700 bg-brand-50",
   confirmed: "border-green-500 bg-green-50",
@@ -68,9 +50,9 @@ const PAGE_SIZE = 10;
 function CampaignContactsPage() {
   const { id } = Route.useParams();
   const navigate = useNavigate();
-  const campaign = campaignsById[id] ?? { name: `Campaign ${id}` };
 
-  const [contacts, setContacts] = useState<Contact[]>(initialContacts);
+  const [campaignName, setCampaignName] = useState(`Campaign ${id}`);
+  const [contacts, setContacts] = useState<Contact[]>([]);
   const [filter, setFilter] = useState<Filter>("all");
   const [search, setSearch] = useState("");
   const [page, setPage] = useState(1);
@@ -78,9 +60,23 @@ function CampaignContactsPage() {
   const fileRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
-    const t = setTimeout(() => setLoading(false), 600);
-    return () => clearTimeout(t);
-  }, []);
+    campaignStore.getById(id)
+      .then((camp) => {
+        if (!camp) return;
+        setCampaignName(camp.name);
+        setContacts(
+          (camp.contacts ?? []).map((c) => ({
+            id: c.id,
+            name: c.name,
+            phone: c.phone,
+            status: "pending" as StatusVariant,
+            date: "",
+            time: "",
+          })),
+        );
+      })
+      .finally(() => setLoading(false));
+  }, [id]);
 
   const filtered = useMemo(() => {
     let list = filter === "all" ? contacts : contacts.filter((c) => c.status === filter);
@@ -150,7 +146,15 @@ function CampaignContactsPage() {
           time: cols[4] || "",
         };
       });
-      setContacts((prev) => [...prev, ...parsed]);
+      setContacts((prev) => {
+        const merged = [...prev, ...parsed];
+        // fire-and-forget — บันทึก contacts ที่ import ลง Supabase
+        void campaignStore.updateContacts(
+          id,
+          merged.map((c) => ({ id: c.id, name: c.name, phone: c.phone })),
+        );
+        return merged;
+      });
       setPage(1);
     };
     reader.readAsText(file);
@@ -171,7 +175,7 @@ function CampaignContactsPage() {
               <ChevronLeft className="h-4 w-4" />
               กลับ
             </Button>
-            <h1 className="text-2xl font-bold text-brand-700">{campaign.name}</h1>
+            <h1 className="text-2xl font-bold text-brand-700">{campaignName}</h1>
           </div>
           <div className="relative">
             <Search className="pointer-events-none absolute left-4 top-1/2 h-4 w-4 -translate-y-1/2 text-gray-400" />
@@ -277,7 +281,7 @@ function CampaignContactsPage() {
                                 </span>
                                 <div className="flex flex-col">
                                   <span className="text-gray-800">{r.name}</span>
-                                  <span className="text-xs text-gray-400">{campaign.name}</span>
+                                  <span className="text-xs text-gray-400">{campaignName}</span>
                                 </div>
                               </div>
                             </td>

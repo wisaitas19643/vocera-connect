@@ -1,16 +1,12 @@
 import { useEffect, useMemo, useState } from "react";
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import {
-  Search,
-  ChevronDown,
   ChevronLeft,
   BarChart3,
   CheckCircle2,
   XCircle,
   PhoneMissed,
   Clock,
-  Download,
-  Upload,
   Headphones,
 } from "lucide-react";
 import { PieChart, Pie, Cell, ResponsiveContainer } from "recharts";
@@ -20,15 +16,17 @@ import { Button } from "@/components/vocera/Button";
 import { KPICard } from "@/components/vocera/KPICard";
 import { StatusBadge, type StatusVariant } from "@/components/vocera/StatusBadge";
 import { Skeleton } from "@/components/ui/skeleton";
+import * as campaignStore from "@/lib/campaignStore";
+import type { Campaign } from "@/components/vocera/CampaignCard";
 
 export const Route = createFileRoute("/campaign/$id/")({
-  head: () => ({ meta: [{ title: "Campaign — Vocera" }] }),
+  head: () => ({ meta: [{ title: "Campaign — Ringo" }] }),
   component: CampaignDetailPage,
 });
 
 type Filter = "all" | StatusVariant;
 
-interface Activity {
+interface ActivityRow {
   id: string;
   name: string;
   phone: string;
@@ -37,235 +35,144 @@ interface Activity {
   time: string;
 }
 
-interface CampaignData {
-  id: string;
-  name: string;
-  kpis: { all: number; confirmed: number; rejected: number; missed: number; pending: number };
-  percent: number;
-  response: { key: StatusVariant; label: string; value: number; color: string }[];
-  activities: Activity[];
-}
-
-const campaignsById: Record<string, CampaignData> = {
-  "1": {
-    id: "1",
-    name: "ประชุมผู้ถือหุ้น ประจำปี 2026",
-    kpis: { all: 300, confirmed: 180, rejected: 40, missed: 50, pending: 30 },
-    percent: 75,
-    response: [
-      { key: "confirmed", label: "ยืนยัน", value: 60, color: "#10b981" },
-      { key: "rejected", label: "ปฏิเสธ", value: 13.33, color: "#ef4444" },
-      { key: "missed", label: "ไม่รับสาย", value: 16.67, color: "#f59e0b" },
-      { key: "pending", label: "รอสาย", value: 10, color: "#3b82f6" },
-    ],
-    activities: [
-      { id: "1", name: "กฤษฎา มานะธรรม", phone: "081-234-5678", status: "confirmed", date: "12/04/2026", time: "10:32" },
-      { id: "2", name: "พงศกร รัตนสิริ", phone: "089-111-2233", status: "rejected", date: "12/04/2026", time: "10:35" },
-      { id: "3", name: "ชนากานต์ ใจดี", phone: "082-555-7788", status: "missed", date: "12/04/2026", time: "10:40" },
-      { id: "4", name: "อรทัย ศรีสุข", phone: "086-222-3344", status: "pending", date: "12/04/2026", time: "10:42" },
-      { id: "5", name: "ธนกร สุขเกษม", phone: "084-987-6543", status: "confirmed", date: "12/04/2026", time: "10:45" },
-      { id: "6", name: "นภัสสร พงษ์ไพศาล", phone: "087-345-2211", status: "confirmed", date: "12/04/2026", time: "10:48" },
-    ],
-  },
-  "2": {
-    id: "2",
-    name: "อบรมพนักงานใหม่ รุ่นที่ 12",
-    kpis: { all: 125, confirmed: 100, rejected: 10, missed: 8, pending: 7 },
-    percent: 80,
-    response: [
-      { key: "confirmed", label: "ยืนยัน", value: 80, color: "#10b981" },
-      { key: "rejected", label: "ปฏิเสธ", value: 8, color: "#ef4444" },
-      { key: "missed", label: "ไม่รับสาย", value: 6.4, color: "#f59e0b" },
-      { key: "pending", label: "รอสาย", value: 5.6, color: "#3b82f6" },
-    ],
-    activities: [
-      { id: "1", name: "วิภาวี ตั้งใจ", phone: "088-321-9988", status: "confirmed", date: "13/04/2026", time: "11:00" },
-      { id: "2", name: "เกียรติศักดิ์ พรชัย", phone: "085-654-3210", status: "rejected", date: "13/04/2026", time: "11:05" },
-      { id: "3", name: "สมชาย ใจกล้า", phone: "083-444-5566", status: "confirmed", date: "13/04/2026", time: "11:10" },
-      { id: "4", name: "อาทิตย์ ส่องแสง", phone: "082-101-2020", status: "missed", date: "13/04/2026", time: "11:15" },
-    ],
-  },
-  "3": {
-    id: "3",
-    name: "สัมมนาเทคโนโลยี AI",
-    kpis: { all: 1000, confirmed: 395, rejected: 152, missed: 187, pending: 266 },
-    percent: 39.52,
-    response: [
-      { key: "confirmed", label: "ยืนยัน", value: 39.52, color: "#10b981" },
-      { key: "rejected", label: "ปฏิเสธ", value: 15.2, color: "#ef4444" },
-      { key: "missed", label: "ไม่รับสาย", value: 18.7, color: "#f59e0b" },
-      { key: "pending", label: "รอสาย", value: 26.58, color: "#3b82f6" },
-    ],
-    activities: [
-      { id: "1", name: "ปวีณา วงศ์วิทย์", phone: "081-998-1122", status: "missed", date: "12/04/2026", time: "10:52" },
-      { id: "2", name: "ธนกร สุขเกษม", phone: "084-987-6543", status: "confirmed", date: "12/04/2026", time: "10:45" },
-      { id: "3", name: "นภัสสร พงษ์ไพศาล", phone: "087-345-2211", status: "pending", date: "12/04/2026", time: "10:48" },
-    ],
-  },
-};
-
 function CampaignDetailPage() {
   const { id } = Route.useParams();
   const navigate = useNavigate();
-  const data = campaignsById[id] ?? campaignsById["1"];
 
+  const [campaign, setCampaign] = useState<Campaign | null | undefined>(undefined);
   const [filter, setFilter] = useState<Filter>("all");
-  const [dropdownOpen, setDropdownOpen] = useState(false);
-  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const t = setTimeout(() => setLoading(false), 600);
-    return () => clearTimeout(t);
+    setCampaign(undefined);
+    campaignStore.getById(id).then((c) => setCampaign(c ?? null));
   }, [id]);
 
+  const loading = campaign === undefined;
+  const notFound = campaign === null;
+
+  const activities = useMemo<ActivityRow[]>(() => {
+    if (!campaign?.contacts) return [];
+    return campaign.contacts.map((c) => ({
+      id: c.id,
+      name: c.name,
+      phone: c.phone,
+      status: "pending",
+      date: "-",
+      time: "-",
+    }));
+  }, [campaign]);
+
   const filtered = useMemo(
-    () => (filter === "all" ? data.activities : data.activities.filter((a) => a.status === filter)),
-    [filter, data.activities],
+    () => (filter === "all" ? activities : activities.filter((a) => a.status === filter)),
+    [filter, activities],
   );
   const visible = filtered.slice(0, 10);
   const hasMore = filtered.length > 10;
   const toggle = (next: Filter) => setFilter((cur) => (cur === next ? "all" : next));
 
-  const allCampaigns = Object.values(campaignsById);
+  const kpis = {
+    all: campaign?.total ?? 0,
+    confirmed: campaign?.confirmed ?? 0,
+    rejected: 0,
+    missed: 0,
+    pending: Math.max(0, (campaign?.total ?? 0) - (campaign?.confirmed ?? 0)),
+  };
+
+  const response = [
+    { key: "confirmed" as const, label: "ยืนยัน", value: numPct(kpis.confirmed, kpis.all), color: "#10b981" },
+    { key: "pending" as const, label: "รอสาย", value: numPct(kpis.pending, kpis.all), color: "#3b82f6" },
+  ].filter((r) => r.value > 0);
+
+  if (notFound) {
+    return (
+      <AppLayout>
+        <div className="flex h-64 flex-col items-center justify-center gap-4">
+          <p className="text-lg font-semibold text-gray-500">ไม่พบแคมเปญนี้</p>
+          <Button variant="secondary" onClick={() => navigate({ to: "/campaign" })}>
+            กลับไปรายการแคมเปญ
+          </Button>
+        </div>
+      </AppLayout>
+    );
+  }
 
   return (
     <AppLayout>
       <div className="mx-auto max-w-7xl animate-page-in px-8 py-8">
-        {/* Top bar */}
-        <div className="flex flex-wrap items-center justify-between gap-4">
-          <div className="flex items-center gap-2">
-            <Button variant="ghost" size="sm" onClick={() => navigate({ to: "/campaign" })}>
-              <ChevronLeft className="h-4 w-4" />
-              กลับ
-            </Button>
-            <h1 className="text-2xl font-bold text-brand-700">{data.name}</h1>
-          </div>
-          <div className="flex items-center gap-3">
-            <div className="relative">
-              <Search className="pointer-events-none absolute left-4 top-1/2 h-4 w-4 -translate-y-1/2 text-gray-400" />
-              <input
-                type="text"
-                placeholder="ค้นหาแคมเปญ"
-                className="w-64 rounded-full border border-gray-200 bg-white py-2.5 pl-10 pr-4 text-sm outline-none focus:border-brand-700 focus:ring-1 focus:ring-brand-300"
-              />
-            </div>
-            <div className="relative">
-              <button
-                type="button"
-                onClick={() => setDropdownOpen((o) => !o)}
-                className="inline-flex min-w-[14rem] items-center justify-between gap-2 rounded-full border border-brand-300 bg-brand-50 px-4 py-2.5 text-sm font-medium text-brand-700"
-              >
-                <span className="truncate">{data.name}</span>
-                <ChevronDown className="h-4 w-4 text-brand-700" />
-              </button>
-              {dropdownOpen && (
-                <div className="absolute right-0 top-full z-10 mt-2 w-72 overflow-hidden rounded-2xl border border-gray-100 bg-white shadow-modal">
-                  <button
-                    type="button"
-                    onClick={() => {
-                      setDropdownOpen(false);
-                      navigate({ to: "/dashboard" });
-                    }}
-                    className="block w-full px-4 py-2.5 text-left text-sm text-gray-600 hover:bg-brand-50"
-                  >
-                    ทุกแคมเปญ
-                  </button>
-                  {allCampaigns.map((c) => (
-                    <button
-                      key={c.id}
-                      type="button"
-                      onClick={() => {
-                        setDropdownOpen(false);
-                        navigate({ to: "/campaign/$id", params: { id: c.id } });
-                      }}
-                      className={
-                        "block w-full px-4 py-2.5 text-left text-sm hover:bg-brand-50 " +
-                        (c.id === data.id ? "bg-brand-50 font-semibold text-brand-700" : "text-gray-700")
-                      }
-                    >
-                      {c.name}
-                    </button>
-                  ))}
-                </div>
-              )}
-            </div>
-          </div>
+        <div className="flex flex-wrap items-center gap-4">
+          <Button variant="ghost" size="sm" onClick={() => navigate({ to: "/campaign" })}>
+            <ChevronLeft className="h-4 w-4" />
+            กลับ
+          </Button>
+          {loading ? (
+            <Skeleton className="h-7 w-64" />
+          ) : (
+            <h1 className="text-2xl font-bold text-brand-700">{campaign!.name}</h1>
+          )}
         </div>
 
         {loading ? (
           <CampaignDetailSkeleton />
         ) : (
           <>
-            {/* KPI cards */}
             <div className="mt-6 grid grid-cols-2 gap-4 md:grid-cols-3 xl:grid-cols-5">
-              <KPICard icon={<BarChart3 className="h-5 w-5" />} value={data.kpis.all} label="การโทรทั้งหมด" subText="แคมเปญนี้" isActive={filter === "all"} onClick={() => setFilter("all")} />
-              <KPICard icon={<CheckCircle2 className="h-5 w-5 text-green-600" />} value={data.kpis.confirmed} label="ยืนยัน" subText={`${pct(data.kpis.confirmed, data.kpis.all)}% จากทั้งหมด`} isActive={filter === "confirmed"} onClick={() => toggle("confirmed")} />
-              <KPICard icon={<XCircle className="h-5 w-5 text-red-500" />} value={data.kpis.rejected} label="ปฏิเสธ" subText={`${pct(data.kpis.rejected, data.kpis.all)}% จากทั้งหมด`} isActive={filter === "rejected"} onClick={() => toggle("rejected")} />
-              <KPICard icon={<PhoneMissed className="h-5 w-5 text-yellow-500" />} value={data.kpis.missed} label="ไม่รับสาย" subText={`${pct(data.kpis.missed, data.kpis.all)}% จากทั้งหมด`} isActive={filter === "missed"} onClick={() => toggle("missed")} />
-              <KPICard icon={<Clock className="h-5 w-5 text-blue-500" />} value={data.kpis.pending} label="รอสาย" subText={`${pct(data.kpis.pending, data.kpis.all)}% จากทั้งหมด`} isActive={filter === "pending"} onClick={() => toggle("pending")} />
+              <KPICard icon={<BarChart3 className="h-5 w-5" />} value={kpis.all} label="การโทรทั้งหมด" subText="แคมเปญนี้" isActive={filter === "all"} onClick={() => setFilter("all")} />
+              <KPICard icon={<CheckCircle2 className="h-5 w-5 text-green-600" />} value={kpis.confirmed} label="ยืนยัน" subText={`${fmtPct(numPct(kpis.confirmed, kpis.all))}% จากทั้งหมด`} isActive={filter === "confirmed"} onClick={() => toggle("confirmed")} />
+              <KPICard icon={<XCircle className="h-5 w-5 text-red-500" />} value={kpis.rejected} label="ปฏิเสธ" subText={`${fmtPct(numPct(kpis.rejected, kpis.all))}% จากทั้งหมด`} isActive={filter === "rejected"} onClick={() => toggle("rejected")} />
+              <KPICard icon={<PhoneMissed className="h-5 w-5 text-yellow-500" />} value={kpis.missed} label="ไม่รับสาย" subText={`${fmtPct(numPct(kpis.missed, kpis.all))}% จากทั้งหมด`} isActive={filter === "missed"} onClick={() => toggle("missed")} />
+              <KPICard icon={<Clock className="h-5 w-5 text-blue-500" />} value={kpis.pending} label="รอสาย" subText={`${fmtPct(numPct(kpis.pending, kpis.all))}% จากทั้งหมด`} isActive={filter === "pending"} onClick={() => toggle("pending")} />
             </div>
 
-            {/* Middle row */}
             <div className="mt-6 grid grid-cols-1 gap-4 lg:grid-cols-5">
               <div className="rounded-2xl bg-white p-6 shadow-card lg:col-span-3">
                 <h3 className="mb-4 font-semibold text-gray-700">อัตราสำเร็จ</h3>
                 <div className="flex items-center justify-between">
-                  <span className="text-sm text-gray-700">{data.name}</span>
+                  <span className="text-sm text-gray-700">{campaign!.name}</span>
                   <span className="text-right text-xl font-bold text-brand-700">
-                    {data.percent.toFixed(data.percent % 1 === 0 ? 0 : 2)}%
+                    {fmtPct(campaign!.percent)}%
                   </span>
                 </div>
                 <div className="mt-3 h-3 w-full overflow-hidden rounded-full bg-brand-100">
-                  <div className="h-full rounded-full bg-brand-700" style={{ width: `${Math.min(100, data.percent)}%` }} />
+                  <div className="h-full rounded-full bg-brand-700" style={{ width: `${Math.min(100, campaign!.percent)}%` }} />
                 </div>
               </div>
 
               <div className="rounded-2xl bg-white p-6 shadow-card lg:col-span-2">
                 <h3 className="mb-4 font-semibold text-gray-700">ผลตอบรับ</h3>
-                <div className="flex items-center gap-4">
-                  <div className="h-44 w-44 shrink-0">
-                    <ResponsiveContainer width="100%" height="100%">
-                      <PieChart>
-                        <Pie data={data.response} dataKey="value" nameKey="label" innerRadius={60} outerRadius={90} stroke="none" paddingAngle={2}>
-                          {data.response.map((d) => (
-                            <Cell key={d.key} fill={d.color} />
-                          ))}
-                        </Pie>
-                      </PieChart>
-                    </ResponsiveContainer>
+                {response.length > 0 ? (
+                  <div className="flex items-center gap-4">
+                    <div className="h-44 w-44 shrink-0">
+                      <ResponsiveContainer width="100%" height="100%">
+                        <PieChart>
+                          <Pie data={response} dataKey="value" nameKey="label" innerRadius={60} outerRadius={90} stroke="none" paddingAngle={2}>
+                            {response.map((d) => (
+                              <Cell key={d.key} fill={d.color} />
+                            ))}
+                          </Pie>
+                        </PieChart>
+                      </ResponsiveContainer>
+                    </div>
+                    <ul className="flex flex-1 flex-col gap-2.5">
+                      {response.map((d) => (
+                        <li key={d.key} className="flex items-center justify-between gap-3 text-sm">
+                          <span className="inline-flex items-center gap-2 text-gray-600">
+                            <span className="inline-block h-2.5 w-2.5 rounded-full" style={{ backgroundColor: d.color }} />
+                            {d.label}
+                          </span>
+                          <span className="font-semibold text-brand-700">{d.value}%</span>
+                        </li>
+                      ))}
+                    </ul>
                   </div>
-                  <ul className="flex flex-1 flex-col gap-2.5">
-                    {data.response.map((d) => (
-                      <li key={d.key} className="flex items-center justify-between gap-3 text-sm">
-                        <span className="inline-flex items-center gap-2 text-gray-600">
-                          <span className="inline-block h-2.5 w-2.5 rounded-full" style={{ backgroundColor: d.color }} />
-                          {d.label}
-                        </span>
-                        <span className="font-semibold text-brand-700">{d.value}%</span>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
+                ) : (
+                  <p className="py-8 text-center text-sm text-gray-400">ยังไม่มีข้อมูลผลตอบรับ</p>
+                )}
               </div>
             </div>
 
-            {/* Activity table */}
             <div className="mt-6 rounded-2xl bg-white p-6 shadow-card">
-              <div className="flex flex-wrap items-center justify-between gap-3">
-                <h3 className="font-semibold text-gray-700">กิจกรรมล่าสุด</h3>
-                <div className="flex items-center gap-2">
-                  <Button variant="secondary" size="sm" className="gap-2">
-                    <Download className="h-4 w-4" />
-                    นำเข้า CSV.
-                  </Button>
-                  <Button variant="primary" size="sm" className="gap-2">
-                    <Upload className="h-4 w-4" />
-                    นำออก CSV.
-                  </Button>
-                </div>
-              </div>
-
-              <div className="mt-4 overflow-x-auto">
+              <h3 className="mb-4 font-semibold text-gray-700">รายชื่อแขก</h3>
+              <div className="overflow-x-auto">
                 <table className="w-full min-w-[760px] text-left text-sm">
                   <thead>
                     <tr className="border-b border-gray-100 text-sm font-medium text-gray-400">
@@ -292,8 +199,8 @@ function CampaignDetailPage() {
                         <td className="py-4 pr-4">
                           <StatusBadge variant={r.status} />
                         </td>
-                        <td className="py-4 pr-4 text-gray-600">{r.date}</td>
-                        <td className="py-4 pr-4 text-gray-600">{r.time}</td>
+                        <td className="py-4 pr-4 text-gray-400">{r.date}</td>
+                        <td className="py-4 pr-4 text-gray-400">{r.time}</td>
                         <td className="py-4 pr-4">
                           <Button
                             variant="ghost"
@@ -314,14 +221,13 @@ function CampaignDetailPage() {
                     {visible.length === 0 && (
                       <tr>
                         <td colSpan={6} className="py-10 text-center text-sm text-gray-400">
-                          ไม่พบข้อมูล
+                          ไม่มีรายชื่อแขก
                         </td>
                       </tr>
                     )}
                   </tbody>
                 </table>
               </div>
-
               {hasMore && (
                 <div className="mt-4 flex justify-end">
                   <Link
@@ -367,7 +273,7 @@ function CampaignDetailSkeleton() {
           <div className="flex items-center gap-4">
             <Skeleton className="h-44 w-44 rounded-full" />
             <div className="flex flex-1 flex-col gap-3">
-              {Array.from({ length: 4 }).map((_, i) => (
+              {Array.from({ length: 2 }).map((_, i) => (
                 <Skeleton key={i} className="h-4 w-full" />
               ))}
             </div>
@@ -400,8 +306,11 @@ function CampaignDetailSkeleton() {
   );
 }
 
-function pct(part: number, total: number): string {
-  if (!total) return "0";
-  const v = (part / total) * 100;
+function numPct(part: number, total: number): number {
+  if (!total) return 0;
+  return parseFloat(((part / total) * 100).toFixed(1));
+}
+
+function fmtPct(v: number): string {
   return v.toFixed(v % 1 === 0 ? 0 : 1);
 }

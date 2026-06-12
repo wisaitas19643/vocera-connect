@@ -1,5 +1,6 @@
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
+import { toast } from "sonner";
 import { format } from "date-fns";
 import {
   X,
@@ -18,17 +19,21 @@ import { Button } from "@/components/vocera/Button";
 import { Calendar } from "@/components/ui/calendar";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { cn } from "@/lib/utils";
+import { RequireAuth } from "@/components/vocera/RequireAuth";
+import * as campaignStore from "@/lib/campaignStore";
 
 export const Route = createFileRoute("/campaign/$id/edit")({
-  head: () => ({ meta: [{ title: "Edit campaign — Vocera" }] }),
+  head: () => ({ meta: [{ title: "Edit campaign — Ringo" }] }),
   component: CampaignEditPage,
 });
 
-const DEFAULT_SCRIPT = `สวัสดีค่ะ คุณ {ชื่อ} ดิฉันโทรมาจาก {ชื่องาน}
-
-ต้องการสอบถามเพื่อยืนยันการเข้าร่วมงานในวันที่ {วันที่} เวลา {เวลา}
-
-กรุณากด 1 เพื่อยืนยัน หรือกด 2 หากไม่สะดวก ขอบคุณค่ะ`;
+function CampaignEditPage() {
+  return (
+    <RequireAuth>
+      <CampaignEditPageInner />
+    </RequireAuth>
+  );
+}
 
 const VOICES = [
   { id: "mali", name: "มะลิ", role: "ผู้หญิง-สดใส" },
@@ -38,94 +43,55 @@ const VOICES = [
 
 const INTERVALS = [10, 20, 30, 60];
 
-const MOCK_DATA: Record<string, CampaignData> = {
-  "1": {
-    name: "ประชุมผู้ถือหุ้น ประจำปี 2026",
-    eventDate: new Date(2026, 3, 12),
-    eventTime: "10:45",
-    callStartDate: new Date(2026, 3, 12),
-    callEndDate: new Date(2026, 3, 12),
-    callStartTime: "09:00",
-    callEndTime: "18:00",
-    existingCsv: { name: "shareholders_2026.csv", contacts: 300 },
-    script: DEFAULT_SCRIPT,
-    voice: "mali",
-    speed: 1,
-    retries: 2,
-    interval: 30,
-  },
-};
-
-interface CampaignData {
-  name: string;
-  eventDate: Date | undefined;
-  eventTime: string;
-  callStartDate: Date | undefined;
-  callEndDate: Date | undefined;
-  callStartTime: string;
-  callEndTime: string;
-  existingCsv: { name: string; contacts: number } | null;
-  script: string;
-  voice: string;
-  speed: number;
-  retries: number;
-  interval: number;
-}
-
-function CampaignEditPage() {
+function CampaignEditPageInner() {
   const { id } = Route.useParams();
   const navigate = useNavigate();
   const [step, setStep] = useState<1 | 2>(1);
-
-  const mock = MOCK_DATA[id] ?? {
-    name: "",
-    eventDate: undefined,
-    eventTime: "",
-    callStartDate: undefined,
-    callEndDate: undefined,
-    callStartTime: "",
-    callEndTime: "",
-    existingCsv: null,
-    script: DEFAULT_SCRIPT,
-    voice: "mali",
-    speed: 1,
-    retries: 0,
-    interval: 10,
-  };
+  const [loadError, setLoadError] = useState("");
 
   // Step 1 state
-  const [name, setName] = useState(mock.name);
-  const [eventDate, setEventDate] = useState<Date | undefined>(mock.eventDate);
-  const [eventTime, setEventTime] = useState(mock.eventTime);
-  const [callStartDate, setCallStartDate] = useState<Date | undefined>(mock.callStartDate);
-  const [callEndDate, setCallEndDate] = useState<Date | undefined>(mock.callEndDate);
-  const [callStartTime, setCallStartTime] = useState(mock.callStartTime);
-  const [callEndTime, setCallEndTime] = useState(mock.callEndTime);
+  const [name, setName] = useState("");
+  const [eventDate, setEventDate] = useState<Date | undefined>();
+  const [eventTime, setEventTime] = useState("");
+  const [callStartDate, setCallStartDate] = useState<Date | undefined>();
+  const [callEndDate, setCallEndDate] = useState<Date | undefined>();
+  const [callStartTime, setCallStartTime] = useState("");
+  const [callEndTime, setCallEndTime] = useState("");
   const [csvFile, setCsvFile] = useState<File | null>(null);
-  const [existingCsv, setExistingCsv] = useState(mock.existingCsv);
+  const [existingCsv, setExistingCsv] = useState<{ name: string; contacts: number } | null>(null);
   const [error, setError] = useState("");
   const fileRef = useRef<HTMLInputElement>(null);
 
   // Step 2 state
-  const [script, setScript] = useState(mock.script);
-  const [voice, setVoice] = useState(mock.voice);
-  const [speed, setSpeed] = useState(mock.speed);
-  const [retries, setRetries] = useState(mock.retries);
-  const [interval, setIntervalValue] = useState(mock.interval);
+  const [script, setScript] = useState("");
+  const [voice, setVoice] = useState("mali");
+  const [speed, setSpeed] = useState(1);
+  const [retries, setRetries] = useState(0);
+  const [interval, setIntervalValue] = useState(10);
+
+  // ดึงข้อมูลแคมเปญจาก Supabase
+  useEffect(() => {
+    campaignStore.getById(id).then((camp) => {
+      if (!camp) {
+        setLoadError("ไม่พบแคมเปญนี้");
+        return;
+      }
+      setName(camp.name);
+      setEventTime(camp.time ?? "");
+      if (camp.date) {
+        const [d, m, y] = camp.date.split("/").map(Number);
+        if (d && m && y) setEventDate(new Date(y, m - 1, d));
+      }
+      if (camp.contacts && camp.contacts.length > 0) {
+        setExistingCsv({ name: "contacts.csv", contacts: camp.contacts.length });
+      }
+    });
+  }, [id]);
 
   const close = () => navigate({ to: "/campaign" });
 
   const goNext = () => {
-    if (
-      !name.trim() ||
-      !eventDate ||
-      !eventTime ||
-      !callStartDate ||
-      !callEndDate ||
-      !callStartTime ||
-      !callEndTime ||
-      (!csvFile && !existingCsv)
-    ) {
+    if (!name.trim() || !eventDate || !eventTime || (!csvFile && !existingCsv)) {
       setError("กรุณากรอกข้อมูลให้ครบถ้วน");
       return;
     }
@@ -133,7 +99,14 @@ function CampaignEditPage() {
     setStep(2);
   };
 
-  const submit = () => {
+  const submit = async () => {
+    const { format } = await import("date-fns");
+    await campaignStore.update(id, {
+      name: name.trim(),
+      date: eventDate ? format(eventDate, "dd/MM/yyyy") : undefined,
+      time: eventTime || undefined,
+    });
+    toast.success(`✅ บันทึกแคมเปญ "${name.trim()}" สำเร็จ`);
     navigate({ to: "/campaign" });
   };
 
@@ -149,6 +122,14 @@ function CampaignEditPage() {
   };
 
   const hasFile = csvFile || existingCsv;
+
+  if (loadError) {
+    return (
+      <div className="flex min-h-screen items-center justify-center bg-gray-50">
+        <p className="text-gray-500">{loadError}</p>
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen w-full bg-gray-50 px-4 py-8">

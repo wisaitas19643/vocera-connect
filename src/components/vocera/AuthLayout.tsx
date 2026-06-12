@@ -18,7 +18,7 @@ export function AuthLayout({ children }: { children: ReactNode }) {
         {/* Illustration placeholder */}
         <div className="relative flex h-72 w-72 items-center justify-center rounded-3xl bg-white/15 backdrop-blur-sm">
           <span className="px-6 text-center text-sm font-medium text-white/90">
-            Vocera Illustration
+            Ringo Illustration
           </span>
         </div>
 

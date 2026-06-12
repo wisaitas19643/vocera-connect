@@ -15,6 +15,8 @@ import { Route as DashboardRouteImport } from './routes/dashboard'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as SettingsIndexRouteImport } from './routes/settings.index'
 import { Route as CampaignIndexRouteImport } from './routes/campaign.index'
+import { Route as AnalyticsIndexRouteImport } from './routes/analytics.index'
+import { Route as SettingsFlowRouteImport } from './routes/settings.flow'
 import { Route as SettingsCallDefaultsRouteImport } from './routes/settings.call-defaults'
 import { Route as CampaignCreateRouteImport } from './routes/campaign.create'
 import { Route as CampaignIdIndexRouteImport } from './routes/campaign.$id.index'
@@ -50,6 +52,16 @@ const SettingsIndexRoute = SettingsIndexRouteImport.update({
 const CampaignIndexRoute = CampaignIndexRouteImport.update({
   id: '/campaign/',
   path: '/campaign/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AnalyticsIndexRoute = AnalyticsIndexRouteImport.update({
+  id: '/analytics/',
+  path: '/analytics/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SettingsFlowRoute = SettingsFlowRouteImport.update({
+  id: '/settings/flow',
+  path: '/settings/flow',
   getParentRoute: () => rootRouteImport,
 } as any)
 const SettingsCallDefaultsRoute = SettingsCallDefaultsRouteImport.update({
@@ -91,6 +103,8 @@ export interface FileRoutesByFullPath {
   '/register': typeof RegisterRoute
   '/campaign/create': typeof CampaignCreateRoute
   '/settings/call-defaults': typeof SettingsCallDefaultsRoute
+  '/settings/flow': typeof SettingsFlowRoute
+  '/analytics/': typeof AnalyticsIndexRoute
   '/campaign/': typeof CampaignIndexRoute
   '/settings/': typeof SettingsIndexRoute
   '/campaign/$id/contacts': typeof CampaignIdContactsRouteWithChildren
@@ -105,6 +119,8 @@ export interface FileRoutesByTo {
   '/register': typeof RegisterRoute
   '/campaign/create': typeof CampaignCreateRoute
   '/settings/call-defaults': typeof SettingsCallDefaultsRoute
+  '/settings/flow': typeof SettingsFlowRoute
+  '/analytics': typeof AnalyticsIndexRoute
   '/campaign': typeof CampaignIndexRoute
   '/settings': typeof SettingsIndexRoute
   '/campaign/$id/contacts': typeof CampaignIdContactsRouteWithChildren
@@ -120,6 +136,8 @@ export interface FileRoutesById {
   '/register': typeof RegisterRoute
   '/campaign/create': typeof CampaignCreateRoute
   '/settings/call-defaults': typeof SettingsCallDefaultsRoute
+  '/settings/flow': typeof SettingsFlowRoute
+  '/analytics/': typeof AnalyticsIndexRoute
   '/campaign/': typeof CampaignIndexRoute
   '/settings/': typeof SettingsIndexRoute
   '/campaign/$id/contacts': typeof CampaignIdContactsRouteWithChildren
@@ -136,6 +154,8 @@ export interface FileRouteTypes {
     | '/register'
     | '/campaign/create'
     | '/settings/call-defaults'
+    | '/settings/flow'
+    | '/analytics/'
     | '/campaign/'
     | '/settings/'
     | '/campaign/$id/contacts'
@@ -150,6 +170,8 @@ export interface FileRouteTypes {
     | '/register'
     | '/campaign/create'
     | '/settings/call-defaults'
+    | '/settings/flow'
+    | '/analytics'
     | '/campaign'
     | '/settings'
     | '/campaign/$id/contacts'
@@ -164,6 +186,8 @@ export interface FileRouteTypes {
     | '/register'
     | '/campaign/create'
     | '/settings/call-defaults'
+    | '/settings/flow'
+    | '/analytics/'
     | '/campaign/'
     | '/settings/'
     | '/campaign/$id/contacts'
@@ -179,6 +203,8 @@ export interface RootRouteChildren {
   RegisterRoute: typeof RegisterRoute
   CampaignCreateRoute: typeof CampaignCreateRoute
   SettingsCallDefaultsRoute: typeof SettingsCallDefaultsRoute
+  SettingsFlowRoute: typeof SettingsFlowRoute
+  AnalyticsIndexRoute: typeof AnalyticsIndexRoute
   CampaignIndexRoute: typeof CampaignIndexRoute
   SettingsIndexRoute: typeof SettingsIndexRoute
   CampaignIdContactsRoute: typeof CampaignIdContactsRouteWithChildren
@@ -228,6 +254,20 @@ declare module '@tanstack/react-router' {
       path: '/campaign'
       fullPath: '/campaign/'
       preLoaderRoute: typeof CampaignIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/analytics/': {
+      id: '/analytics/'
+      path: '/analytics'
+      fullPath: '/analytics/'
+      preLoaderRoute: typeof AnalyticsIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/settings/flow': {
+      id: '/settings/flow'
+      path: '/settings/flow'
+      fullPath: '/settings/flow'
+      preLoaderRoute: typeof SettingsFlowRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/settings/call-defaults': {
@@ -293,6 +333,8 @@ const rootRouteChildren: RootRouteChildren = {
   RegisterRoute: RegisterRoute,
   CampaignCreateRoute: CampaignCreateRoute,
   SettingsCallDefaultsRoute: SettingsCallDefaultsRoute,
+  SettingsFlowRoute: SettingsFlowRoute,
+  AnalyticsIndexRoute: AnalyticsIndexRoute,
   CampaignIndexRoute: CampaignIndexRoute,
   SettingsIndexRoute: SettingsIndexRoute,
   CampaignIdContactsRoute: CampaignIdContactsRouteWithChildren,

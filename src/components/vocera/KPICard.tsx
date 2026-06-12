@@ -3,7 +3,7 @@ import { cn } from "@/lib/utils";
 
 interface KPICardProps {
   icon: ReactNode;
-  value: number;
+  value: number | string;
   label: string;
   subText?: string;
   isActive?: boolean;
@@ -34,7 +34,9 @@ export function KPICard({
     >
       <div className="flex items-center gap-3">
         <div className="text-brand-700">{icon}</div>
-        <div className="text-3xl font-semibold text-gray-900">{value.toLocaleString()}</div>
+        <div className="text-3xl font-semibold text-gray-900">
+          {typeof value === "number" ? value.toLocaleString() : value}
+        </div>
       </div>
       <div className="text-sm font-medium text-gray-700">{label}</div>
       {subText && <div className="text-sm text-gray-400">{subText}</div>}

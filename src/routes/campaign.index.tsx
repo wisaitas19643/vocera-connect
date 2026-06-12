@@ -6,33 +6,22 @@ import { AppLayout } from "@/components/vocera/AppLayout";
 import { Button } from "@/components/vocera/Button";
 import { CampaignCard, type Campaign } from "@/components/vocera/CampaignCard";
 import { Skeleton } from "@/components/ui/skeleton";
-// import store เพื่ออ่าน campaigns จาก localStorage
 import * as campaignStore from "@/lib/campaignStore";
 
 export const Route = createFileRoute("/campaign/")({
-  head: () => ({ meta: [{ title: "แคมเปญ — Vocera" }] }),
+  head: () => ({ meta: [{ title: "แคมเปญ — Ringo" }] }),
   component: CampaignListPage,
 });
-
-// ไม่มี hardcoded campaigns แล้ว — ย้ายไปอยู่ใน campaignStore.ts ทั้งหมด
 
 function CampaignListPage() {
   const navigate = useNavigate();
   const [loading, setLoading] = useState(true);
-
-  // useState(() => fn) คือ "lazy initializer"
-  // fn จะถูกเรียกแค่ครั้งเดียวตอน component โหลด ไม่ใช่ทุก re-render
-  // อ่านจาก localStorage ผ่าน campaignStore.getAll()
-  const [campaigns, setCampaigns] = useState<Campaign[]>(() => campaignStore.getAll());
+  const [campaigns, setCampaigns] = useState<Campaign[]>([]);
 
   useEffect(() => {
-    const t = setTimeout(() => {
-      // โหลด campaigns อีกครั้งหลัง skeleton หายไป
-      // เผื่อกรณีที่ navigate มาจากหน้า create (มีแคมเปญใหม่เพิ่ม)
-      setCampaigns(campaignStore.getAll());
-      setLoading(false);
-    }, 400);
-    return () => clearTimeout(t);
+    campaignStore.getAll()
+      .then(setCampaigns)
+      .finally(() => setLoading(false));
   }, []);
 
   return (
@@ -55,7 +44,16 @@ function CampaignListPage() {
           ) : campaigns.length === 0 ? (
             <EmptyCampaigns onCreateClick={() => navigate({ to: "/campaign/create" })} />
           ) : (
-            campaigns.map((c) => <CampaignCard key={c.id} campaign={c} />)
+            campaigns.map((c) => (
+              <CampaignCard
+                key={c.id}
+                campaign={c}
+                onDelete={async (id) => {
+                  await campaignStore.remove(id);
+                  setCampaigns((prev) => prev.filter((x) => x.id !== id));
+                }}
+              />
+            ))
           )}
         </div>
       </div>

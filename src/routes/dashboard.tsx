@@ -25,7 +25,7 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { cn } from "@/lib/utils";
 
 export const Route = createFileRoute("/dashboard")({
-  head: () => ({ meta: [{ title: "แดชบอร์ด — Vocera" }] }),
+  head: () => ({ meta: [{ title: "แดชบอร์ด — Ringo" }] }),
   component: DashboardPage,
 });
 

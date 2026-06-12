@@ -1,7 +1,11 @@
 import type { ReactNode } from "react";
-import { Link, useRouterState } from "@tanstack/react-router";
-import { LayoutGrid, User, Settings as SettingsIcon, Phone } from "lucide-react";
+import { Link, useRouterState, useNavigate } from "@tanstack/react-router";
+import { LayoutGrid, User, Settings as SettingsIcon, LogOut, Coins, BarChart3 } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { supabase } from "@/lib/supabase";
+import { useAuth } from "@/lib/useAuth";
+import { RequireAuth } from "@/components/vocera/RequireAuth";
+import logoUrl from "@/assets/logo.png";
 
 interface NavItem {
   to: string;
@@ -13,18 +17,35 @@ interface NavItem {
 const navItems: NavItem[] = [
   { to: "/dashboard", label: "Dashboard", icon: <LayoutGrid className="h-5 w-5" /> },
   { to: "/campaign", label: "Campaign", icon: <User className="h-5 w-5" />, matchPrefix: "/campaign" },
-  { to: "/settings", label: "ตั้งค่า", icon: <SettingsIcon className="h-5 w-5" />, matchPrefix: "/settings" },
+  { to: "/analytics", label: "Analytics", icon: <BarChart3 className="h-5 w-5" />, matchPrefix: "/analytics" },
+  { to: "/settings", label: "Settings", icon: <SettingsIcon className="h-5 w-5" />, matchPrefix: "/settings" },
 ];
 
 interface AppLayoutProps {
   children: ReactNode;
-  userName?: string;
-  points?: number;
 }
 
-export function AppLayout({ children, userName = "User", points = 1250 }: AppLayoutProps) {
+export function AppLayout({ children }: AppLayoutProps) {
+  return (
+    <RequireAuth>
+      <AppLayoutInner>{children}</AppLayoutInner>
+    </RequireAuth>
+  );
+}
+
+function AppLayoutInner({ children }: { children: ReactNode }) {
   const pathname = useRouterState({ select: (s) => s.location.pathname });
-  const initial = userName.charAt(0).toUpperCase();
+  const navigate = useNavigate();
+  const { user } = useAuth();
+
+  const email = user?.email ?? "";
+  const initial = (user?.user_metadata?.full_name ?? email).charAt(0).toUpperCase() || "U";
+  const displayName = user?.user_metadata?.full_name ?? email;
+
+  const handleLogout = async () => {
+    await supabase.auth.signOut();
+    navigate({ to: "/login" });
+  };
 
   return (
     <div className="flex min-h-screen w-full bg-white">
@@ -33,10 +54,8 @@ export function AppLayout({ children, userName = "User", points = 1250 }: AppLay
         style={{ width: 240 }}
       >
         <Link to="/dashboard" className="mb-8 flex items-center gap-2 px-2">
-          <div className="flex h-9 w-9 items-center justify-center rounded-full bg-brand-700 text-white shadow-card">
-            <Phone className="h-4 w-4" />
-          </div>
-          <span className="text-base font-semibold text-brand-700">Vocera</span>
+          <img src={logoUrl} alt="Ringo" className="h-8 w-8 object-contain" />
+          <span className="text-base font-semibold text-brand-700">Ringo</span>
         </Link>
 
         <nav className="flex flex-1 flex-col gap-1">
@@ -62,16 +81,38 @@ export function AppLayout({ children, userName = "User", points = 1250 }: AppLay
           })}
         </nav>
 
-        <div className="mt-4 flex items-center gap-3 rounded-xl bg-white/60 p-3">
-          <div className="flex h-10 w-10 items-center justify-center rounded-full bg-brand-700 text-sm font-semibold text-white">
-            {initial}
+        {/* Points balance */}
+        <div className="mb-3 rounded-xl bg-white/60 p-3">
+          <div className="flex items-center justify-between">
+            <div className="flex items-center gap-1.5 text-xs text-gray-500">
+              <Coins className="h-3.5 w-3.5 text-brand-500" />
+              <span>Points Balance</span>
+            </div>
+            <span className="text-xs font-semibold text-brand-700">1,250 pts</span>
           </div>
-          <div className="flex flex-col">
-            <span className="text-sm font-medium text-gray-800">{userName}</span>
-            <span className="text-xs font-semibold text-brand-700">
-              {points.toLocaleString()} point
-            </span>
+
+        </div>
+
+        <div className="flex flex-col gap-2">
+          <div className="flex items-center gap-3 rounded-xl bg-white/60 p-3">
+            <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-brand-700 text-sm font-semibold text-white">
+              {initial}
+            </div>
+            <div className="flex min-w-0 flex-col">
+              <span className="truncate text-sm font-medium text-gray-800">{displayName}</span>
+              {user?.user_metadata?.full_name && (
+                <span className="truncate text-xs text-gray-400">{email}</span>
+              )}
+            </div>
           </div>
+          <button
+            type="button"
+            onClick={handleLogout}
+            className="flex w-full items-center gap-2 rounded-xl px-3 py-2 text-sm text-gray-500 hover:bg-red-50 hover:text-red-600 transition-colors"
+          >
+            <LogOut className="h-4 w-4" />
+            ออกจากระบบ
+          </button>
         </div>
       </aside>
 

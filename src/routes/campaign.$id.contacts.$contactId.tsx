@@ -6,7 +6,7 @@ import { StatusBadge, type StatusVariant } from "@/components/vocera/StatusBadge
 import { cn } from "@/lib/utils";
 
 export const Route = createFileRoute("/campaign/$id/contacts/$contactId")({
-  head: () => ({ meta: [{ title: "รายละเอียดการโทร — Vocera" }] }),
+  head: () => ({ meta: [{ title: "รายละเอียดการโทร — Ringo" }] }),
   component: CallDetailPage,
 });
 

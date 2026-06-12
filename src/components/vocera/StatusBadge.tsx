@@ -20,8 +20,8 @@ const config: Record<StatusVariant, { label: string; dot: string; wrap: string }
   },
   pending: {
     label: "รอสาย",
-    dot: "bg-blue-500",
-    wrap: "bg-blue-50 text-blue-700 border border-blue-200",
+    dot: "bg-violet-500",
+    wrap: "bg-violet-50 text-violet-700 border border-violet-200",
   },
 };
 

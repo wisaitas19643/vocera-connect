@@ -1,13 +1,16 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { createFileRoute, Link, useRouterState } from "@tanstack/react-router";
 import { User, Coins, Clock, Camera } from "lucide-react";
+import { toast } from "sonner";
 
 import { AppLayout } from "@/components/vocera/AppLayout";
 import { Button } from "@/components/vocera/Button";
 import { cn } from "@/lib/utils";
+import { useAuth } from "@/lib/useAuth";
+import { supabase } from "@/lib/supabase";
 
 export const Route = createFileRoute("/settings/")({
-  head: () => ({ meta: [{ title: "ตั้งค่า — Vocera" }] }),
+  head: () => ({ meta: [{ title: "ตั้งค่า — Ringo" }] }),
   component: SettingsPage,
 });
 
@@ -18,11 +21,34 @@ const HISTORY = [
 ];
 
 function SettingsPage() {
+  const { user } = useAuth();
   const [editing, setEditing] = useState(false);
-  const [name, setName] = useState("เมษา งามดี");
-  const [email, setEmail] = useState("Maysa.Ngamdee@gmail.com");
-  const [username, setUsername] = useState("เมษา งามดี");
-  const [password, setPassword] = useState("**********");
+  const [saving, setSaving] = useState(false);
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+
+  useEffect(() => {
+    if (user) {
+      setName(user.user_metadata?.full_name ?? "");
+      setEmail(user.email ?? "");
+    }
+  }, [user]);
+
+  const avatarLetter = (user?.user_metadata?.full_name || user?.email || "?")
+    .charAt(0)
+    .toUpperCase();
+
+  const handleSave = async () => {
+    setSaving(true);
+    const { error } = await supabase.auth.updateUser({ data: { full_name: name } });
+    setSaving(false);
+    if (error) {
+      toast.error("บันทึกไม่สำเร็จ");
+    } else {
+      toast.success("บันทึกข้อมูลสำเร็จ");
+      setEditing(false);
+    }
+  };
 
   return (
     <AppLayout>
@@ -45,7 +71,7 @@ function SettingsPage() {
             <div className="mb-6 flex justify-center">
               <div className="relative">
                 <div className="flex h-24 w-24 items-center justify-center rounded-full border-2 border-brand-700 bg-brand-100 text-2xl font-bold text-brand-700">
-                  ม
+                  {avatarLetter}
                 </div>
                 <button
                   type="button"
@@ -72,28 +98,12 @@ function SettingsPage() {
                 <input
                   type="email"
                   value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  disabled={!editing}
-                  className={fieldInput(!editing)}
+                  disabled
+                  className={fieldInput(true)}
                 />
-              </FormField>
-              <FormField label="Username">
-                <input
-                  type="text"
-                  value={username}
-                  onChange={(e) => setUsername(e.target.value)}
-                  disabled={!editing}
-                  className={fieldInput(!editing)}
-                />
-              </FormField>
-              <FormField label="Password">
-                <input
-                  type="password"
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                  disabled={!editing}
-                  className={fieldInput(!editing)}
-                />
+                {editing && (
+                  <p className="text-xs text-gray-400">การเปลี่ยนอีเมลต้องยืนยันผ่านอีเมลเดิม</p>
+                )}
               </FormField>
             </div>
 
@@ -110,10 +120,10 @@ function SettingsPage() {
               <Button
                 variant="primary"
                 className="flex-1"
-                disabled={!editing}
-                onClick={() => setEditing(false)}
+                disabled={!editing || saving}
+                onClick={handleSave}
               >
-                บันทึก
+                {saving ? "กำลังบันทึก..." : "บันทึก"}
               </Button>
             </div>
           </div>
