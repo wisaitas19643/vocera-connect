@@ -274,20 +274,13 @@ export type Database = {
         Row: {
           api_key: string | null
           api_provider: string
-<<<<<<< HEAD
-=======
           confirm_keywords: string[] | null
           confirm_response: string | null
->>>>>>> TN-Ford
           confirmation_keywords: string[]
           created_at: string
           default_script: string | null
           id: string
           max_retries: number
-<<<<<<< HEAD
-          rejection_keywords: string[]
-          retry_interval_minutes: number
-=======
           notify_campaign_success: boolean | null
           notify_low_points: boolean | null
           reject_keywords: string[] | null
@@ -296,7 +289,6 @@ export type Database = {
           retry_interval_minutes: number
           unclear_action: string | null
           unclear_response: string | null
->>>>>>> TN-Ford
           updated_at: string
           user_id: string
           voice_id: string | null
@@ -305,20 +297,13 @@ export type Database = {
         Insert: {
           api_key?: string | null
           api_provider?: string
-<<<<<<< HEAD
-=======
           confirm_keywords?: string[] | null
           confirm_response?: string | null
->>>>>>> TN-Ford
           confirmation_keywords?: string[]
           created_at?: string
           default_script?: string | null
           id?: string
           max_retries?: number
-<<<<<<< HEAD
-          rejection_keywords?: string[]
-          retry_interval_minutes?: number
-=======
           notify_campaign_success?: boolean | null
           notify_low_points?: boolean | null
           reject_keywords?: string[] | null
@@ -327,7 +312,6 @@ export type Database = {
           retry_interval_minutes?: number
           unclear_action?: string | null
           unclear_response?: string | null
->>>>>>> TN-Ford
           updated_at?: string
           user_id: string
           voice_id?: string | null
@@ -336,20 +320,13 @@ export type Database = {
         Update: {
           api_key?: string | null
           api_provider?: string
-<<<<<<< HEAD
-=======
           confirm_keywords?: string[] | null
           confirm_response?: string | null
->>>>>>> TN-Ford
           confirmation_keywords?: string[]
           created_at?: string
           default_script?: string | null
           id?: string
           max_retries?: number
-<<<<<<< HEAD
-          rejection_keywords?: string[]
-          retry_interval_minutes?: number
-=======
           notify_campaign_success?: boolean | null
           notify_low_points?: boolean | null
           reject_keywords?: string[] | null
@@ -358,7 +335,6 @@ export type Database = {
           retry_interval_minutes?: number
           unclear_action?: string | null
           unclear_response?: string | null
->>>>>>> TN-Ford
           updated_at?: string
           user_id?: string
           voice_id?: string | null

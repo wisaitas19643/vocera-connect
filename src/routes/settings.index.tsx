@@ -217,6 +217,7 @@ export function SettingsTabs() {
   const tabs = [
     { label: "ตั้งค่าบัญชี", to: "/settings" },
     { label: "ตั้งค่าการโทรเริ่มต้น", to: "/settings/call-defaults" },
+    { label: "Flow การโทร", to: "/settings/flow" },
   ] as const;
 
   return (

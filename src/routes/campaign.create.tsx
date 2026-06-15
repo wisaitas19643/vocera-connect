@@ -1,5 +1,5 @@
 import { useRef, useState } from "react";
-import { createFileRoute, useNavigate } from "@tanstack/react-router";
+import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { format } from "date-fns";
 import {
   X,
@@ -7,13 +7,12 @@ import {
   Phone,
   UploadCloud,
   CheckCircle2,
-  FileText,
-  Mic,
-  Plus,
+  GitBranch,
+  Check,
   Minus,
   ChevronDown,
+  ExternalLink,
 } from "lucide-react";
-// toast ใช้แสดง notification มุมขวาบน
 import { toast } from "sonner";
 
 import { Button } from "@/components/vocera/Button";
@@ -22,6 +21,8 @@ import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover
 import { cn } from "@/lib/utils";
 import * as campaignStore from "@/lib/campaignStore";
 import { RequireAuth } from "@/components/vocera/RequireAuth";
+import { useFlowScripts } from "@/lib/flowStore";
+import { parseFlow } from "@/components/vocera/ScriptFlowBuilder";
 
 export const Route = createFileRoute("/campaign/create")({
   head: () => ({ meta: [{ title: "Create campaign — Ringo" }] }),
@@ -36,23 +37,12 @@ function CampaignCreatePage() {
   );
 }
 
-const DEFAULT_SCRIPT = `สวัสดีค่ะ คุณ {ชื่อ} ดิฉันโทรมาจาก {ชื่องาน}
-
-ต้องการสอบถามเพื่อยืนยันการเข้าร่วมงานในวันที่ {วันที่} เวลา {เวลา}
-
-กรุณากด 1 เพื่อยืนยัน หรือกด 2 หากไม่สะดวก ขอบคุณค่ะ`;
-
-const VOICES = [
-  { id: "mali", name: "มะลิ", role: "ผู้หญิง-สดใส" },
-  { id: "samorn", name: "สมร", role: "ผู้หญิง-ทางการ" },
-  { id: "somchai", name: "สมชาย", role: "ผู้ชาย-สุขุม" },
-];
-
 const INTERVALS = [10, 20, 30, 60];
 
 function CampaignCreatePageInner() {
   const navigate = useNavigate();
   const [step, setStep] = useState<1 | 2>(1);
+  const { data: flowScripts = [] } = useFlowScripts();
 
   // Step 1 state
   const [name, setName] = useState("");
@@ -67,14 +57,14 @@ function CampaignCreatePageInner() {
   const fileRef = useRef<HTMLInputElement>(null);
 
   // Step 2 state
-  const [script, setScript] = useState(DEFAULT_SCRIPT);
-  const [voice, setVoice] = useState("mali");
+  const [selectedFlowId, setSelectedFlowId] = useState<string | null>(null);
   const [speed, setSpeed] = useState(1);
   const [retries, setRetries] = useState(0);
   const [interval, setIntervalValue] = useState(10);
 
-  const close = () => navigate({ to: "/campaign" });
+  const selectedFlow = flowScripts.find((s) => s.id === selectedFlowId) ?? null;
 
+  const close = () => navigate({ to: "/campaign" });
 
   const goNext = () => {
     if (
@@ -96,6 +86,12 @@ function CampaignCreatePageInner() {
 
   const submit = () => {
     if (!csvFile) return;
+    if (!selectedFlow) {
+      toast.error("กรุณาเลือก Flow สคริปต์ก่อนสร้างแคมเปญ");
+      return;
+    }
+
+    const flowData = parseFlow(selectedFlow.content);
 
     const reader = new FileReader();
     reader.onload = async () => {
@@ -111,8 +107,8 @@ function CampaignCreatePageInner() {
         date: eventDate ? format(eventDate, "dd/MM/yyyy") : "-",
         time: eventTime,
         contacts,
-        script,
-        voice_id: voice,
+        script: selectedFlow.content,
+        voice_id: flowData.speaker_id,
         voice_speed: speed,
         max_retries: retries,
       });
@@ -148,7 +144,6 @@ function CampaignCreatePageInner() {
           </button>
         </div>
 
-        {/* Stepper */}
         <Stepper step={step} />
 
         {step === 1 ? (
@@ -247,77 +242,100 @@ function CampaignCreatePageInner() {
           </div>
         ) : (
           <div className="mt-8 flex flex-col gap-5">
-            {/* Script card */}
+            {/* Flow script picker */}
             <div className="rounded-2xl bg-white p-5 shadow-card">
-              <div className="flex items-center gap-2">
-                <span className="flex h-9 w-9 items-center justify-center rounded-full bg-brand-100 text-brand-700">
-                  <FileText className="h-4 w-4" />
-                </span>
-                <h3 className="font-semibold text-gray-800">สคริปต์การโทร (ค่าเริ่มต้น)</h3>
-              </div>
-              <textarea
-                value={script}
-                onChange={(e) => setScript(e.target.value)}
-                className="mt-4 min-h-40 w-full rounded-xl border border-brand-200 bg-brand-50 p-4 text-sm text-gray-700 outline-none focus:border-brand-700"
-                maxLength={2000}
-              />
-              <div className="mt-3 flex flex-wrap items-center gap-2">
-                <span className="text-xs text-gray-500">รองรับตัวแปร:</span>
-                {["{ชื่อ}", "{ชื่องาน}", "{วันที่}", "{เวลา}"].map((v) => (
-                  <span
-                    key={v}
-                    className="rounded-full bg-brand-100 px-3 py-1 text-xs font-medium text-brand-700"
-                  >
-                    {v}
-                  </span>
-                ))}
-              </div>
-            </div>
-
-            <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
-              {/* Voice card */}
-              <div className="rounded-2xl bg-white p-5 shadow-card">
+              <div className="flex items-center justify-between gap-2 mb-4">
                 <div className="flex items-center gap-2">
                   <span className="flex h-9 w-9 items-center justify-center rounded-full bg-brand-100 text-brand-700">
-                    <Mic className="h-4 w-4" />
+                    <GitBranch className="h-4 w-4" />
                   </span>
-                  <h3 className="font-semibold text-gray-800">ตั้งค่าเสียง</h3>
+                  <div>
+                    <h3 className="font-semibold text-gray-800">เลือก Flow สคริปต์</h3>
+                    <p className="text-xs text-gray-400">
+                      ตัวแปร {"{ชื่อ}"}, {"{ชื่องาน}"}, {"{วันที่}"}, {"{เวลา}"} จะถูกแทนค่าอัตโนมัติ
+                    </p>
+                  </div>
                 </div>
-                <div className="mt-4 flex items-center justify-between">
-                  <span className="text-sm font-medium text-gray-700">เลือกเสียงพูด</span>
-                  <button
-                    type="button"
-                    className="flex h-7 w-7 items-center justify-center rounded-full border border-brand-300 text-brand-700 hover:bg-brand-50"
-                    aria-label="เพิ่มเสียง"
-                  >
-                    <Plus className="h-4 w-4" />
-                  </button>
+                <Link
+                  to="/settings/flow"
+                  className="flex items-center gap-1 text-xs text-brand-700 hover:underline shrink-0"
+                >
+                  จัดการ Flow
+                  <ExternalLink className="h-3 w-3" />
+                </Link>
+              </div>
+
+              {flowScripts.length === 0 ? (
+                <div className="flex flex-col items-center gap-3 rounded-xl border-2 border-dashed border-gray-200 bg-gray-50 py-8 text-center">
+                  <GitBranch className="h-8 w-8 text-gray-300" />
+                  <p className="text-sm text-gray-500">ยังไม่มี Flow สคริปต์</p>
+                  <Link to="/settings/flow">
+                    <Button variant="secondary" size="sm">
+                      สร้าง Flow สคริปต์
+                    </Button>
+                  </Link>
                 </div>
-                <div className="mt-3 grid grid-cols-3 gap-2">
-                  {VOICES.map((v) => (
-                    <button
-                      key={v.id}
-                      type="button"
-                      onClick={() => setVoice(v.id)}
-                      className={cn(
-                        "rounded-xl border-2 p-3 text-center transition-colors",
-                        voice === v.id
-                          ? "border-brand-700 bg-brand-50"
-                          : "border-gray-200 bg-white hover:border-brand-300",
-                      )}
-                    >
-                      <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-brand-100 text-lg font-semibold text-brand-700">
-                        {v.name.charAt(0)}
-                      </div>
-                      <div className="mt-2 text-sm font-medium text-gray-800">{v.name}</div>
-                      <div className="text-xs text-gray-400">{v.role}</div>
-                    </button>
-                  ))}
+              ) : (
+                <div className="flex flex-col gap-2">
+                  {flowScripts.map((s) => {
+                    const flow = parseFlow(s.content);
+                    const isSelected = selectedFlowId === s.id;
+                    return (
+                      <button
+                        key={s.id}
+                        type="button"
+                        onClick={() => setSelectedFlowId(s.id)}
+                        className={cn(
+                          "flex items-start gap-3 rounded-xl border-2 p-4 text-left transition-all",
+                          isSelected
+                            ? "border-brand-700 bg-brand-50"
+                            : "border-gray-200 bg-white hover:border-brand-300",
+                        )}
+                      >
+                        <div
+                          className={cn(
+                            "mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-full border-2",
+                            isSelected
+                              ? "border-brand-700 bg-brand-700"
+                              : "border-gray-300 bg-white",
+                          )}
+                        >
+                          {isSelected && <Check className="h-3 w-3 text-white" />}
+                        </div>
+                        <div className="min-w-0 flex-1">
+                          <div className="font-medium text-gray-800">{s.name}</div>
+                          <div className="mt-1 text-xs text-gray-400 line-clamp-2">
+                            {flow.greeting}
+                          </div>
+                          <div className="mt-2 flex items-center gap-2">
+                            <span className="rounded-full bg-brand-100 px-2 py-0.5 text-[10px] font-medium text-brand-700">
+                              เสียง #{flow.speaker_id}
+                            </span>
+                            <span className="rounded-full bg-gray-100 px-2 py-0.5 text-[10px] text-gray-500">
+                              4 nodes
+                            </span>
+                          </div>
+                        </div>
+                      </button>
+                    );
+                  })}
                 </div>
-                <div className="mt-5">
-                  <label className="text-sm font-medium text-gray-700">
-                    ความเร็ว: {speed.toFixed(2)}X
-                  </label>
+              )}
+            </div>
+
+            {/* Call settings */}
+            <div className="rounded-2xl bg-white p-5 shadow-card">
+              <div className="flex items-center gap-2 mb-4">
+                <span className="flex h-9 w-9 items-center justify-center rounded-full bg-brand-100 text-brand-700">
+                  <Phone className="h-4 w-4" />
+                </span>
+                <h3 className="font-semibold text-gray-800">ตั้งค่าการโทร</h3>
+              </div>
+
+              <div className="grid grid-cols-1 gap-5 md:grid-cols-2">
+                <div>
+                  <div className="text-sm font-medium text-gray-700">ความเร็วเสียง</div>
+                  <div className="text-xs text-gray-400 mb-2">{speed.toFixed(2)}X</div>
                   <input
                     type="range"
                     min={0.5}
@@ -325,24 +343,14 @@ function CampaignCreatePageInner() {
                     step={0.25}
                     value={speed}
                     onChange={(e) => setSpeed(parseFloat(e.target.value))}
-                    className="mt-2 w-full accent-brand-700"
+                    className="w-full accent-brand-700"
                   />
                 </div>
-              </div>
 
-              {/* Call settings card */}
-              <div className="rounded-2xl bg-white p-5 shadow-card">
-                <div className="flex items-center gap-2">
-                  <span className="flex h-9 w-9 items-center justify-center rounded-full bg-brand-100 text-brand-700">
-                    <Phone className="h-4 w-4" />
-                  </span>
-                  <h3 className="font-semibold text-gray-800">ตั้งค่าการโทร</h3>
-                </div>
-
-                <div className="mt-4">
+                <div>
                   <div className="text-sm font-medium text-gray-700">จำนวนครั้งโทรซ้ำสูงสุด</div>
-                  <div className="text-xs text-gray-400">(กรณีที่ปลายสายไม่รับ)</div>
-                  <div className="mt-3 flex items-center gap-3">
+                  <div className="text-xs text-gray-400 mb-2">กรณีปลายสายไม่รับ</div>
+                  <div className="flex items-center gap-3">
                     <button
                       type="button"
                       onClick={() => setRetries(Math.max(0, retries - 1))}
@@ -350,7 +358,7 @@ function CampaignCreatePageInner() {
                     >
                       <Minus className="h-3.5 w-3.5" />
                     </button>
-                    <span className="min-w-16 text-center text-sm font-semibold text-gray-800">
+                    <span className="min-w-12 text-center text-sm font-semibold text-gray-800">
                       {retries} ครั้ง
                     </span>
                     <button
@@ -358,27 +366,27 @@ function CampaignCreatePageInner() {
                       onClick={() => setRetries(Math.min(10, retries + 1))}
                       className="flex h-8 w-8 items-center justify-center rounded-full border border-gray-300 text-gray-600 hover:border-brand-700 hover:text-brand-700"
                     >
-                      <Plus className="h-3.5 w-3.5" />
+                      <ChevronDown className="h-3.5 w-3.5 rotate-180" />
                     </button>
                   </div>
                 </div>
+              </div>
 
-                <div className="mt-5">
-                  <label className="text-sm font-medium text-gray-700">ช่วงห่างระหว่างโทรซ้ำ</label>
-                  <div className="relative mt-2">
-                    <select
-                      value={interval}
-                      onChange={(e) => setIntervalValue(parseInt(e.target.value))}
-                      className="w-full appearance-none rounded-xl border border-gray-200 bg-white px-4 py-2.5 pr-9 text-sm outline-none focus:border-brand-700"
-                    >
-                      {INTERVALS.map((m) => (
-                        <option key={m} value={m}>
-                          {m} นาที
-                        </option>
-                      ))}
-                    </select>
-                    <ChevronDown className="pointer-events-none absolute right-3 top-1/2 h-4 w-4 -translate-y-1/2 text-gray-400" />
-                  </div>
+              <div className="mt-4">
+                <label className="text-sm font-medium text-gray-700">ช่วงห่างระหว่างโทรซ้ำ</label>
+                <div className="relative mt-2">
+                  <select
+                    value={interval}
+                    onChange={(e) => setIntervalValue(parseInt(e.target.value))}
+                    className="w-full appearance-none rounded-xl border border-gray-200 bg-white px-4 py-2.5 pr-9 text-sm outline-none focus:border-brand-700"
+                  >
+                    {INTERVALS.map((m) => (
+                      <option key={m} value={m}>
+                        {m} นาที
+                      </option>
+                    ))}
+                  </select>
+                  <ChevronDown className="pointer-events-none absolute right-3 top-1/2 h-4 w-4 -translate-y-1/2 text-gray-400" />
                 </div>
               </div>
             </div>
@@ -387,7 +395,12 @@ function CampaignCreatePageInner() {
               <Button variant="secondary" onClick={() => setStep(1)} className="flex-1">
                 ← ย้อนกลับ
               </Button>
-              <Button variant="primary" onClick={submit} className="flex-1">
+              <Button
+                variant="primary"
+                onClick={submit}
+                disabled={!selectedFlow}
+                className="flex-1"
+              >
                 สร้างแคมเปญ
               </Button>
             </div>
