@@ -28,7 +28,9 @@ export interface Campaign {
   confirmed: number;
   percent: number;
   status?: string;
-  contacts?: RunnerContact[]; // รายชื่อแขกที่จะส่งให้ Runner
+  contacts?: RunnerContact[];
+  script?: string;
+  voice_id?: string;
 }
 
 interface CampaignCardProps {
@@ -37,7 +39,7 @@ interface CampaignCardProps {
 }
 
 export function CampaignCard({ campaign, onDelete }: CampaignCardProps) {
-  const { id, name, date, time, total, confirmed, percent, status = "กำลังดำเนินงาน", contacts } = campaign;
+  const { id, name, date, time, total, confirmed, percent, status = "กำลังดำเนินงาน", contacts, script, voice_id } = campaign;
   const pct = Math.min(100, Math.max(0, percent));
 
   // showRunner คือ state ที่บอกว่าตอนนี้ Runner โชว์อยู่ไหม
@@ -157,7 +159,7 @@ export function CampaignCard({ campaign, onDelete }: CampaignCardProps) {
           <p className="mb-3 text-xs font-semibold uppercase tracking-wide text-brand-300">
             Campaign Runner
           </p>
-          <CampaignRunner campaignId={id} contacts={contacts} />
+          <CampaignRunner campaignId={id} contacts={contacts} script={script ?? ""} voiceId={voice_id ?? ""} />
         </div>
       )}
     </div>

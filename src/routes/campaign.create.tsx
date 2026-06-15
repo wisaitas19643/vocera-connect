@@ -106,19 +106,16 @@ function CampaignCreatePageInner() {
         return { id: `imp-${Date.now()}-${i}`, name: cols[0] || "", phone: cols[1] || "" };
       }).filter((c) => c.name || c.phone);
 
-      const newCampaign = {
-        id: campaignStore.generateId(),
+      await campaignStore.add({
         name: name.trim(),
         date: eventDate ? format(eventDate, "dd/MM/yyyy") : "-",
         time: eventTime,
-        total: contacts.length,
-        confirmed: 0,
-        percent: 0,
-        status: "กำลังดำเนินงาน",
         contacts,
-      };
-
-      await campaignStore.add(newCampaign);
+        script,
+        voice_id: voice,
+        voice_speed: speed,
+        max_retries: retries,
+      });
       toast.success(`✅ สร้างแคมเปญสำเร็จ! "${name.trim()}" (${contacts.length} รายชื่อ)`);
       navigate({ to: "/campaign" });
     };
