@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { createFileRoute } from "@tanstack/react-router";
 import { FileText, Mic, Phone, Plus, Minus, ChevronDown, GitBranch, X } from "lucide-react";
 import { toast } from "sonner";
@@ -8,6 +8,8 @@ import { Button } from "@/components/vocera/Button";
 import { Switch } from "@/components/ui/switch";
 import { SettingsTabs } from "./settings.index";
 import { cn } from "@/lib/utils";
+import { supabase } from "@/lib/supabase";
+import type { TablesInsert } from "@/lib/database.types";
 
 export const Route = createFileRoute("/settings/call-defaults")({
   head: () => ({ meta: [{ title: "ตั้งค่าการโทรเริ่มต้น — Ringo" }] }),
@@ -71,6 +73,34 @@ function CallDefaultsPage() {
   const [rejectResponse, setRejectResponse] = useState("ขอบคุณค่ะ หากเปลี่ยนใจสามารถติดต่อกลับได้เลยนะคะ");
   const [unclearResponse, setUnclearResponse] = useState("ขอบคุณค่ะ");
 
+  useEffect(() => {
+    supabase.auth.getUser().then(({ data: { user } }) => {
+      if (!user) return;
+      supabase
+        .from("user_settings")
+        .select("*")
+        .eq("user_id", user.id)
+        .single()
+        .then(({ data }) => {
+          if (!data) return;
+          if (data.default_script) { setScript(data.default_script); setActiveTemplate(""); }
+          if (data.api_key) setApiKey(data.api_key);
+          if (data.voice_id) setVoice(data.voice_id);
+          setSpeed(data.voice_speed);
+          setRetries(data.max_retries);
+          setIntervalValue(data.retry_interval_minutes);
+          if (data.notify_campaign_success !== null) setNotifySuccess(data.notify_campaign_success ?? false);
+          if (data.notify_low_points !== null) setNotifyLowPoints(data.notify_low_points ?? false);
+          if (data.confirm_keywords?.length) setConfirmKw(data.confirm_keywords);
+          if (data.reject_keywords?.length) setRejectKw(data.reject_keywords);
+          if (data.confirm_response) setConfirmResponse(data.confirm_response);
+          if (data.reject_response) setRejectResponse(data.reject_response);
+          if (data.unclear_action) setUnclearAction(data.unclear_action as "repeat" | "log");
+          if (data.unclear_response) setUnclearResponse(data.unclear_response);
+        });
+    });
+  }, []);
+
   const handleTemplate = (t: typeof TEMPLATES[number]) => {
     setActiveTemplate(t.id);
     setScript(t.script);
@@ -93,8 +123,36 @@ function CallDefaultsPage() {
     else setRejectKw((p) => p.filter((_, j) => j !== i));
   };
 
-  const handleSave = () => {
-    // TODO: persist to Supabase
+  const handleSave = async () => {
+    const { data: { user } } = await supabase.auth.getUser();
+    if (!user) return;
+
+    const settings: TablesInsert<"user_settings"> = {
+      user_id: user.id,
+      default_script: script,
+      api_key: apiKey || null,
+      voice_id: voice,
+      voice_speed: speed,
+      max_retries: retries,
+      retry_interval_minutes: interval,
+      notify_campaign_success: notifySuccess,
+      notify_low_points: notifyLowPoints,
+      confirm_keywords: confirmKw,
+      reject_keywords: rejectKw,
+      confirm_response: confirmResponse,
+      reject_response: rejectResponse,
+      unclear_action: unclearAction,
+      unclear_response: unclearResponse,
+    };
+
+    const { error } = await supabase
+      .from("user_settings")
+      .upsert(settings, { onConflict: "user_id" });
+
+    if (error) {
+      toast.error("บันทึกไม่สำเร็จ: " + error.message);
+      return;
+    }
     toast.success("บันทึกการตั้งค่าสำเร็จ");
   };
 

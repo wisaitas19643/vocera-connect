@@ -26,6 +26,8 @@ interface UseCampaignRunnerReturn {
 export function useCampaignRunner(
   campaignId: string,
   contacts: RunnerContact[],
+  script: string,
+  voiceId: string,
 ): UseCampaignRunnerReturn {
   const [status, setStatus] = useState<RunnerStatus>("idle");
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -56,8 +58,8 @@ export function useCampaignRunner(
           contactId: contacts[i].id,
           phoneNumber: contacts[i].phone,
           contactName: contacts[i].name,
-          script: "",   // TODO: BOTNOI API — populate from campaign script field
-          voiceId: "",  // TODO: BOTNOI API — populate from campaign voice settings
+          script,
+          voiceId,
         });
 
         mergeResult(result);
@@ -77,7 +79,7 @@ export function useCampaignRunner(
         toast.success(`✅ รันแคมเปญเสร็จสิ้น — โทรครบ ${contacts.length} คนแล้ว`);
       }
     },
-    [campaignId, contacts, mergeResult],
+    [campaignId, contacts, script, voiceId, mergeResult],
   );
 
   const startCampaign = useCallback(() => {
@@ -118,11 +120,11 @@ export function useCampaignRunner(
         contactId: contact.id,
         phoneNumber: contact.phone,
         contactName: contact.name,
-        script: "",
-        voiceId: "",
+        script,
+        voiceId,
       }).then(mergeResult);
     },
-    [campaignId, mergeResult],
+    [campaignId, script, voiceId, mergeResult],
   );
 
   const currentContact =

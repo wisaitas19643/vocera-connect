@@ -7,6 +7,8 @@ import { cn } from "@/lib/utils";
 interface CampaignRunnerProps {
   campaignId: string;
   contacts: RunnerContact[];
+  script: string;
+  voiceId: string;
 }
 
 const statusConfig: Record<RunnerStatus, { dot: string; label: string }> = {
@@ -24,7 +26,7 @@ const summaryConfig = {
   pending:   { label: "รอสาย",     bg: "bg-blue-50",   text: "text-blue-700",   bar: "bg-blue-500"  },
 };
 
-export function CampaignRunner({ campaignId, contacts }: CampaignRunnerProps) {
+export function CampaignRunner({ campaignId, contacts, script, voiceId }: CampaignRunnerProps) {
   const {
     status,
     currentContact,
@@ -35,7 +37,7 @@ export function CampaignRunner({ campaignId, contacts }: CampaignRunnerProps) {
     resumeCampaign,
     stopCampaign,
     callSingle,
-  } = useCampaignRunner(campaignId, contacts);
+  } = useCampaignRunner(campaignId, contacts, script, voiceId);
 
   const { dot, label } = statusConfig[status];
 
