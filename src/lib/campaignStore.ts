@@ -9,8 +9,6 @@ type CampaignRow = Tables<"campaigns"> & {
 };
 
 // toApp — แปลง DB row → Campaign object ที่ UI ใช้
-// DB:  { scheduled_start, total_contacts, completed_calls, full_name }
-// UI:  { date, time, total, confirmed, percent, name }
 function toApp(row: CampaignRow): Campaign {
   let date = "-";
   let time = "-";
@@ -49,13 +47,11 @@ function toApp(row: CampaignRow): Campaign {
 }
 
 // parseDateTimeToISO — แปลง "15/06/2026" + "09:00" → ISO timestamp
-// คืน null ถ้าข้อมูลไม่ครบหรือผิดรูปแบบ
 function parseDateTimeToISO(date: string, time: string): string | null {
   if (!date || date === "-" || !time) return null;
   const [dd, mm, yyyy] = date.split("/");
   if (!dd || !mm || !yyyy) return null;
-  const iso = new Date(`${yyyy}-${mm}-${dd}T${time}`).toISOString();
-  return iso;
+  return new Date(`${yyyy}-${mm}-${dd}T${time}`).toISOString();
 }
 
 export async function getAll(): Promise<Campaign[]> {
@@ -87,8 +83,9 @@ export type CreateCampaignPayload = {
 };
 
 export async function add(payload: CreateCampaignPayload): Promise<void> {
-  const { data: { user } } = await supabase.auth.getUser();
-  if (!user) throw new Error("Not authenticated");
+  const { data: { session } } = await supabase.auth.getSession();
+  const user = session?.user;
+  if (!user) throw new Error("ไม่ได้ล็อกอิน กรุณาเข้าสู่ระบบใหม่");
 
   const insert: TablesInsert<"campaigns"> = {
     user_id: user.id,
@@ -109,26 +106,28 @@ export async function add(payload: CreateCampaignPayload): Promise<void> {
 
   const newId = (data as Tables<"campaigns">).id;
   if (payload.contacts.length > 0) {
-    await supabase.from("contacts").insert(
+    const { error: contactsError } = await supabase.from("contacts").insert(
       payload.contacts.map((c): TablesInsert<"contacts"> => ({
         campaign_id: newId,
         full_name: c.name,
         phone: c.phone,
       })),
     );
+    if (contactsError) throw contactsError;
   }
 }
 
 export async function updateContacts(id: string, contacts: RunnerContact[]): Promise<void> {
   await supabase.from("contacts").delete().eq("campaign_id", id);
   if (contacts.length > 0) {
-    await supabase.from("contacts").insert(
+    const { error } = await supabase.from("contacts").insert(
       contacts.map((c): TablesInsert<"contacts"> => ({
         campaign_id: id,
         full_name: c.name,
         phone: c.phone,
       })),
     );
+    if (error) throw error;
   }
   const update: TablesUpdate<"campaigns"> = { total_contacts: contacts.length };
   await supabase.from("campaigns").update(update).eq("id", id);
@@ -143,7 +142,6 @@ export async function update(
   if (fields.name !== undefined) dbUpdate.name = fields.name;
   if (fields.status !== undefined) dbUpdate.status = fields.status;
 
-  // date + time ต้องมาคู่กันถึงจะ parse เป็น scheduled_start ได้
   if (fields.date !== undefined || fields.time !== undefined) {
     const iso = parseDateTimeToISO(fields.date ?? "", fields.time ?? "");
     if (iso) dbUpdate.scheduled_start = iso;
@@ -154,7 +152,7 @@ export async function update(
 }
 
 export async function remove(id: string): Promise<void> {
-  await supabase.from("contacts").delete().eq("campaign_id", id);
+  // contacts are deleted automatically via ON DELETE CASCADE
   const { error } = await supabase.from("campaigns").delete().eq("id", id);
   if (error) throw error;
 }

@@ -206,7 +206,7 @@ export function SettingsTabs() {
   const pathname = useRouterState({ select: (s) => s.location.pathname });
   const tabs = [
     { label: "ตั้งค่าบัญชี", to: "/settings" },
-    { label: "ตั้งค่าการโทรเริ่มต้น", to: "/settings/call-defaults" },
+    { label: "ตั้งค่าการโทร", to: "/settings/call-defaults" },
   ] as const;
 
   return (

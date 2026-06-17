@@ -1,5 +1,8 @@
+<<<<<<< HEAD
 import { supabase } from "@/lib/supabase";
 
+=======
+>>>>>>> TN-Boss
 export interface BotnoiCallRequest {
   campaignId: string;
   contactId: string;
@@ -7,6 +10,9 @@ export interface BotnoiCallRequest {
   contactName: string;
   script: string;
   voiceId: string;
+  confirmMessage?: string;
+  declineMessage?: string;
+  fallbackMessage?: string;
 }
 
 export interface BotnoiCallResult {
@@ -18,6 +24,7 @@ export interface BotnoiCallResult {
 }
 
 export async function makeCall(request: BotnoiCallRequest): Promise<BotnoiCallResult> {
+<<<<<<< HEAD
   const timestamp = new Date().toISOString();
 
   const { data, error } = await supabase.functions.invoke("botnoi-outbound", {
@@ -47,4 +54,23 @@ export async function makeCall(request: BotnoiCallRequest): Promise<BotnoiCallRe
     duration: 0,
     timestamp,
   };
+=======
+  const { supabase } = await import("@/lib/supabase");
+
+  const { data: { session } } = await supabase.auth.getSession();
+  if (!session) throw new Error("ไม่ได้ล็อกอิน");
+
+  const { data, error } = await supabase.functions.invoke<BotnoiCallResult>(
+    "botnoi-outbound",
+    {
+      body: request,
+      headers: { Authorization: `Bearer ${session.access_token}` },
+    },
+  );
+
+  if (error) throw new Error(error.message);
+  if (!data) throw new Error("ไม่ได้รับข้อมูลจาก Edge Function");
+
+  return data;
+>>>>>>> TN-Boss
 }
