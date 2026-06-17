@@ -22,6 +22,8 @@ import {
 } from "lucide-react";
 import { toast } from "sonner";
 import { makeCall } from "@/services/botnoiService";
+import { parseFlow } from "@/components/vocera/ScriptFlowBuilder";
+import { supabase } from "@/lib/supabase";
 import { PieChart, Pie, Cell, ResponsiveContainer } from "recharts";
 
 import { AppLayout } from "@/components/vocera/AppLayout";
@@ -402,13 +404,48 @@ function RecentActivity({
     if (!confirm(`โทรหา ${row.name} (${row.phone}) ใช่หรือไม่?`)) return;
     setCallingId(row.id);
     try {
+      // โหลด script + voice จาก user_settings
+      const { data: { user } } = await supabase.auth.getUser();
+      let script = "";
+      let voiceId = "5";
+      let confirmMessage: string | undefined;
+      let declineMessage: string | undefined;
+      let fallbackMessage: string | undefined;
+
+      if (user) {
+        const { data: settings } = await supabase
+          .from("user_settings")
+          .select("default_script, voice_id")
+          .eq("user_id", user.id)
+          .maybeSingle();
+
+        if (settings?.default_script) script = settings.default_script;
+        if (settings?.voice_id) voiceId = settings.voice_id;
+      }
+
+      // ถ้ามี flow script ใน localStorage ให้ใช้แทน
+      try {
+        const stored = JSON.parse(localStorage.getItem("ringo_flow_scripts") ?? "[]");
+        if (Array.isArray(stored) && stored.length > 0) {
+          const flow = parseFlow(stored[0].content);
+          script = flow.greeting;
+          voiceId = flow.speaker_id || voiceId;
+          confirmMessage = flow.confirm;
+          declineMessage = flow.decline;
+          fallbackMessage = flow.unsure;
+        }
+      } catch { /* ถ้า parse ไม่ได้ ใช้ค่าจาก settings ต่อไป */ }
+
       const result = await makeCall({
         campaignId: "manual",
         contactId: row.id,
         phoneNumber: row.phone,
         contactName: row.name,
-        script: "",
-        voiceId: "5",
+        script,
+        voiceId,
+        confirmMessage,
+        declineMessage,
+        fallbackMessage,
       });
       if (result.status === "confirmed") toast.success(`${row.name} ยืนยันแล้ว`);
       else if (result.status === "rejected") toast.error(`${row.name} ปฏิเสธ`);

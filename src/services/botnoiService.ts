@@ -5,6 +5,9 @@ export interface BotnoiCallRequest {
   contactName: string;
   script: string;
   voiceId: string;
+  confirmMessage?: string;
+  declineMessage?: string;
+  fallbackMessage?: string;
 }
 
 export interface BotnoiCallResult {

@@ -15,6 +15,9 @@ interface CallRequest {
   contactName: string;
   script: string;
   voiceId: string;
+  confirmMessage?: string;
+  declineMessage?: string;
+  fallbackMessage?: string;
 }
 
 function normalizePhone(phone: string): string {
@@ -38,7 +41,6 @@ serve(async (req) => {
   }
 
   try {
-    // Get API key from Supabase secret (server-side, never exposed to browser)
     const botnoiApiKey = Deno.env.get("BOTNOI_API_KEY");
     if (!botnoiApiKey) {
       return new Response(
@@ -47,7 +49,6 @@ serve(async (req) => {
       );
     }
 
-    // Verify caller is authenticated
     const authHeader = req.headers.get("Authorization");
     if (!authHeader) {
       return new Response(
@@ -70,7 +71,7 @@ serve(async (req) => {
       );
     }
 
-    // Check if user has their own API key override in settings
+    // ใช้ API key จาก user_settings ถ้ามี ไม่งั้นใช้ secret
     const { data: settings } = await supabase
       .from("user_settings")
       .select("api_key")
@@ -83,7 +84,16 @@ serve(async (req) => {
     const phone = normalizePhone(body.phoneNumber);
 
     const greeting = body.script?.trim() ||
-      "สวัสดีครับ นี่คือระบบแจ้งเตือนอัตโนมัติ ขณะนี้โทรมาเพื่อยืนยันการเข้าร่วมงานของคุณ คุณสะดวกไปร่วมงานไหมครับ";
+      "สวัสดีครับ นี่คือระบบแจ้งเตือนอัตโนมัติจาก Ringo โทรมาเพื่อยืนยันการเข้าร่วมงานของคุณ คุณสะดวกไปร่วมงานไหมครับ";
+
+    const confirmMsg = body.confirmMessage?.trim() ||
+      "ขอบคุณมากครับ ได้รับการยืนยันเรียบร้อยแล้ว แล้วพบกันในงานครับ สวัสดีครับ";
+
+    const declineMsg = body.declineMessage?.trim() ||
+      "รับทราบครับ ขอบคุณที่แจ้งให้ทราบ หากเปลี่ยนใจสามารถติดต่อกลับได้เลยครับ สวัสดีครับ";
+
+    const fallbackMsg = body.fallbackMessage?.trim() ||
+      "ขออภัยด้วยครับ เดี๋ยวจะติดต่อกลับใหม่อีกครั้งนะครับ ขอบคุณครับ สวัสดีครับ";
 
     // Step 1: Create template
     const tmplRes = await fetch(`${BOTNOI_VB}/confirm/create_template`, {
@@ -91,9 +101,9 @@ serve(async (req) => {
       headers: botnoiHeaders(apiKey),
       body: JSON.stringify({
         message:          greeting,
-        confirm_message:  "ขอบคุณมากครับ ได้รับการยืนยันเรียบร้อยแล้ว แล้วพบกันในงานครับ สวัสดีครับ",
-        decline_message:  "ขอบคุณที่แจ้งให้ทราบนะครับ หากเปลี่ยนใจสามารถติดต่อกลับมาได้เลยครับ สวัสดีครับ",
-        fallback_message: "ขออภัยด้วยนะครับ เดี๋ยวจะติดต่อกลับใหม่อีกครั้งนะครับ ขอบคุณครับ สวัสดีครับ",
+        confirm_message:  confirmMsg,
+        decline_message:  declineMsg,
+        fallback_message: fallbackMsg,
         org_name:         body.campaignId === "manual" ? "Ringo" : body.campaignId,
         speaker_id:       body.voiceId || "5",
       }),
@@ -108,6 +118,9 @@ serve(async (req) => {
     }
 
     const templateId = String(tmplData.template_id);
+
+    // รอ 2 วินาที ให้ BOTNOI สร้าง TTS เสร็จก่อนโทร
+    await new Promise((r) => setTimeout(r, 2000));
 
     // Step 2: Make the call
     const callRes = await fetch(`${BOTNOI_VB}/confirm/call`, {
