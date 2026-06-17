@@ -22,11 +22,21 @@ function SettingsPage() {
   const [saving, setSaving] = useState(false);
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
+  const [orgName, setOrgName] = useState("");
 
   useEffect(() => {
     if (!user) return;
     setName(user.user_metadata?.full_name ?? "");
     setEmail(user.email ?? "");
+    // โหลด org_name จาก profiles table
+    supabase
+      .from("profiles")
+      .select("org_name")
+      .eq("id", user.id)
+      .single()
+      .then(({ data }) => {
+        if (data?.org_name) setOrgName(data.org_name);
+      });
   }, [user]);
 
   const avatarLetter = (user?.user_metadata?.full_name || user?.email || "?")
@@ -34,10 +44,17 @@ function SettingsPage() {
     .toUpperCase();
 
   const handleSave = async () => {
+    if (!user) return;
     setSaving(true);
-    const { error } = await supabase.auth.updateUser({ data: { full_name: name } });
+    // 1. อัพชื่อคนใน Supabase Auth
+    const { error: authError } = await supabase.auth.updateUser({ data: { full_name: name } });
+    // 2. อัพ org_name ใน profiles table
+    const { error: profileError } = await supabase
+      .from("profiles")
+      .update({ org_name: orgName || null })
+      .eq("id", user.id);
     setSaving(false);
-    if (error) {
+    if (authError || profileError) {
       toast.error("บันทึกไม่สำเร็จ");
     } else {
       toast.success("บันทึกข้อมูลสำเร็จ");
@@ -89,6 +106,19 @@ function SettingsPage() {
                 />
                 {editing && (
                   <p className="text-xs text-gray-400">การเปลี่ยนอีเมลต้องยืนยันผ่านอีเมลเดิม</p>
+                )}
+              </FormField>
+              <FormField label="ชื่อองค์กร">
+                <input
+                  type="text"
+                  value={orgName}
+                  onChange={(e) => setOrgName(e.target.value)}
+                  disabled={!editing}
+                  placeholder="เช่น บริษัท ABC จำกัด"
+                  className={fieldInput(!editing)}
+                />
+                {editing && (
+                  <p className="text-xs text-gray-400">ใช้เป็นชื่อองค์กรในระบบโทรออก BOTNOI</p>
                 )}
               </FormField>
             </div>

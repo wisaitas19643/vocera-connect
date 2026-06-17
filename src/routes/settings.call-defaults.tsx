@@ -54,10 +54,13 @@ const TEMPLATES = [
 
 const SCRIPT_VARS = ["{Org_name}", "{Appointment Date}", "{Appointment Time}"];
 
+interface DbTemplate { id: string; name: string; script: string; }
+
 function CallDefaultsPage() {
   const [loading, setLoading] = useState(true);
   const [script, setScript] = useState(TEMPLATES[0].script);
-  const [activeTemplate, setActiveTemplate] = useState("wedding");
+  const [activeTemplate, setActiveTemplate] = useState("");
+  const [dbTemplates, setDbTemplates] = useState<DbTemplate[]>([]);
   const [voice, setVoice] = useState("mali");
   const [notifySuccess, setNotifySuccess] = useState(false);
   const [notifyLowPoints, setNotifyLowPoints] = useState(false);
@@ -66,29 +69,58 @@ function CallDefaultsPage() {
   const [unclearResponse, setUnclearResponse] = useState("ขออภัยค่ะ ท่านสะดวกเข้าร่วมได้ไหมคะ?");
 
   useEffect(() => {
-    supabase.auth.getUser().then(({ data: { user } }) => {
+    async function load() {
+      const { data: { user } } = await supabase.auth.getUser();
       if (!user) { setLoading(false); return; }
-      supabase
+
+      // โหลด user_settings
+      const { data: settings } = await supabase
         .from("user_settings")
         .select("*")
         .eq("user_id", user.id)
-        .single()
-        .then(({ data }) => {
-          if (data) {
-            if (data.default_script) { setScript(data.default_script); setActiveTemplate(""); }
-            if (data.voice_id) setVoice(data.voice_id);
-            if (data.notify_campaign_success !== null) setNotifySuccess(data.notify_campaign_success ?? false);
-            if (data.notify_low_points !== null) setNotifyLowPoints(data.notify_low_points ?? false);
-            if (data.confirm_response) setConfirmResponse(data.confirm_response);
-            if (data.reject_response) setRejectResponse(data.reject_response);
-            if (data.unclear_response) setUnclearResponse(data.unclear_response);
-          }
-          setLoading(false);
-        });
-    });
+        .single();
+      if (settings) {
+        if (settings.default_script) setScript(settings.default_script);
+        if (settings.voice_id) setVoice(settings.voice_id);
+        if (settings.notify_campaign_success !== null) setNotifySuccess(settings.notify_campaign_success ?? false);
+        if (settings.notify_low_points !== null) setNotifyLowPoints(settings.notify_low_points ?? false);
+        if (settings.confirm_response) setConfirmResponse(settings.confirm_response);
+        if (settings.reject_response) setRejectResponse(settings.reject_response);
+        if (settings.unclear_response) setUnclearResponse(settings.unclear_response);
+      }
+
+      // โหลด script_templates จาก DB
+      let { data: templates } = await supabase
+        .from("script_templates")
+        .select("id, name, script")
+        .eq("user_id", user.id)
+        .order("created_at");
+
+      // ถ้า DB ว่าง → seed 3 default templates ให้ user นี้
+      if (!templates?.length) {
+        await supabase.from("script_templates").insert(
+          TEMPLATES.map((t) => ({
+            user_id: user.id,
+            name: t.label,
+            script: t.script,
+            voice_speed: 1.0,
+          }))
+        );
+        const { data: seeded } = await supabase
+          .from("script_templates")
+          .select("id, name, script")
+          .eq("user_id", user.id)
+          .order("created_at");
+        templates = seeded;
+      }
+
+      setDbTemplates(templates ?? []);
+      setLoading(false);
+    }
+    load();
   }, []);
 
-  const handleTemplate = (t: typeof TEMPLATES[number]) => {
+  const handleTemplate = (t: DbTemplate) => {
     setActiveTemplate(t.id);
     setScript(t.script);
   };
@@ -159,7 +191,7 @@ function CallDefaultsPage() {
           <div className="mt-4">
             <p className="mb-2 text-xs font-medium text-gray-500">เลือก Template</p>
             <div className="flex flex-wrap gap-2">
-              {TEMPLATES.map((t) => (
+              {dbTemplates.map((t) => (
                 <button
                   key={t.id}
                   type="button"
@@ -171,7 +203,7 @@ function CallDefaultsPage() {
                       : "border-gray-200 bg-white text-gray-600 hover:border-brand-300",
                   )}
                 >
-                  {t.label}
+                  {t.name}
                 </button>
               ))}
             </div>

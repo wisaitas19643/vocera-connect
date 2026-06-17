@@ -4,6 +4,7 @@ import { format } from "date-fns";
 import {
   X,
   Calendar as CalendarIcon,
+  Download,
   Phone,
   UploadCloud,
   CheckCircle2,
@@ -129,6 +130,18 @@ function CampaignCreatePageInner() {
     reader.readAsText(csvFile);
   };
 
+  const downloadTemplate = () => {
+    // BOM (﻿) ทำให้ Excel เปิดภาษาไทยได้ถูกต้อง
+    const csv = "﻿ชื่อ-นามสกุล,เบอร์โทรศัพท์\nสมชาย ใจดี,0812345678\nสมหญิง ใจงาม,0898765432";
+    const blob = new Blob([csv], { type: "text/csv;charset=utf-8;" });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = "ringo-template.csv";
+    a.click();
+    URL.revokeObjectURL(url);
+  };
+
   const handleFile = (file: File | null) => {
     if (!file) return;
     if (!file.name.toLowerCase().endsWith(".csv")) {
@@ -201,7 +214,19 @@ function CampaignCreatePageInner() {
               </div>
             </div>
 
-            <FormField label="อัพโหลดรายชื่อผู้เข้าร่วม (CSV) *">
+            <FormField
+              label="อัพโหลดรายชื่อผู้เข้าร่วม (CSV) *"
+              action={
+                <button
+                  type="button"
+                  onClick={downloadTemplate}
+                  className="inline-flex items-center gap-1 text-xs text-brand-700 hover:underline"
+                >
+                  <Download className="h-3 w-3" />
+                  ดาวน์โหลด Template
+                </button>
+              }
+            >
               <div
                 onDragOver={(e) => e.preventDefault()}
                 onDrop={(e) => {
@@ -333,10 +358,13 @@ function CampaignCreatePageInner() {
 const inputClass =
   "w-full rounded-xl border border-gray-200 bg-white px-4 py-2.5 text-sm outline-none focus:border-brand-700 focus:ring-1 focus:ring-brand-300";
 
-function FormField({ label, children }: { label: string; children: React.ReactNode }) {
+function FormField({ label, action, children }: { label: string; action?: React.ReactNode; children: React.ReactNode }) {
   return (
     <div className="flex flex-col gap-1.5">
-      <label className="text-sm font-medium text-gray-700">{label}</label>
+      <div className="flex items-center justify-between">
+        <label className="text-sm font-medium text-gray-700">{label}</label>
+        {action}
+      </div>
       {children}
     </div>
   );
