@@ -14,7 +14,11 @@ import {
   Upload,
   Headphones,
   LayoutGrid,
+  Phone,
+  Loader2,
 } from "lucide-react";
+import { toast } from "sonner";
+import { makeCall } from "@/services/botnoiService";
 import { PieChart, Pie, Cell, ResponsiveContainer } from "recharts";
 
 import { AppLayout } from "@/components/vocera/AppLayout";
@@ -353,6 +357,32 @@ function ResponseDonut() {
 }
 
 function RecentActivity({ rows, hasMore }: { rows: Activity[]; hasMore: boolean }) {
+  const [callingId, setCallingId] = useState<string | null>(null);
+
+  const handleManualCall = async (row: Activity) => {
+    if (callingId) return;
+    if (!confirm(`โทรหา ${row.name} (${row.phone}) ใช่หรือไม่?`)) return;
+    setCallingId(row.id);
+    try {
+      const result = await makeCall({
+        campaignId: "manual",
+        contactId: row.id,
+        phoneNumber: row.phone,
+        contactName: row.name,
+        script: "",
+        voiceId: "5",
+      });
+      if (result.status === "confirmed") toast.success(`${row.name} ยืนยันแล้ว`);
+      else if (result.status === "rejected") toast.error(`${row.name} ปฏิเสธ`);
+      else if (result.status === "missed") toast.warning(`${row.name} ไม่รับสาย`);
+      else toast.info(`${row.name} — รอผล`);
+    } catch {
+      toast.error("โทรไม่สำเร็จ กรุณาลองใหม่");
+    } finally {
+      setCallingId(null);
+    }
+  };
+
   return (
     <div className="mt-6 rounded-2xl bg-white p-6 shadow-card">
       <div className="flex flex-wrap items-center justify-between gap-3">
@@ -379,6 +409,7 @@ function RecentActivity({ rows, hasMore }: { rows: Activity[]; hasMore: boolean 
               <th className="py-3 pr-4 font-medium">วันที่โทร</th>
               <th className="py-3 pr-4 font-medium">เวลาโทร</th>
               <th className="py-3 pr-4 font-medium">รายละเอียด</th>
+              <th className="py-3 font-medium">โทรด้วยมือ</th>
             </tr>
           </thead>
           <tbody>
@@ -404,11 +435,33 @@ function RecentActivity({ rows, hasMore }: { rows: Activity[]; hasMore: boolean 
                     ฟังสาย
                   </Button>
                 </td>
+                <td className="py-4">
+                  <button
+                    type="button"
+                    disabled={callingId !== null}
+                    onClick={() => handleManualCall(r)}
+                    className={cn(
+                      "inline-flex items-center gap-1.5 rounded-full px-3 py-1.5 text-xs font-medium transition-all",
+                      callingId === r.id
+                        ? "bg-brand-100 text-brand-400 cursor-not-allowed"
+                        : callingId !== null
+                          ? "border border-gray-200 text-gray-300 cursor-not-allowed"
+                          : "bg-brand-700 text-white hover:bg-brand-900 active:scale-95",
+                    )}
+                  >
+                    {callingId === r.id ? (
+                      <Loader2 className="h-3.5 w-3.5 animate-spin" />
+                    ) : (
+                      <Phone className="h-3.5 w-3.5" />
+                    )}
+                    {callingId === r.id ? "กำลังโทร..." : "โทร"}
+                  </button>
+                </td>
               </tr>
             ))}
             {rows.length === 0 && (
               <tr>
-                <td colSpan={6} className="py-10 text-center text-sm text-gray-400">
+                <td colSpan={7} className="py-10 text-center text-sm text-gray-400">
                   ไม่พบข้อมูล
                 </td>
               </tr>

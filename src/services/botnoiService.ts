@@ -1,6 +1,3 @@
-// TODO: BOTNOI API — Remove this constant when using real API
-const MOCK_CALL_DURATION_MS = 3000;
-
 export interface BotnoiCallRequest {
   campaignId: string;
   contactId: string;
@@ -18,24 +15,22 @@ export interface BotnoiCallResult {
   timestamp: string;
 }
 
-// TODO: BOTNOI API — Replace entire function body with real BOTNOI API call
 export async function makeCall(request: BotnoiCallRequest): Promise<BotnoiCallResult> {
-  return new Promise((resolve) => {
-    setTimeout(() => {
-      const rand = Math.random();
-      let status: BotnoiCallResult["status"];
-      if (rand < 0.5) status = "confirmed";
-      else if (rand < 0.7) status = "rejected";
-      else if (rand < 0.9) status = "missed";
-      else status = "pending";
+  const { supabase } = await import("@/lib/supabase");
 
-      resolve({
-        callId: `mock-${Date.now()}-${Math.random().toString(36).slice(2, 8)}`,
-        contactId: request.contactId,
-        status,
-        duration: MOCK_CALL_DURATION_MS,
-        timestamp: new Date().toISOString(),
-      });
-    }, MOCK_CALL_DURATION_MS);
-  });
+  const { data: { session } } = await supabase.auth.getSession();
+  if (!session) throw new Error("ไม่ได้ล็อกอิน");
+
+  const { data, error } = await supabase.functions.invoke<BotnoiCallResult>(
+    "botnoi-outbound",
+    {
+      body: request,
+      headers: { Authorization: `Bearer ${session.access_token}` },
+    },
+  );
+
+  if (error) throw new Error(error.message);
+  if (!data) throw new Error("ไม่ได้รับข้อมูลจาก Edge Function");
+
+  return data;
 }

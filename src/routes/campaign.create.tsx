@@ -6,12 +6,15 @@ import {
   Calendar as CalendarIcon,
   Phone,
   UploadCloud,
-  CheckCircle2,
   GitBranch,
   Check,
   Minus,
   ChevronDown,
   ExternalLink,
+  Plus,
+  Trash2,
+  Users,
+  Loader2,
 } from "lucide-react";
 import { toast } from "sonner";
 
@@ -52,7 +55,9 @@ function CampaignCreatePageInner() {
   const [callEndDate, setCallEndDate] = useState<Date | undefined>();
   const [callStartTime, setCallStartTime] = useState("");
   const [callEndTime, setCallEndTime] = useState("");
-  const [csvFile, setCsvFile] = useState<File | null>(null);
+  const [contacts, setContacts] = useState<{ id: string; name: string; phone: string }[]>([]);
+  const [addName, setAddName] = useState("");
+  const [addPhone, setAddPhone] = useState("");
   const [error, setError] = useState("");
   const fileRef = useRef<HTMLInputElement>(null);
 
@@ -61,10 +66,47 @@ function CampaignCreatePageInner() {
   const [speed, setSpeed] = useState(1);
   const [retries, setRetries] = useState(0);
   const [interval, setIntervalValue] = useState(10);
+  const [saving, setSaving] = useState(false);
 
   const selectedFlow = flowScripts.find((s) => s.id === selectedFlowId) ?? null;
 
   const close = () => navigate({ to: "/campaign" });
+
+  const addContact = () => {
+    const n = addName.trim();
+    const p = addPhone.trim();
+    if (!n && !p) return;
+    setContacts((prev) => [...prev, { id: `m-${Date.now()}-${Math.random()}`, name: n, phone: p }]);
+    setAddName("");
+    setAddPhone("");
+  };
+
+  const removeContact = (id: string) => setContacts((prev) => prev.filter((c) => c.id !== id));
+
+  const handleCsvImport = (file: File | null) => {
+    if (!file) return;
+    if (!file.name.toLowerCase().endsWith(".csv")) {
+      setError("รองรับเฉพาะไฟล์ .csv");
+      return;
+    }
+    setError("");
+    const reader = new FileReader();
+    reader.onload = () => {
+      const text = String(reader.result || "");
+      const lines = text.split(/\r?\n/).filter((l) => l.trim());
+      const parsed = lines.slice(1).map((line, i) => {
+        const cols = line.split(",").map((s) => s.replace(/^"|"$/g, "").trim());
+        return { id: `csv-${Date.now()}-${i}`, name: cols[0] || "", phone: cols[1] || "" };
+      }).filter((c) => c.name || c.phone);
+      setContacts((prev) => {
+        const existing = new Set(prev.map((c) => `${c.name}|${c.phone}`));
+        const newOnes = parsed.filter((c) => !existing.has(`${c.name}|${c.phone}`));
+        return [...prev, ...newOnes];
+      });
+    };
+    reader.readAsText(file);
+    if (fileRef.current) fileRef.current.value = "";
+  };
 
   const goNext = () => {
     if (
@@ -74,58 +116,44 @@ function CampaignCreatePageInner() {
       !callStartDate ||
       !callEndDate ||
       !callStartTime ||
-      !callEndTime ||
-      !csvFile
+      !callEndTime
     ) {
       setError("กรุณากรอกข้อมูลให้ครบถ้วน");
+      return;
+    }
+    if (contacts.length === 0) {
+      setError("กรุณาเพิ่มรายชื่อผู้เข้าร่วมอย่างน้อย 1 คน");
       return;
     }
     setError("");
     setStep(2);
   };
 
-  const submit = () => {
-    if (!csvFile) return;
-    if (!selectedFlow) {
+  const submit = async () => {
+    if (!selectedFlow && flowScripts.length > 0) {
       toast.error("กรุณาเลือก Flow สคริปต์ก่อนสร้างแคมเปญ");
       return;
     }
-
-    const flowData = parseFlow(selectedFlow.content);
-
-    const reader = new FileReader();
-    reader.onload = async () => {
-      const text = String(reader.result || "");
-      const lines = text.split(/\r?\n/).filter((l) => l.trim());
-      const contacts = lines.slice(1).map((line, i) => {
-        const cols = line.split(",").map((s) => s.replace(/^"|"$/g, "").trim());
-        return { id: `imp-${Date.now()}-${i}`, name: cols[0] || "", phone: cols[1] || "" };
-      }).filter((c) => c.name || c.phone);
-
+    setSaving(true);
+    try {
+      const flowData = selectedFlow ? parseFlow(selectedFlow.content) : null;
       await campaignStore.add({
         name: name.trim(),
         date: eventDate ? format(eventDate, "dd/MM/yyyy") : "-",
         time: eventTime,
         contacts,
-        script: selectedFlow.content,
-        voice_id: flowData.speaker_id,
+        script: selectedFlow?.content ?? "",
+        voice_id: flowData?.speaker_id ?? "5",
         voice_speed: speed,
         max_retries: retries,
       });
-      toast.success(`✅ สร้างแคมเปญสำเร็จ! "${name.trim()}" (${contacts.length} รายชื่อ)`);
+      toast.success(`สร้างแคมเปญสำเร็จ! "${name.trim()}" (${contacts.length} รายชื่อ)`);
       navigate({ to: "/campaign" });
-    };
-    reader.readAsText(csvFile);
-  };
-
-  const handleFile = (file: File | null) => {
-    if (!file) return;
-    if (!file.name.toLowerCase().endsWith(".csv")) {
-      setError("รองรับเฉพาะไฟล์ .csv");
-      return;
+    } catch (err) {
+      toast.error("สร้างแคมเปญไม่สำเร็จ: " + (err instanceof Error ? err.message : String(err)));
+    } finally {
+      setSaving(false);
     }
-    setError("");
-    setCsvFile(file);
   };
 
   return (
@@ -189,50 +217,102 @@ function CampaignCreatePageInner() {
               </div>
             </div>
 
-            <FormField label="อัพโหลดรายชื่อผู้เข้าร่วม (CSV) *">
-              <div
-                onDragOver={(e) => e.preventDefault()}
-                onDrop={(e) => {
-                  e.preventDefault();
-                  handleFile(e.dataTransfer.files?.[0] ?? null);
-                }}
-                className="flex flex-col items-center gap-2 rounded-2xl border-2 border-dashed border-brand-300 bg-brand-50 p-8 text-center"
-              >
-                {csvFile ? (
-                  <div className="flex items-center gap-3">
-                    <CheckCircle2 className="h-5 w-5 text-green-600" />
-                    <span className="text-sm font-medium text-gray-700">{csvFile.name}</span>
-                    <button
-                      type="button"
-                      onClick={() => setCsvFile(null)}
-                      className="text-sm text-gray-400 hover:text-brand-700"
-                    >
-                      ลบ
-                    </button>
+            {/* Contacts section */}
+            <div className="flex flex-col gap-2">
+              <div className="flex items-center justify-between">
+                <label className="text-sm font-medium text-gray-700">
+                  รายชื่อผู้เข้าร่วม *
+                  {contacts.length > 0 && (
+                    <span className="ml-2 rounded-full bg-brand-100 px-2 py-0.5 text-xs font-semibold text-brand-700">
+                      {contacts.length} คน
+                    </span>
+                  )}
+                </label>
+                {/* CSV import button */}
+                <button
+                  type="button"
+                  onClick={() => fileRef.current?.click()}
+                  className="flex items-center gap-1.5 rounded-full border border-gray-200 px-3 py-1.5 text-xs font-medium text-gray-600 hover:border-brand-300 hover:text-brand-700 transition-colors"
+                >
+                  <UploadCloud className="h-3.5 w-3.5" />
+                  นำเข้า CSV
+                </button>
+                <input
+                  ref={fileRef}
+                  type="file"
+                  accept=".csv"
+                  onChange={(e) => handleCsvImport(e.target.files?.[0] ?? null)}
+                  className="hidden"
+                />
+              </div>
+
+              {/* Contact list */}
+              <div className="rounded-2xl border border-gray-200 bg-white overflow-hidden">
+                {/* Table header */}
+                <div className="grid grid-cols-[1fr_1fr_2.5rem] gap-2 border-b border-gray-100 bg-gray-50 px-3 py-2 text-xs font-medium text-gray-400">
+                  <span>ชื่อ-นามสกุล</span>
+                  <span>เบอร์โทรศัพท์</span>
+                  <span />
+                </div>
+
+                {/* Existing rows */}
+                {contacts.length > 0 && (
+                  <div className="max-h-48 overflow-y-auto divide-y divide-gray-50">
+                    {contacts.map((c) => (
+                      <div key={c.id} className="grid grid-cols-[1fr_1fr_2.5rem] items-center gap-2 px-3 py-2">
+                        <span className="truncate text-sm text-gray-800">{c.name || <span className="text-gray-300">—</span>}</span>
+                        <span className="truncate text-sm text-gray-600">{c.phone || <span className="text-gray-300">—</span>}</span>
+                        <button
+                          type="button"
+                          onClick={() => removeContact(c.id)}
+                          className="flex h-6 w-6 items-center justify-center rounded-full text-gray-300 hover:bg-red-50 hover:text-red-500 transition-colors"
+                          aria-label="ลบ"
+                        >
+                          <Trash2 className="h-3.5 w-3.5" />
+                        </button>
+                      </div>
+                    ))}
                   </div>
-                ) : (
-                  <>
-                    <UploadCloud className="h-8 w-8 text-brand-700" />
-                    <p className="text-sm text-gray-600">ลากไฟล์มาวางที่นี่ หรือ</p>
-                    <input
-                      ref={fileRef}
-                      type="file"
-                      accept=".csv"
-                      onChange={(e) => handleFile(e.target.files?.[0] ?? null)}
-                      className="hidden"
-                    />
-                    <Button
-                      type="button"
-                      variant="secondary"
-                      size="sm"
-                      onClick={() => fileRef.current?.click()}
-                    >
-                      เลือกไฟล์
-                    </Button>
-                  </>
+                )}
+
+                {/* Add row form */}
+                <div className="grid grid-cols-[1fr_1fr_2.5rem] items-center gap-2 border-t border-gray-100 bg-brand-50/40 px-3 py-2">
+                  <input
+                    type="text"
+                    value={addName}
+                    onChange={(e) => setAddName(e.target.value)}
+                    onKeyDown={(e) => e.key === "Enter" && addContact()}
+                    placeholder="ชื่อ-นามสกุล"
+                    className="w-full rounded-lg border border-gray-200 bg-white px-2.5 py-1.5 text-sm outline-none focus:border-brand-700 placeholder:text-gray-300"
+                  />
+                  <input
+                    type="tel"
+                    value={addPhone}
+                    onChange={(e) => setAddPhone(e.target.value)}
+                    onKeyDown={(e) => e.key === "Enter" && addContact()}
+                    placeholder="08X-XXX-XXXX"
+                    className="w-full rounded-lg border border-gray-200 bg-white px-2.5 py-1.5 text-sm outline-none focus:border-brand-700 placeholder:text-gray-300"
+                  />
+                  <button
+                    type="button"
+                    onClick={addContact}
+                    disabled={!addName.trim() && !addPhone.trim()}
+                    className="flex h-7 w-7 items-center justify-center rounded-full bg-brand-700 text-white hover:bg-brand-900 disabled:opacity-30 transition-all"
+                    aria-label="เพิ่มรายชื่อ"
+                  >
+                    <Plus className="h-4 w-4" />
+                  </button>
+                </div>
+
+                {/* Empty state */}
+                {contacts.length === 0 && (
+                  <div className="flex flex-col items-center gap-2 py-6 text-center">
+                    <Users className="h-8 w-8 text-gray-200" />
+                    <p className="text-xs text-gray-400">กรอกชื่อและเบอร์ด้านบน หรือ นำเข้าจาก CSV</p>
+                  </div>
                 )}
               </div>
-            </FormField>
+            </div>
 
             {error && <p className="text-sm text-red-600">{error}</p>}
 
@@ -392,16 +472,17 @@ function CampaignCreatePageInner() {
             </div>
 
             <div className="flex items-center gap-3 pt-2">
-              <Button variant="secondary" onClick={() => setStep(1)} className="flex-1">
+              <Button variant="secondary" onClick={() => setStep(1)} disabled={saving} className="flex-1">
                 ← ย้อนกลับ
               </Button>
               <Button
                 variant="primary"
                 onClick={submit}
-                disabled={!selectedFlow}
-                className="flex-1"
+                disabled={saving || (flowScripts.length > 0 && !selectedFlow)}
+                className="flex-1 gap-2"
               >
-                สร้างแคมเปญ
+                {saving && <Loader2 className="h-4 w-4 animate-spin" />}
+                {saving ? "กำลังสร้าง..." : "สร้างแคมเปญ"}
               </Button>
             </div>
           </div>
