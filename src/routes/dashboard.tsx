@@ -56,6 +56,7 @@ const activities: Activity[] = [
   { id: "9", name: "วิภาวี ตั้งใจ", phone: "088-321-9988", status: "confirmed", date: "12/04/2026", time: "10:58" },
   { id: "10", name: "เกียรติศักดิ์ พรชัย", phone: "085-654-3210", status: "rejected", date: "12/04/2026", time: "11:02" },
   { id: "11", name: "อาทิตย์ ส่องแสง", phone: "082-101-2020", status: "pending", date: "12/04/2026", time: "11:05" },
+  { id: "12", name: "ธนวิชญ์ เรืองเมือง", phone: "082-430-8438", status: "pending", date: "17/06/2026", time: "12:00" },
 ];
 
 const campaignSuccess = [

@@ -85,8 +85,9 @@ export type CreateCampaignPayload = {
 };
 
 export async function add(payload: CreateCampaignPayload): Promise<void> {
-  const { data: { user } } = await supabase.auth.getUser();
-  if (!user) throw new Error("Not authenticated");
+  const { data: { session } } = await supabase.auth.getSession();
+  const user = session?.user;
+  if (!user) throw new Error("ไม่ได้ล็อกอิน กรุณาเข้าสู่ระบบใหม่");
 
   const insert: TablesInsert<"campaigns"> = {
     user_id: user.id,
