@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import {
   Search,
@@ -16,6 +16,9 @@ import {
   LayoutGrid,
   Phone,
   Loader2,
+  Pencil,
+  Check,
+  X,
 } from "lucide-react";
 import { toast } from "sonner";
 import { makeCall } from "@/services/botnoiService";
@@ -76,6 +79,7 @@ function DashboardPage() {
   const [filter, setFilter] = useState<Filter>("all");
   const [page, setPage] = useState(1);
   const [loading, setLoading] = useState(true);
+  const [rows, setRows] = useState<Activity[]>(activities);
 
   useEffect(() => {
     const t = setTimeout(() => setLoading(false), 600);
@@ -83,15 +87,15 @@ function DashboardPage() {
   }, []);
 
   const filtered = useMemo(
-    () => (filter === "all" ? activities : activities.filter((a) => a.status === filter)),
-    [filter],
+    () => (filter === "all" ? rows : rows.filter((a) => a.status === filter)),
+    [filter, rows],
   );
   const visible = filtered.slice(0, 10);
   const hasMore = filtered.length > 10;
 
   const toggle = (next: Filter) => setFilter((cur) => (cur === next ? "all" : next));
 
-  const isEmpty = activities.length === 0;
+  const isEmpty = rows.length === 0;
 
   return (
     <AppLayout>
@@ -175,7 +179,9 @@ function DashboardPage() {
             </div>
 
             {/* Activity table */}
-            <RecentActivity rows={visible} hasMore={hasMore} />
+            <RecentActivity rows={visible} hasMore={hasMore} onUpdate={(id, fields) =>
+              setRows((prev) => prev.map((r) => r.id === id ? { ...r, ...fields } : r))
+            } />
           </>
         )}
       </div>
@@ -357,8 +363,39 @@ function ResponseDonut() {
   );
 }
 
-function RecentActivity({ rows, hasMore }: { rows: Activity[]; hasMore: boolean }) {
+function RecentActivity({
+  rows,
+  hasMore,
+  onUpdate,
+}: {
+  rows: Activity[];
+  hasMore: boolean;
+  onUpdate: (id: string, fields: Partial<Pick<Activity, "name" | "phone">>) => void;
+}) {
   const [callingId, setCallingId] = useState<string | null>(null);
+  const [editId, setEditId] = useState<string | null>(null);
+  const [editName, setEditName] = useState("");
+  const [editPhone, setEditPhone] = useState("");
+  const nameRef = useRef<HTMLInputElement>(null);
+
+  const startEdit = (row: Activity) => {
+    setEditId(row.id);
+    setEditName(row.name);
+    setEditPhone(row.phone);
+    setTimeout(() => nameRef.current?.focus(), 0);
+  };
+
+  const saveEdit = () => {
+    if (!editId) return;
+    onUpdate(editId, { name: editName.trim() || undefined, phone: editPhone.trim() || undefined });
+    setEditId(null);
+  };
+
+  const cancelEdit = () => {
+    setEditId(null);
+    setEditName("");
+    setEditPhone("");
+  };
 
   const handleManualCall = async (row: Activity) => {
     if (callingId) return;
@@ -414,29 +451,85 @@ function RecentActivity({ rows, hasMore }: { rows: Activity[]; hasMore: boolean 
             </tr>
           </thead>
           <tbody>
-            {rows.map((r) => (
-              <tr key={r.id} className="border-b border-gray-50 transition-colors hover:bg-brand-50">
-                <td className="py-4 pr-4">
-                  <div className="flex items-center gap-3">
-                    <span className="flex h-9 w-9 items-center justify-center rounded-full bg-brand-100 text-sm font-semibold text-brand-700">
-                      {r.name.charAt(0)}
-                    </span>
-                    <span className="text-gray-800">{r.name}</span>
-                  </div>
+            {rows.map((r) => {
+              const isEditing = editId === r.id;
+              return (
+              <tr key={r.id} className="border-b border-gray-50 transition-colors hover:bg-brand-50 group">
+                {/* ชื่อ */}
+                <td className="py-3 pr-4">
+                  {isEditing ? (
+                    <input
+                      ref={nameRef}
+                      value={editName}
+                      onChange={(e) => setEditName(e.target.value)}
+                      onKeyDown={(e) => { if (e.key === "Enter") saveEdit(); if (e.key === "Escape") cancelEdit(); }}
+                      className="w-full rounded-lg border border-brand-300 px-2.5 py-1.5 text-sm outline-none focus:border-brand-700 focus:ring-1 focus:ring-brand-300"
+                    />
+                  ) : (
+                    <div className="flex items-center gap-3">
+                      <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-brand-100 text-sm font-semibold text-brand-700">
+                        {r.name.charAt(0)}
+                      </span>
+                      <span className="text-gray-800">{r.name}</span>
+                    </div>
+                  )}
                 </td>
-                <td className="py-4 pr-4 text-gray-600">{r.phone}</td>
-                <td className="py-4 pr-4">
+                {/* เบอร์โทร */}
+                <td className="py-3 pr-4">
+                  {isEditing ? (
+                    <input
+                      value={editPhone}
+                      onChange={(e) => setEditPhone(e.target.value)}
+                      onKeyDown={(e) => { if (e.key === "Enter") saveEdit(); if (e.key === "Escape") cancelEdit(); }}
+                      className="w-full rounded-lg border border-brand-300 px-2.5 py-1.5 text-sm outline-none focus:border-brand-700 focus:ring-1 focus:ring-brand-300"
+                    />
+                  ) : (
+                    <span className="text-gray-600">{r.phone}</span>
+                  )}
+                </td>
+                <td className="py-3 pr-4">
                   <StatusBadge variant={r.status} />
                 </td>
-                <td className="py-4 pr-4 text-gray-600">{r.date}</td>
-                <td className="py-4 pr-4 text-gray-600">{r.time}</td>
-                <td className="py-4 pr-4">
-                  <Button variant="ghost" size="sm">
-                    <Headphones className="h-4 w-4" />
-                    ฟังสาย
-                  </Button>
+                <td className="py-3 pr-4 text-gray-600">{r.date}</td>
+                <td className="py-3 pr-4 text-gray-600">{r.time}</td>
+                <td className="py-3 pr-4">
+                  {isEditing ? (
+                    <div className="flex items-center gap-1">
+                      <button
+                        type="button"
+                        onMouseDown={(e) => { e.preventDefault(); saveEdit(); }}
+                        className="flex h-7 w-7 items-center justify-center rounded-full bg-green-500 text-white hover:bg-green-600 transition-colors"
+                        aria-label="บันทึก"
+                      >
+                        <Check className="h-3.5 w-3.5" />
+                      </button>
+                      <button
+                        type="button"
+                        onMouseDown={(e) => { e.preventDefault(); cancelEdit(); }}
+                        className="flex h-7 w-7 items-center justify-center rounded-full border border-gray-300 text-gray-500 hover:bg-gray-100 transition-colors"
+                        aria-label="ยกเลิก"
+                      >
+                        <X className="h-3.5 w-3.5" />
+                      </button>
+                    </div>
+                  ) : (
+                    <div className="flex items-center gap-1">
+                      <Button variant="ghost" size="sm">
+                        <Headphones className="h-4 w-4" />
+                        ฟังสาย
+                      </Button>
+                      <button
+                        type="button"
+                        onClick={() => startEdit(r)}
+                        className="invisible flex h-7 w-7 items-center justify-center rounded-full text-gray-400 hover:bg-brand-50 hover:text-brand-700 group-hover:visible transition-colors"
+                        aria-label="แก้ไข"
+                      >
+                        <Pencil className="h-3.5 w-3.5" />
+                      </button>
+                    </div>
+                  )}
                 </td>
-                <td className="py-4">
+                <td className="py-3">
                   <button
                     type="button"
                     disabled={callingId !== null}
@@ -459,7 +552,8 @@ function RecentActivity({ rows, hasMore }: { rows: Activity[]; hasMore: boolean 
                   </button>
                 </td>
               </tr>
-            ))}
+              );
+            })}
             {rows.length === 0 && (
               <tr>
                 <td colSpan={7} className="py-10 text-center text-sm text-gray-400">
