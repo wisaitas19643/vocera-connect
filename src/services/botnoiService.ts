@@ -1,5 +1,4 @@
-// TODO: BOTNOI API — Remove this constant when using real API
-const MOCK_CALL_DURATION_MS = 3000;
+import { supabase } from "@/lib/supabase";
 
 export interface BotnoiCallRequest {
   campaignId: string;
@@ -18,24 +17,34 @@ export interface BotnoiCallResult {
   timestamp: string;
 }
 
-// TODO: BOTNOI API — Replace entire function body with real BOTNOI API call
 export async function makeCall(request: BotnoiCallRequest): Promise<BotnoiCallResult> {
-  return new Promise((resolve) => {
-    setTimeout(() => {
-      const rand = Math.random();
-      let status: BotnoiCallResult["status"];
-      if (rand < 0.5) status = "confirmed";
-      else if (rand < 0.7) status = "rejected";
-      else if (rand < 0.9) status = "missed";
-      else status = "pending";
+  const timestamp = new Date().toISOString();
 
-      resolve({
-        callId: `mock-${Date.now()}-${Math.random().toString(36).slice(2, 8)}`,
-        contactId: request.contactId,
-        status,
-        duration: MOCK_CALL_DURATION_MS,
-        timestamp: new Date().toISOString(),
-      });
-    }, MOCK_CALL_DURATION_MS);
+  const { data, error } = await supabase.functions.invoke("botnoi-outbound", {
+    body: {
+      phoneNumber: request.phoneNumber,
+      script: request.script,
+      voiceId: request.voiceId,
+      campaignId: request.campaignId,
+    },
   });
+
+  if (error || !data?.outbound_id) {
+    console.error("BOTNOI call failed:", error ?? data);
+    return {
+      callId: `error-${Date.now()}`,
+      contactId: request.contactId,
+      status: "missed",
+      duration: 0,
+      timestamp,
+    };
+  }
+
+  return {
+    callId: data.outbound_id,
+    contactId: request.contactId,
+    status: "pending",
+    duration: 0,
+    timestamp,
+  };
 }

@@ -1,4 +1,4 @@
-import { useRef, useState } from "react";
+import { useRef, useState, useEffect } from "react";
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { format } from "date-fns";
 import {
@@ -9,9 +9,6 @@ import {
   CheckCircle2,
   FileText,
   Mic,
-  Plus,
-  Minus,
-  ChevronDown,
 } from "lucide-react";
 // toast ใช้แสดง notification มุมขวาบน
 import { toast } from "sonner";
@@ -22,6 +19,7 @@ import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover
 import { cn } from "@/lib/utils";
 import * as campaignStore from "@/lib/campaignStore";
 import { RequireAuth } from "@/components/vocera/RequireAuth";
+import { supabase } from "@/lib/supabase";
 
 export const Route = createFileRoute("/campaign/create")({
   head: () => ({ meta: [{ title: "Create campaign — Ringo" }] }),
@@ -36,11 +34,11 @@ function CampaignCreatePage() {
   );
 }
 
-const DEFAULT_SCRIPT = `สวัสดีค่ะ คุณ {ชื่อ} ดิฉันโทรมาจาก {ชื่องาน}
+const DEFAULT_SCRIPT = `สวัสดีค่ะ ดิฉันโทรมาจาก {Org_name}
 
-ต้องการสอบถามเพื่อยืนยันการเข้าร่วมงานในวันที่ {วันที่} เวลา {เวลา}
+ต้องการสอบถามเพื่อยืนยันการเข้าร่วมงาน ในวันที่ {Appointment Date} เวลา {Appointment Time} น.
 
-กรุณากด 1 เพื่อยืนยัน หรือกด 2 หากไม่สะดวก ขอบคุณค่ะ`;
+ท่านสะดวกเข้าร่วมได้ไหมคะ?`;
 
 const VOICES = [
   { id: "mali", name: "มะลิ", role: "ผู้หญิง-สดใส" },
@@ -48,7 +46,6 @@ const VOICES = [
   { id: "somchai", name: "สมชาย", role: "ผู้ชาย-สุขุม" },
 ];
 
-const INTERVALS = [10, 20, 30, 60];
 
 function CampaignCreatePageInner() {
   const navigate = useNavigate();
@@ -69,9 +66,21 @@ function CampaignCreatePageInner() {
   // Step 2 state
   const [script, setScript] = useState(DEFAULT_SCRIPT);
   const [voice, setVoice] = useState("mali");
-  const [speed, setSpeed] = useState(1);
-  const [retries, setRetries] = useState(0);
-  const [interval, setIntervalValue] = useState(10);
+
+  useEffect(() => {
+    supabase.auth.getUser().then(({ data: { user } }) => {
+      if (!user) return;
+      supabase
+        .from("user_settings")
+        .select("default_script, voice_id")
+        .eq("user_id", user.id)
+        .single()
+        .then(({ data }) => {
+          if (data?.default_script) setScript(data.default_script);
+          if (data?.voice_id) setVoice(data.voice_id);
+        });
+    });
+  }, []);
 
   const close = () => navigate({ to: "/campaign" });
 
@@ -113,8 +122,6 @@ function CampaignCreatePageInner() {
         contacts,
         script,
         voice_id: voice,
-        voice_speed: speed,
-        max_retries: retries,
       });
       toast.success(`✅ สร้างแคมเปญสำเร็จ! "${name.trim()}" (${contacts.length} รายชื่อ)`);
       navigate({ to: "/campaign" });
@@ -262,8 +269,8 @@ function CampaignCreatePageInner() {
                 maxLength={2000}
               />
               <div className="mt-3 flex flex-wrap items-center gap-2">
-                <span className="text-xs text-gray-500">รองรับตัวแปร:</span>
-                {["{ชื่อ}", "{ชื่องาน}", "{วันที่}", "{เวลา}"].map((v) => (
+                <span className="text-xs text-gray-500">ตัวแปรที่ใช้ได้:</span>
+                {["{Org_name}", "{Appointment Date}", "{Appointment Time}"].map((v) => (
                   <span
                     key={v}
                     className="rounded-full bg-brand-100 px-3 py-1 text-xs font-medium text-brand-700"
@@ -274,112 +281,37 @@ function CampaignCreatePageInner() {
               </div>
             </div>
 
-            <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
-              {/* Voice card */}
-              <div className="rounded-2xl bg-white p-5 shadow-card">
-                <div className="flex items-center gap-2">
-                  <span className="flex h-9 w-9 items-center justify-center rounded-full bg-brand-100 text-brand-700">
-                    <Mic className="h-4 w-4" />
-                  </span>
-                  <h3 className="font-semibold text-gray-800">ตั้งค่าเสียง</h3>
-                </div>
-                <div className="mt-4 flex items-center justify-between">
-                  <span className="text-sm font-medium text-gray-700">เลือกเสียงพูด</span>
-                  <button
-                    type="button"
-                    className="flex h-7 w-7 items-center justify-center rounded-full border border-brand-300 text-brand-700 hover:bg-brand-50"
-                    aria-label="เพิ่มเสียง"
-                  >
-                    <Plus className="h-4 w-4" />
-                  </button>
-                </div>
-                <div className="mt-3 grid grid-cols-3 gap-2">
-                  {VOICES.map((v) => (
-                    <button
-                      key={v.id}
-                      type="button"
-                      onClick={() => setVoice(v.id)}
-                      className={cn(
-                        "rounded-xl border-2 p-3 text-center transition-colors",
-                        voice === v.id
-                          ? "border-brand-700 bg-brand-50"
-                          : "border-gray-200 bg-white hover:border-brand-300",
-                      )}
-                    >
-                      <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-brand-100 text-lg font-semibold text-brand-700">
-                        {v.name.charAt(0)}
-                      </div>
-                      <div className="mt-2 text-sm font-medium text-gray-800">{v.name}</div>
-                      <div className="text-xs text-gray-400">{v.role}</div>
-                    </button>
-                  ))}
-                </div>
-                <div className="mt-5">
-                  <label className="text-sm font-medium text-gray-700">
-                    ความเร็ว: {speed.toFixed(2)}X
-                  </label>
-                  <input
-                    type="range"
-                    min={0.5}
-                    max={2}
-                    step={0.25}
-                    value={speed}
-                    onChange={(e) => setSpeed(parseFloat(e.target.value))}
-                    className="mt-2 w-full accent-brand-700"
-                  />
-                </div>
+            {/* Voice card */}
+            <div className="rounded-2xl bg-white p-5 shadow-card">
+              <div className="flex items-center gap-2">
+                <span className="flex h-9 w-9 items-center justify-center rounded-full bg-brand-100 text-brand-700">
+                  <Mic className="h-4 w-4" />
+                </span>
+                <h3 className="font-semibold text-gray-800">ตั้งค่าเสียง</h3>
               </div>
-
-              {/* Call settings card */}
-              <div className="rounded-2xl bg-white p-5 shadow-card">
-                <div className="flex items-center gap-2">
-                  <span className="flex h-9 w-9 items-center justify-center rounded-full bg-brand-100 text-brand-700">
-                    <Phone className="h-4 w-4" />
-                  </span>
-                  <h3 className="font-semibold text-gray-800">ตั้งค่าการโทร</h3>
-                </div>
-
-                <div className="mt-4">
-                  <div className="text-sm font-medium text-gray-700">จำนวนครั้งโทรซ้ำสูงสุด</div>
-                  <div className="text-xs text-gray-400">(กรณีที่ปลายสายไม่รับ)</div>
-                  <div className="mt-3 flex items-center gap-3">
-                    <button
-                      type="button"
-                      onClick={() => setRetries(Math.max(0, retries - 1))}
-                      className="flex h-8 w-8 items-center justify-center rounded-full border border-gray-300 text-gray-600 hover:border-brand-700 hover:text-brand-700"
-                    >
-                      <Minus className="h-3.5 w-3.5" />
-                    </button>
-                    <span className="min-w-16 text-center text-sm font-semibold text-gray-800">
-                      {retries} ครั้ง
-                    </span>
-                    <button
-                      type="button"
-                      onClick={() => setRetries(Math.min(10, retries + 1))}
-                      className="flex h-8 w-8 items-center justify-center rounded-full border border-gray-300 text-gray-600 hover:border-brand-700 hover:text-brand-700"
-                    >
-                      <Plus className="h-3.5 w-3.5" />
-                    </button>
-                  </div>
-                </div>
-
-                <div className="mt-5">
-                  <label className="text-sm font-medium text-gray-700">ช่วงห่างระหว่างโทรซ้ำ</label>
-                  <div className="relative mt-2">
-                    <select
-                      value={interval}
-                      onChange={(e) => setIntervalValue(parseInt(e.target.value))}
-                      className="w-full appearance-none rounded-xl border border-gray-200 bg-white px-4 py-2.5 pr-9 text-sm outline-none focus:border-brand-700"
-                    >
-                      {INTERVALS.map((m) => (
-                        <option key={m} value={m}>
-                          {m} นาที
-                        </option>
-                      ))}
-                    </select>
-                    <ChevronDown className="pointer-events-none absolute right-3 top-1/2 h-4 w-4 -translate-y-1/2 text-gray-400" />
-                  </div>
-                </div>
+              <div className="mt-4">
+                <span className="text-sm font-medium text-gray-700">เลือกเสียงพูด</span>
+              </div>
+              <div className="mt-3 grid grid-cols-3 gap-2">
+                {VOICES.map((v) => (
+                  <button
+                    key={v.id}
+                    type="button"
+                    onClick={() => setVoice(v.id)}
+                    className={cn(
+                      "rounded-xl border-2 p-3 text-center transition-colors",
+                      voice === v.id
+                        ? "border-brand-700 bg-brand-50"
+                        : "border-gray-200 bg-white hover:border-brand-300",
+                    )}
+                  >
+                    <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-brand-100 text-lg font-semibold text-brand-700">
+                      {v.name.charAt(0)}
+                    </div>
+                    <div className="mt-2 text-sm font-medium text-gray-800">{v.name}</div>
+                    <div className="text-xs text-gray-400">{v.role}</div>
+                  </button>
+                ))}
               </div>
             </div>
 

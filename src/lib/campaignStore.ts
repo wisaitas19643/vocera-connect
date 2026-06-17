@@ -84,8 +84,6 @@ export type CreateCampaignPayload = {
   contacts: RunnerContact[];
   script: string;
   voice_id: string;
-  voice_speed: number;
-  max_retries: number;
 };
 
 export async function add(payload: CreateCampaignPayload): Promise<void> {
@@ -99,8 +97,6 @@ export async function add(payload: CreateCampaignPayload): Promise<void> {
     scheduled_start: parseDateTimeToISO(payload.date, payload.time),
     script: payload.script,
     voice_id: payload.voice_id,
-    voice_speed: payload.voice_speed,
-    max_retries: payload.max_retries,
     total_contacts: payload.contacts.length,
   };
 

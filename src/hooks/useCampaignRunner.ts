@@ -1,6 +1,8 @@
 import { useCallback, useRef, useState } from "react";
 import { toast } from "sonner";
 import { makeCall, type BotnoiCallResult } from "@/services/botnoiService";
+import { supabase } from "@/lib/supabase";
+import type { TablesInsert } from "@/lib/database.types";
 
 export type RunnerStatus = "idle" | "running" | "paused" | "completed";
 
@@ -44,6 +46,41 @@ export function useCampaignRunner(
     ]);
   }, []);
 
+  const saveCallResult = useCallback(
+    (result: BotnoiCallResult) => {
+      const endedAt = result.timestamp;
+      const startedAt = new Date(
+        new Date(endedAt).getTime() - result.duration,
+      ).toISOString();
+
+      const log: TablesInsert<"call_logs"> = {
+        campaign_id: campaignId,
+        contact_id: result.contactId,
+        call_id: result.callId,
+        status: result.status,
+        duration_seconds: Math.round(result.duration / 1000),
+        started_at: startedAt,
+        ended_at: endedAt,
+      };
+
+      supabase
+        .from("call_logs")
+        .insert(log)
+        .then(({ error }) => {
+          if (error) console.error("call_logs insert failed:", error.message);
+        });
+
+      supabase
+        .from("contacts")
+        .update({ call_status: result.status, last_called_at: endedAt })
+        .eq("id", result.contactId)
+        .then(({ error }) => {
+          if (error) console.error("contacts update failed:", error.message);
+        });
+    },
+    [campaignId],
+  );
+
   const runLoop = useCallback(
     async (startIdx: number) => {
       for (let i = startIdx; i < contacts.length; i++) {
@@ -63,6 +100,7 @@ export function useCampaignRunner(
         });
 
         mergeResult(result);
+        saveCallResult(result);
 
         if (pauseRequestedRef.current) {
           pauseRequestedRef.current = false;
@@ -79,7 +117,7 @@ export function useCampaignRunner(
         toast.success(`✅ รันแคมเปญเสร็จสิ้น — โทรครบ ${contacts.length} คนแล้ว`);
       }
     },
-    [campaignId, contacts, script, voiceId, mergeResult],
+    [campaignId, contacts, script, voiceId, mergeResult, saveCallResult],
   );
 
   const startCampaign = useCallback(() => {
@@ -122,9 +160,12 @@ export function useCampaignRunner(
         contactName: contact.name,
         script,
         voiceId,
-      }).then(mergeResult);
+      }).then((result) => {
+        mergeResult(result);
+        saveCallResult(result);
+      });
     },
-    [campaignId, script, voiceId, mergeResult],
+    [campaignId, script, voiceId, mergeResult, saveCallResult],
   );
 
   const currentContact =
