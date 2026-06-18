@@ -1,6 +1,9 @@
 import { useState, useEffect } from "react";
 import { createFileRoute } from "@tanstack/react-router";
-import { FileText, Mic, Phone, Plus, Minus, ChevronDown, GitBranch, X } from "lucide-react";
+import {
+  FileText, Mic, Phone, Plus, Minus, ChevronDown,
+  GitBranch, X, Loader2,
+} from "lucide-react";
 import { toast } from "sonner";
 
 import { AppLayout } from "@/components/vocera/AppLayout";
@@ -10,9 +13,11 @@ import { SettingsTabs } from "./settings.index";
 import { cn } from "@/lib/utils";
 import { supabase } from "@/lib/supabase";
 import type { TablesInsert } from "@/lib/database.types";
+import { ScriptFlowBuilder, DEFAULT_FLOW } from "@/components/vocera/ScriptFlowBuilder";
+import { useFlowScripts, useCreateFlowScript } from "@/lib/flowStore";
 
 export const Route = createFileRoute("/settings/call-defaults")({
-  head: () => ({ meta: [{ title: "ตั้งค่าการโทรเริ่มต้น — Ringo" }] }),
+  head: () => ({ meta: [{ title: "ตั้งค่าการโทร — Ringo" }] }),
   component: CallDefaultsPage,
 });
 
@@ -54,16 +59,24 @@ const SCRIPT_VARS = ["{ชื่อ}", "{ชื่องาน}", "{ชื่อ
 const INTERVALS = [10, 20, 30, 60];
 
 function CallDefaultsPage() {
+  const [scriptMode, setScriptMode] = useState<"basic" | "flow">("basic");
+
+  // Basic script state
   const [script, setScript] = useState(TEMPLATES[0].script);
   const [activeTemplate, setActiveTemplate] = useState("wedding");
+
+  // Voice & API
   const [apiKey, setApiKey] = useState("");
   const [voice, setVoice] = useState("mali");
   const [speed, setSpeed] = useState(1);
+
+  // Call settings
   const [retries, setRetries] = useState(0);
   const [interval, setIntervalValue] = useState(30);
   const [notifySuccess, setNotifySuccess] = useState(false);
   const [notifyLowPoints, setNotifyLowPoints] = useState(false);
 
+  // Keyword detection
   const [confirmKw, setConfirmKw] = useState(["ไป", "จะไป", "ได้เลย", "ยืนยัน"]);
   const [rejectKw, setRejectKw] = useState(["ไม่ไป", "ไม่ได้", "ติดธุระ", "ปฏิเสธ"]);
   const [unclearAction, setUnclearAction] = useState<"repeat" | "log">("repeat");
@@ -72,6 +85,10 @@ function CallDefaultsPage() {
   const [confirmResponse, setConfirmResponse] = useState("ขอบคุณค่ะ เราจะรอต้อนรับท่านในวันงานค่ะ");
   const [rejectResponse, setRejectResponse] = useState("ขอบคุณค่ะ หากเปลี่ยนใจสามารถติดต่อกลับได้เลยนะคะ");
   const [unclearResponse, setUnclearResponse] = useState("ขอบคุณค่ะ");
+
+  // Flow scripts
+  const { data: scripts = [], isLoading: flowLoading } = useFlowScripts();
+  const create = useCreateFlowScript();
 
   useEffect(() => {
     supabase.auth.getUser().then(({ data: { user } }) => {
@@ -156,168 +173,267 @@ function CallDefaultsPage() {
     toast.success("บันทึกการตั้งค่าสำเร็จ");
   };
 
+  const handleCreateFlow = () => {
+    create.mutate(
+      { name: "สคริปต์ใหม่", content: JSON.stringify(DEFAULT_FLOW) },
+      {
+        onSuccess: () => toast.success("เพิ่มสคริปต์ใหม่แล้ว"),
+        onError: (e: Error) => toast.error(e.message),
+      },
+    );
+  };
+
   return (
     <AppLayout>
       <div className="mx-auto max-w-5xl px-8 py-8">
+        {/* Page header */}
         <div className="mb-6 flex items-center justify-between">
           <h1 className="text-2xl font-bold text-brand-700">ตั้งค่า</h1>
-          <Button variant="primary" size="sm" onClick={handleSave}>
-            บันทึก
-          </Button>
+          {scriptMode === "basic" && (
+            <Button variant="primary" size="sm" onClick={handleSave}>
+              บันทึก
+            </Button>
+          )}
         </div>
 
         <SettingsTabs />
 
-        {/* Script card */}
+        {/* ── Script card ── */}
         <div className="mb-4 rounded-2xl bg-white p-5 shadow-card">
-          <div className="flex items-center gap-2">
-            <span className="flex h-9 w-9 items-center justify-center rounded-full bg-brand-100 text-brand-700">
-              <FileText className="h-4 w-4" />
-            </span>
-            <h3 className="font-semibold text-gray-800">สคริปต์การโทร</h3>
-          </div>
+          {/* Card header with mode toggle */}
+          <div className="flex items-start justify-between gap-4 flex-wrap">
+            <div className="flex items-center gap-2">
+              <span className="flex h-9 w-9 items-center justify-center rounded-full bg-brand-100 text-brand-700">
+                {scriptMode === "basic" ? <FileText className="h-4 w-4" /> : <GitBranch className="h-4 w-4" />}
+              </span>
+              <div>
+                <h3 className="font-semibold text-gray-800">สคริปต์การโทร</h3>
+                <p className="text-xs text-gray-400">
+                  {scriptMode === "basic"
+                    ? "บอตพูดตามสคริปต์ · AI ตรวจจับคำตอบด้วย keyword"
+                    : "บอตพูดตาม Flow · รอผู้รับสายกด 1 หรือ 2"}
+                </p>
+              </div>
+            </div>
 
-          <div className="mt-4">
-            <p className="mb-2 text-xs font-medium text-gray-500">เลือก Template</p>
-            <div className="flex flex-wrap gap-2">
-              {TEMPLATES.map((t) => (
+            {/* Segmented control */}
+            <div className="flex rounded-full border border-gray-200 bg-gray-50 p-0.5 gap-0.5 shrink-0">
+              {[
+                { id: "basic", icon: FileText, label: "สคริปต์ด่วน" },
+                { id: "flow",  icon: GitBranch, label: "Flow ขั้นสูง" },
+              ].map(({ id, icon: Icon, label }) => (
                 <button
-                  key={t.id}
+                  key={id}
                   type="button"
-                  onClick={() => handleTemplate(t)}
+                  onClick={() => setScriptMode(id as "basic" | "flow")}
                   className={cn(
-                    "rounded-full border px-3.5 py-1.5 text-sm font-medium transition-colors",
-                    activeTemplate === t.id
-                      ? "border-brand-700 bg-brand-50 text-brand-700"
-                      : "border-gray-200 bg-white text-gray-600 hover:border-brand-300",
+                    "flex items-center gap-1.5 rounded-full px-4 py-1.5 text-sm font-medium transition-all",
+                    scriptMode === id
+                      ? "bg-white shadow-sm text-brand-700 border border-gray-100"
+                      : "text-gray-400 hover:text-gray-600",
                   )}
                 >
-                  {t.label}
+                  <Icon className="h-3.5 w-3.5" />
+                  {label}
                 </button>
               ))}
             </div>
           </div>
 
-          <textarea
-            value={script}
-            onChange={(e) => { setScript(e.target.value); setActiveTemplate(""); }}
-            className="mt-4 min-h-40 w-full rounded-xl border border-brand-200 bg-brand-50 p-4 text-sm text-gray-700 outline-none focus:border-brand-700"
-            maxLength={2000}
-            placeholder="พิมพ์สคริปต์ที่ AI จะพูดเมื่อโทรออก..."
-            spellCheck={false}
-          />
-          <div className="mt-2 flex items-center justify-between">
-            <div className="flex flex-wrap items-center gap-2">
-              <span className="text-xs text-gray-500">ตัวแปร:</span>
-              {SCRIPT_VARS.map((v) => (
-                <span
-                  key={v}
-                  className="rounded-full bg-brand-100 px-3 py-1 text-xs font-medium text-brand-700"
-                >
-                  {v}
-                </span>
-              ))}
-            </div>
-            <span className="shrink-0 text-xs text-gray-400">{script.length}/2000</span>
-          </div>
-        </div>
-
-        {/* Call Flow card */}
-        <div className="mb-4 rounded-2xl bg-white p-5 shadow-card">
-          <div className="flex items-center gap-2">
-            <span className="flex h-9 w-9 items-center justify-center rounded-full bg-brand-100 text-brand-700">
-              <GitBranch className="h-4 w-4" />
-            </span>
-            <div>
-              <h3 className="font-semibold text-gray-800">Call Flow</h3>
-              <p className="text-xs text-gray-400">กำหนดคำสำคัญที่ระบบใช้ตัดสินว่าผู้รับสายตอบว่าอะไร</p>
-            </div>
-          </div>
-
-          <div className="mt-5 grid grid-cols-3 gap-6">
-            <KwSection
-              icon="✅"
-              label="ยืนยัน"
-              keywords={confirmKw}
-              newKw={confirmNewKw}
-              onNewKwChange={setConfirmNewKw}
-              onAdd={() => addKw("confirm")}
-              onRemove={(i) => removeKw("confirm", i)}
-              chipClass="bg-green-100 text-green-700"
-              inputBorderClass="border-green-200 focus-within:border-green-400"
-              response={confirmResponse}
-              onResponseChange={setConfirmResponse}
-            />
-
-            <KwSection
-              icon="❌"
-              label="ปฏิเสธ"
-              keywords={rejectKw}
-              newKw={rejectNewKw}
-              onNewKwChange={setRejectNewKw}
-              onAdd={() => addKw("reject")}
-              onRemove={(i) => removeKw("reject", i)}
-              chipClass="bg-red-100 text-red-700"
-              inputBorderClass="border-red-200 focus-within:border-red-400"
-              response={rejectResponse}
-              onResponseChange={setRejectResponse}
-            />
-
-            <div>
-              <div className="mb-3 flex items-center gap-1.5">
-                <span className="text-sm">❓</span>
-                <span className="text-sm font-semibold text-gray-700">ไม่เข้าใจ</span>
-              </div>
-              <p className="mb-3 text-xs text-gray-400">เมื่อไม่ตรงกับ keyword ใดเลย</p>
-              <div className="flex flex-col gap-2">
-                {[
-                  { value: "repeat", label: "🔁 พูดซ้ำอีกครั้ง" },
-                  { value: "log", label: "📝 บันทึกเป็น ไม่ทราบ" },
-                ].map((opt) => (
+          {/* ── Basic mode ── */}
+          {scriptMode === "basic" && (
+            <div className="mt-5">
+              <p className="mb-2 text-xs font-medium text-gray-500">เลือก Template</p>
+              <div className="flex flex-wrap gap-2">
+                {TEMPLATES.map((t) => (
                   <button
-                    key={opt.value}
+                    key={t.id}
                     type="button"
-                    onClick={() => setUnclearAction(opt.value as "repeat" | "log")}
+                    onClick={() => handleTemplate(t)}
                     className={cn(
-                      "rounded-xl border-2 p-3 text-left text-sm transition-all",
-                      unclearAction === opt.value
-                        ? "border-brand-700 bg-brand-50 font-semibold text-brand-700"
-                        : "border-gray-200 bg-white text-gray-600 hover:border-gray-300",
+                      "rounded-full border px-3.5 py-1.5 text-sm font-medium transition-colors",
+                      activeTemplate === t.id
+                        ? "border-brand-700 bg-brand-50 text-brand-700"
+                        : "border-gray-200 bg-white text-gray-600 hover:border-brand-300",
                     )}
                   >
-                    {opt.label}
+                    {t.label}
                   </button>
                 ))}
               </div>
-              {unclearAction === "log" && (
-                <div className="mt-3 border-t border-gray-100 pt-3">
-                  <p className="mb-1.5 text-xs text-gray-400">AI ตอบกลับ:</p>
-                  <textarea
-                    value={unclearResponse}
-                    onChange={(e) => setUnclearResponse(e.target.value)}
-                    rows={2}
-                    spellCheck={false}
-                    placeholder="ข้อความปิดท้ายก่อนวางสาย..."
-                    className="w-full resize-none rounded-xl border border-gray-200 bg-gray-50 px-3 py-2 text-sm text-gray-700 outline-none focus:border-brand-700 focus:bg-white"
-                  />
+
+              <textarea
+                value={script}
+                onChange={(e) => { setScript(e.target.value); setActiveTemplate(""); }}
+                className="mt-4 min-h-40 w-full rounded-xl border border-brand-200 bg-brand-50 p-4 text-sm text-gray-700 outline-none focus:border-brand-700"
+                maxLength={2000}
+                placeholder="พิมพ์สคริปต์ที่ AI จะพูดเมื่อโทรออก..."
+                spellCheck={false}
+              />
+              <div className="mt-2 flex items-center justify-between">
+                <div className="flex flex-wrap items-center gap-2">
+                  <span className="text-xs text-gray-500">ตัวแปร:</span>
+                  {SCRIPT_VARS.map((v) => (
+                    <span key={v} className="rounded-full bg-brand-100 px-3 py-1 text-xs font-medium text-brand-700">
+                      {v}
+                    </span>
+                  ))}
+                </div>
+                <span className="shrink-0 text-xs text-gray-400">{script.length}/2000</span>
+              </div>
+            </div>
+          )}
+
+          {/* ── Flow mode ── */}
+          {scriptMode === "flow" && (
+            <div className="mt-5">
+              <div className="flex items-center justify-between mb-4">
+                <p className="text-sm text-gray-400">
+                  รองรับตัวแปร: {"{ชื่อ}, {ชื่องาน}, {วันที่}, {เวลา}"}
+                </p>
+                <Button
+                  variant="secondary"
+                  size="sm"
+                  onClick={handleCreateFlow}
+                  disabled={create.isPending}
+                  className="gap-1.5"
+                >
+                  {create.isPending
+                    ? <Loader2 className="h-3.5 w-3.5 animate-spin" />
+                    : <Plus className="h-3.5 w-3.5" />}
+                  เพิ่มสคริปต์
+                </Button>
+              </div>
+
+              {flowLoading ? (
+                <div className="flex justify-center py-12">
+                  <Loader2 className="h-6 w-6 animate-spin text-brand-700" />
+                </div>
+              ) : scripts.length === 0 ? (
+                <div className="flex flex-col items-center justify-center rounded-2xl border-2 border-dashed border-gray-200 py-16 gap-4">
+                  <div className="flex h-16 w-16 items-center justify-center rounded-2xl bg-brand-50">
+                    <GitBranch className="h-8 w-8 text-brand-300" />
+                  </div>
+                  <div className="text-center">
+                    <p className="font-semibold text-gray-700">ยังไม่มีสคริปต์</p>
+                    <p className="text-sm text-gray-400 mt-1">คลิก "เพิ่มสคริปต์" เพื่อสร้าง Flow แรก</p>
+                  </div>
+                  <Button variant="secondary" size="sm" onClick={handleCreateFlow} disabled={create.isPending}>
+                    {create.isPending
+                      ? <Loader2 className="h-3.5 w-3.5 animate-spin" />
+                      : <Plus className="h-3.5 w-3.5" />}
+                    เพิ่มสคริปต์ใหม่
+                  </Button>
+                </div>
+              ) : (
+                <div className="space-y-6">
+                  {scripts.map((s) => (
+                    <ScriptFlowBuilder key={s.id} script={s} />
+                  ))}
                 </div>
               )}
             </div>
-          </div>
+          )}
         </div>
 
-        {/* Voice + Call settings */}
+        {/* ── Keyword detection card (basic mode only) ── */}
+        {scriptMode === "basic" && (
+          <div className="mb-4 rounded-2xl bg-white p-5 shadow-card">
+            <div className="flex items-center gap-2 mb-5">
+              <span className="flex h-9 w-9 items-center justify-center rounded-full bg-brand-100 text-brand-700">
+                <GitBranch className="h-4 w-4" />
+              </span>
+              <div>
+                <h3 className="font-semibold text-gray-800">การรับรู้คำตอบ</h3>
+                <p className="text-xs text-gray-400">กำหนด keyword ที่ AI ใช้ตัดสินว่าผู้รับสายตอบว่าอะไร</p>
+              </div>
+            </div>
+
+            <div className="grid grid-cols-3 gap-6">
+              <KwSection
+                icon="✅"
+                label="ยืนยัน"
+                keywords={confirmKw}
+                newKw={confirmNewKw}
+                onNewKwChange={setConfirmNewKw}
+                onAdd={() => addKw("confirm")}
+                onRemove={(i) => removeKw("confirm", i)}
+                chipClass="bg-green-100 text-green-700"
+                inputBorderClass="border-green-200 focus-within:border-green-400"
+                response={confirmResponse}
+                onResponseChange={setConfirmResponse}
+              />
+
+              <KwSection
+                icon="❌"
+                label="ปฏิเสธ"
+                keywords={rejectKw}
+                newKw={rejectNewKw}
+                onNewKwChange={setRejectNewKw}
+                onAdd={() => addKw("reject")}
+                onRemove={(i) => removeKw("reject", i)}
+                chipClass="bg-red-100 text-red-700"
+                inputBorderClass="border-red-200 focus-within:border-red-400"
+                response={rejectResponse}
+                onResponseChange={setRejectResponse}
+              />
+
+              <div>
+                <div className="mb-3 flex items-center gap-1.5">
+                  <span className="text-sm">❓</span>
+                  <span className="text-sm font-semibold text-gray-700">ไม่เข้าใจ</span>
+                </div>
+                <p className="mb-3 text-xs text-gray-400">เมื่อไม่ตรงกับ keyword ใดเลย</p>
+                <div className="flex flex-col gap-2">
+                  {[
+                    { value: "repeat", label: "🔁 พูดซ้ำอีกครั้ง" },
+                    { value: "log", label: "📝 บันทึกเป็น ไม่ทราบ" },
+                  ].map((opt) => (
+                    <button
+                      key={opt.value}
+                      type="button"
+                      onClick={() => setUnclearAction(opt.value as "repeat" | "log")}
+                      className={cn(
+                        "rounded-xl border-2 p-3 text-left text-sm transition-all",
+                        unclearAction === opt.value
+                          ? "border-brand-700 bg-brand-50 font-semibold text-brand-700"
+                          : "border-gray-200 bg-white text-gray-600 hover:border-gray-300",
+                      )}
+                    >
+                      {opt.label}
+                    </button>
+                  ))}
+                </div>
+                {unclearAction === "log" && (
+                  <div className="mt-3 border-t border-gray-100 pt-3">
+                    <p className="mb-1.5 text-xs text-gray-400">AI ตอบกลับ:</p>
+                    <textarea
+                      value={unclearResponse}
+                      onChange={(e) => setUnclearResponse(e.target.value)}
+                      rows={2}
+                      spellCheck={false}
+                      placeholder="ข้อความปิดท้ายก่อนวางสาย..."
+                      className="w-full resize-none rounded-xl border border-gray-200 bg-gray-50 px-3 py-2 text-sm text-gray-700 outline-none focus:border-brand-700 focus:bg-white"
+                    />
+                  </div>
+                )}
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* ── Voice + Call settings ── */}
         <div className="grid grid-cols-2 gap-4">
           {/* Voice card */}
           <div className="rounded-2xl bg-white p-5 shadow-card">
-            <div className="flex items-center gap-2">
+            <div className="flex items-center gap-2 mb-4">
               <span className="flex h-9 w-9 items-center justify-center rounded-full bg-brand-100 text-brand-700">
                 <Mic className="h-4 w-4" />
               </span>
               <h3 className="font-semibold text-gray-800">ตั้งค่าเสียง</h3>
             </div>
 
-            <div className="mt-4 flex flex-col gap-1.5">
+            <div className="flex flex-col gap-1.5 mb-5">
               <label className="text-sm font-medium text-gray-700">BOTNOI API Key</label>
               <input
                 type="password"
@@ -326,66 +442,70 @@ function CallDefaultsPage() {
                 placeholder="ใส่ API Key จาก Voice.botnoi.ai"
                 className="w-full rounded-xl border border-gray-200 px-4 py-3 font-mono text-sm outline-none focus:border-brand-700 focus:ring-1 focus:ring-brand-300"
               />
+              <p className="text-xs text-gray-400">ใช้สำหรับสังเคราะห์เสียง AI ทั้งสองโหมด</p>
             </div>
 
-            <div className="mt-5">
-              <span className="text-sm font-medium text-gray-700">เลือกเสียงพูด</span>
-            </div>
-            <div className="mt-3 grid grid-cols-3 gap-2">
-              {VOICES.map((v) => (
-                <button
-                  key={v.id}
-                  type="button"
-                  onClick={() => setVoice(v.id)}
-                  className={cn(
-                    "rounded-xl border-2 p-3 text-center transition-all",
-                    voice === v.id
-                      ? `${v.active} shadow-sm`
-                      : `border-gray-100 bg-white hover:border-gray-200`,
-                  )}
-                >
-                  <div
-                    className={cn(
-                      "mx-auto flex h-14 w-14 items-center justify-center rounded-full text-3xl",
-                      v.bg,
-                    )}
-                  >
-                    {v.emoji}
-                  </div>
-                  <div className={cn("mt-2 text-sm font-semibold", voice === v.id ? v.text : "text-gray-800")}>
-                    {v.name}
-                  </div>
-                  <div className="text-xs text-gray-400">{v.role}</div>
-                </button>
-              ))}
-            </div>
+            {scriptMode === "basic" ? (
+              <>
+                <div className="mb-3">
+                  <span className="text-sm font-medium text-gray-700">เลือกเสียงพูด</span>
+                </div>
+                <div className="grid grid-cols-3 gap-2">
+                  {VOICES.map((v) => (
+                    <button
+                      key={v.id}
+                      type="button"
+                      onClick={() => setVoice(v.id)}
+                      className={cn(
+                        "rounded-xl border-2 p-3 text-center transition-all",
+                        voice === v.id
+                          ? `${v.active} shadow-sm`
+                          : "border-gray-100 bg-white hover:border-gray-200",
+                      )}
+                    >
+                      <div className={cn("mx-auto flex h-14 w-14 items-center justify-center rounded-full text-3xl", v.bg)}>
+                        {v.emoji}
+                      </div>
+                      <div className={cn("mt-2 text-sm font-semibold", voice === v.id ? v.text : "text-gray-800")}>
+                        {v.name}
+                      </div>
+                      <div className="text-xs text-gray-400">{v.role}</div>
+                    </button>
+                  ))}
+                </div>
 
-            <div className="mt-5">
-              <label className="text-sm font-medium text-gray-700">
-                ความเร็ว: {speed.toFixed(2)}×
-              </label>
-              <input
-                type="range"
-                min={0.5}
-                max={2}
-                step={0.25}
-                value={speed}
-                onChange={(e) => setSpeed(parseFloat(e.target.value))}
-                className="mt-2 w-full accent-brand-700"
-              />
-            </div>
+                <div className="mt-5">
+                  <label className="text-sm font-medium text-gray-700">
+                    ความเร็ว: {speed.toFixed(2)}×
+                  </label>
+                  <input
+                    type="range"
+                    min={0.5}
+                    max={2}
+                    step={0.25}
+                    value={speed}
+                    onChange={(e) => setSpeed(parseFloat(e.target.value))}
+                    className="mt-2 w-full accent-brand-700"
+                  />
+                </div>
+              </>
+            ) : (
+              <div className="rounded-xl border border-brand-100 bg-brand-50 px-4 py-3 text-sm text-brand-700">
+                ในโหมด Flow เสียงและความเร็วจะตั้งค่าแยกต่อสคริปต์ ผ่าน VoicePicker ในแต่ละ Flow
+              </div>
+            )}
           </div>
 
           {/* Call settings card */}
           <div className="rounded-2xl bg-white p-5 shadow-card">
-            <div className="flex items-center gap-2">
+            <div className="flex items-center gap-2 mb-4">
               <span className="flex h-9 w-9 items-center justify-center rounded-full bg-brand-100 text-brand-700">
                 <Phone className="h-4 w-4" />
               </span>
               <h3 className="font-semibold text-gray-800">ตั้งค่าการโทร</h3>
             </div>
 
-            <div className="mt-4">
+            <div>
               <label className="text-sm font-medium text-gray-700">
                 จำนวนครั้งโทรซ้ำสูงสุด{" "}
                 <span className="font-normal text-gray-400">(กรณีที่ปลายสายไม่รับ)</span>
@@ -420,9 +540,7 @@ function CallDefaultsPage() {
                   className="w-full appearance-none rounded-xl border border-gray-200 bg-white px-4 py-2.5 pr-9 text-sm outline-none focus:border-brand-700"
                 >
                   {INTERVALS.map((m) => (
-                    <option key={m} value={m}>
-                      {m} นาที
-                    </option>
+                    <option key={m} value={m}>{m} นาที</option>
                   ))}
                 </select>
                 <ChevronDown className="pointer-events-none absolute right-3 top-1/2 h-4 w-4 -translate-y-1/2 text-gray-400" />
@@ -449,7 +567,6 @@ function CallDefaultsPage() {
             </div>
           </div>
         </div>
-
       </div>
     </AppLayout>
   );
@@ -478,10 +595,7 @@ function KwSection({ icon, label, keywords, newKw, onNewKwChange, onAdd, onRemov
       </div>
       <div className="mb-3 flex flex-wrap gap-1.5">
         {keywords.map((kw, i) => (
-          <span
-            key={i}
-            className={cn("flex items-center gap-1 rounded-full px-2.5 py-1 text-xs font-medium", chipClass)}
-          >
+          <span key={i} className={cn("flex items-center gap-1 rounded-full px-2.5 py-1 text-xs font-medium", chipClass)}>
             {kw}
             <button
               type="button"
