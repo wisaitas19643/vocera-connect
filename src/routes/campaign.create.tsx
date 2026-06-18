@@ -22,6 +22,8 @@ import * as campaignStore from "@/lib/campaignStore";
 import { RequireAuth } from "@/components/vocera/RequireAuth";
 import { supabase } from "@/lib/supabase";
 
+interface DbTemplate { id: string; name: string; script: string; }
+
 export const Route = createFileRoute("/campaign/create")({
   head: () => ({ meta: [{ title: "Create campaign — Ringo" }] }),
   component: CampaignCreatePage,
@@ -67,6 +69,8 @@ function CampaignCreatePageInner() {
   // Step 2 state
   const [script, setScript] = useState(DEFAULT_SCRIPT);
   const [voice, setVoice] = useState("41");
+  const [dbTemplates, setDbTemplates] = useState<DbTemplate[]>([]);
+  const [activeTemplate, setActiveTemplate] = useState("");
 
   useEffect(() => {
     supabase.auth.getUser().then(({ data: { user } }) => {
@@ -80,6 +84,12 @@ function CampaignCreatePageInner() {
           if (data?.default_script) setScript(data.default_script);
           if (data?.voice_id) setVoice(data.voice_id);
         });
+      supabase
+        .from("script_templates")
+        .select("id, name, script")
+        .eq("user_id", user.id)
+        .order("created_at")
+        .then(({ data }) => { if (data?.length) setDbTemplates(data); });
     });
   }, []);
 
@@ -285,21 +295,40 @@ function CampaignCreatePageInner() {
                 <span className="flex h-9 w-9 items-center justify-center rounded-full bg-brand-100 text-brand-700">
                   <FileText className="h-4 w-4" />
                 </span>
-                <h3 className="font-semibold text-gray-800">สคริปต์การโทร (ค่าเริ่มต้น)</h3>
+                <h3 className="font-semibold text-gray-800">สคริปต์การโทร</h3>
               </div>
+              {dbTemplates.length > 0 && (
+                <div className="mt-4">
+                  <p className="mb-2 text-xs font-medium text-gray-500">เลือก Template</p>
+                  <div className="flex flex-wrap gap-2">
+                    {dbTemplates.map((t) => (
+                      <button
+                        key={t.id}
+                        type="button"
+                        onClick={() => { setScript(t.script); setActiveTemplate(t.id); }}
+                        className={cn(
+                          "rounded-full border px-3.5 py-1.5 text-sm font-medium transition-colors",
+                          activeTemplate === t.id
+                            ? "border-brand-700 bg-brand-50 text-brand-700"
+                            : "border-gray-200 bg-white text-gray-600 hover:border-brand-300",
+                        )}
+                      >
+                        {t.name}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+              )}
               <textarea
                 value={script}
-                onChange={(e) => setScript(e.target.value)}
+                onChange={(e) => { setScript(e.target.value); setActiveTemplate(""); }}
                 className="mt-4 min-h-40 w-full rounded-xl border border-brand-200 bg-brand-50 p-4 text-sm text-gray-700 outline-none focus:border-brand-700"
                 maxLength={2000}
               />
               <div className="mt-3 flex flex-wrap items-center gap-2">
                 <span className="text-xs text-gray-500">ตัวแปรที่ใช้ได้:</span>
                 {["{Org_name}", "{Appointment Date}", "{Appointment Time}"].map((v) => (
-                  <span
-                    key={v}
-                    className="rounded-full bg-brand-100 px-3 py-1 text-xs font-medium text-brand-700"
-                  >
+                  <span key={v} className="rounded-full bg-brand-100 px-3 py-1 text-xs font-medium text-brand-700">
                     {v}
                   </span>
                 ))}
