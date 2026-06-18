@@ -4,10 +4,10 @@ import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
 const BOTNOI_API_KEY = Deno.env.get("BOTNOI_API_KEY") ?? "";
 const BOTNOI_BASE = "https://api-voice.botnoi.ai/api/voicebot";
 
-const VOICE_MAP: Record<string, string> = {
-  mali: "523",
-  samorn: "523",
-  somchai: "523",
+const LEGACY_VOICE_MAP: Record<string, string> = {
+  mali: "41",
+  samorn: "8",
+  somchai: "4",
 };
 
 const CORS = {
@@ -38,6 +38,7 @@ serve(async (req) => {
     let confirmMessage = "ขอบคุณค่ะ ยืนยันเรียบร้อยแล้วค่ะ";
     let declineMessage = "ขอบคุณค่ะ รับทราบค่ะ";
     let fallbackMessage = "ขอบคุณค่ะ";
+    let orgName = "Ringo";
 
     if (campaignId) {
       const supabase = createClient(
@@ -57,19 +58,27 @@ serve(async (req) => {
       }
 
       if (camp?.user_id) {
-        const { data: settings } = await supabase
-          .from("user_settings")
-          .select("confirm_response, reject_response, unclear_response")
-          .eq("user_id", camp.user_id)
-          .single();
+        const [{ data: settings }, { data: profile }] = await Promise.all([
+          supabase
+            .from("user_settings")
+            .select("confirm_response, reject_response, unclear_response")
+            .eq("user_id", camp.user_id)
+            .single(),
+          supabase
+            .from("profiles")
+            .select("org_name")
+            .eq("id", camp.user_id)
+            .single(),
+        ]);
 
         if (settings?.confirm_response) confirmMessage = settings.confirm_response;
         if (settings?.reject_response) declineMessage = settings.reject_response;
         if (settings?.unclear_response) fallbackMessage = settings.unclear_response;
+        if (profile?.org_name) orgName = profile.org_name;
       }
     }
 
-    const speakerId = VOICE_MAP[voiceId] ?? "523";
+    const speakerId = LEGACY_VOICE_MAP[voiceId] ?? voiceId ?? "41";
 
     // ── Step 1: สร้าง Template ──
     const tplRes = await fetch(`${BOTNOI_BASE}/confirm/create_template`, {
@@ -80,7 +89,7 @@ serve(async (req) => {
         confirm_message: confirmMessage,
         decline_message: declineMessage,
         fallback_message: fallbackMessage,
-        org_name: "Ringo",
+        org_name: orgName,
         speaker_id: speakerId,
       }),
     });
