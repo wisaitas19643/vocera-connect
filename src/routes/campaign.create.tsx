@@ -42,9 +42,9 @@ const DEFAULT_SCRIPT = `สวัสดีค่ะ ดิฉันโทรม�
 ท่านสะดวกเข้าร่วมได้ไหมคะ?`;
 
 const VOICES = [
-  { id: "mali", name: "มะลิ", role: "ผู้หญิง-สดใส" },
-  { id: "samorn", name: "สมร", role: "ผู้หญิง-ทางการ" },
-  { id: "somchai", name: "สมชาย", role: "ผู้ชาย-สุขุม" },
+  { id: "41", name: "ไชเรน", role: "ผู้หญิง-วัยรุ่น" },
+  { id: "8",  name: "เอวา",  role: "ผู้หญิง-วัยผู้ใหญ่" },
+  { id: "4",  name: "สโม้ค", role: "ผู้ชาย-วัยผู้ใหญ่" },
 ];
 
 
@@ -66,7 +66,7 @@ function CampaignCreatePageInner() {
 
   // Step 2 state
   const [script, setScript] = useState(DEFAULT_SCRIPT);
-  const [voice, setVoice] = useState("mali");
+  const [voice, setVoice] = useState("41");
 
   useEffect(() => {
     supabase.auth.getUser().then(({ data: { user } }) => {
