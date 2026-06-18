@@ -1,12 +1,13 @@
 import { useState, useEffect } from "react";
 import { createFileRoute, Link, useRouterState } from "@tanstack/react-router";
-import { User, Coins, Clock, Camera } from "lucide-react";
+import { User, Coins, Clock } from "lucide-react";
 import { toast } from "sonner";
 
 import { AppLayout } from "@/components/vocera/AppLayout";
 import { Button } from "@/components/vocera/Button";
 import { cn } from "@/lib/utils";
 import { useAuth } from "@/lib/useAuth";
+import { usePoints } from "@/lib/PointsContext";
 import { supabase } from "@/lib/supabase";
 
 export const Route = createFileRoute("/settings/")({
@@ -14,24 +15,28 @@ export const Route = createFileRoute("/settings/")({
   component: SettingsPage,
 });
 
-const HISTORY = [
-  { name: "แคมเปญประชุมผู้ถือหุ้นประจำปี 2026", date: "12/04/2026", amount: -300 },
-  { name: "แคมเปญอบรมพนักงานใหม่รุ่นที่ 12", date: "12/04/2026", amount: -125 },
-  { name: "เติม Point", date: "09/04/2026", amount: 1000 },
-];
-
 function SettingsPage() {
   const { user } = useAuth();
+  const { pointsBalance } = usePoints();
   const [editing, setEditing] = useState(false);
   const [saving, setSaving] = useState(false);
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
+  const [orgName, setOrgName] = useState("");
 
   useEffect(() => {
-    if (user) {
-      setName(user.user_metadata?.full_name ?? "");
-      setEmail(user.email ?? "");
-    }
+    if (!user) return;
+    setName(user.user_metadata?.full_name ?? "");
+    setEmail(user.email ?? "");
+    // โหลด org_name จาก profiles table
+    supabase
+      .from("profiles")
+      .select("org_name")
+      .eq("id", user.id)
+      .single()
+      .then(({ data }) => {
+        if (data?.org_name) setOrgName(data.org_name);
+      });
   }, [user]);
 
   const avatarLetter = (user?.user_metadata?.full_name || user?.email || "?")
@@ -39,10 +44,17 @@ function SettingsPage() {
     .toUpperCase();
 
   const handleSave = async () => {
+    if (!user) return;
     setSaving(true);
-    const { error } = await supabase.auth.updateUser({ data: { full_name: name } });
+    // 1. อัพชื่อคนใน Supabase Auth
+    const { error: authError } = await supabase.auth.updateUser({ data: { full_name: name } });
+    // 2. อัพ org_name ใน profiles table
+    const { error: profileError } = await supabase
+      .from("profiles")
+      .update({ org_name: orgName || null })
+      .eq("id", user.id);
     setSaving(false);
-    if (error) {
+    if (authError || profileError) {
       toast.error("บันทึกไม่สำเร็จ");
     } else {
       toast.success("บันทึกข้อมูลสำเร็จ");
@@ -69,17 +81,8 @@ function SettingsPage() {
 
             {/* Avatar */}
             <div className="mb-6 flex justify-center">
-              <div className="relative">
-                <div className="flex h-24 w-24 items-center justify-center rounded-full border-2 border-brand-700 bg-brand-100 text-2xl font-bold text-brand-700">
-                  {avatarLetter}
-                </div>
-                <button
-                  type="button"
-                  className="absolute bottom-0 right-0 flex h-7 w-7 items-center justify-center rounded-full bg-white shadow-card"
-                  aria-label="เปลี่ยนรูปโปรไฟล์"
-                >
-                  <Camera className="h-3.5 w-3.5 text-gray-500" />
-                </button>
+              <div className="flex h-24 w-24 items-center justify-center rounded-full border-2 border-brand-700 bg-brand-100 text-2xl font-bold text-brand-700">
+                {avatarLetter}
               </div>
             </div>
 
@@ -103,6 +106,19 @@ function SettingsPage() {
                 />
                 {editing && (
                   <p className="text-xs text-gray-400">การเปลี่ยนอีเมลต้องยืนยันผ่านอีเมลเดิม</p>
+                )}
+              </FormField>
+              <FormField label="ชื่อองค์กร">
+                <input
+                  type="text"
+                  value={orgName}
+                  onChange={(e) => setOrgName(e.target.value)}
+                  disabled={!editing}
+                  placeholder="เช่น บริษัท ABC จำกัด"
+                  className={fieldInput(!editing)}
+                />
+                {editing && (
+                  <p className="text-xs text-gray-400">ใช้เป็นชื่อองค์กรในระบบโทรออก BOTNOI</p>
                 )}
               </FormField>
             </div>
@@ -140,52 +156,26 @@ function SettingsPage() {
               </div>
               <div className="mb-1 flex items-baseline justify-between">
                 <span className="text-sm text-gray-600">Point คงเหลือ</span>
-                <span className="text-2xl font-bold text-brand-700">3,000</span>
+                <span className="text-2xl font-bold text-brand-700">
+                  {pointsBalance !== null ? pointsBalance.toLocaleString() : "—"}
+                </span>
               </div>
               <p className="mb-4 text-xs text-gray-400">หัก 1 point ต่อ 1 การโทร</p>
-              <Button variant="secondary" className="w-full">
+              <Button variant="secondary" className="w-full" disabled>
                 ⊕ เติม point
               </Button>
+              <p className="mt-2 text-center text-xs text-gray-400">ติดต่อทีมงานเพื่อเติม Point</p>
             </div>
 
             {/* Point history card */}
             <div className="rounded-2xl bg-white p-5 shadow-card">
-              <div className="mb-4 flex items-center justify-between">
-                <div className="flex items-center gap-2">
-                  <span className="flex h-9 w-9 items-center justify-center rounded-full bg-brand-100">
-                    <Clock className="h-4 w-4 text-brand-700" />
-                  </span>
-                  <span className="font-semibold text-gray-800">ประวัติการใช้ Point</span>
-                </div>
-                <button type="button" className="text-sm text-brand-700 hover:underline">
-                  ดูทั้งหมด
-                </button>
+              <div className="mb-4 flex items-center gap-2">
+                <span className="flex h-9 w-9 items-center justify-center rounded-full bg-brand-100">
+                  <Clock className="h-4 w-4 text-brand-700" />
+                </span>
+                <span className="font-semibold text-gray-800">ประวัติการใช้ Point</span>
               </div>
-
-              <div className="flex flex-col">
-                {HISTORY.map((item, i) => (
-                  <div key={i}>
-                    {i > 0 && <div className="my-3 border-t border-gray-100" />}
-                    <div className="flex items-start justify-between gap-2">
-                      <div className="min-w-0">
-                        <div className="text-sm text-gray-700">{item.name}</div>
-                        <div className="mt-0.5 text-xs text-gray-400">{item.date}</div>
-                      </div>
-                      <span
-                        className={cn(
-                          "shrink-0 text-sm font-semibold",
-                          item.amount > 0 ? "text-green-500" : "text-red-500",
-                        )}
-                      >
-                        {item.amount > 0
-                          ? `+${item.amount.toLocaleString()}`
-                          : item.amount.toLocaleString()}{" "}
-                        point
-                      </span>
-                    </div>
-                  </div>
-                ))}
-              </div>
+              <p className="py-6 text-center text-sm text-gray-400">ยังไม่มีประวัติการใช้ Point</p>
             </div>
           </div>
         </div>

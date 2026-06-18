@@ -16,6 +16,7 @@ export type Database = {
     Tables: {
       call_logs: {
         Row: {
+          botnoi_outbound_id: string | null
           call_id: string | null
           campaign_id: string
           contact_id: string
@@ -29,6 +30,7 @@ export type Database = {
           updated_at: string
         }
         Insert: {
+          botnoi_outbound_id?: string | null
           call_id?: string | null
           campaign_id: string
           contact_id: string
@@ -42,6 +44,7 @@ export type Database = {
           updated_at?: string
         }
         Update: {
+          botnoi_outbound_id?: string | null
           call_id?: string | null
           campaign_id?: string
           contact_id?: string
@@ -73,6 +76,7 @@ export type Database = {
       }
       campaigns: {
         Row: {
+          botnoi_template_id: string | null
           completed_calls: number
           created_at: string
           description: string | null
@@ -90,6 +94,7 @@ export type Database = {
           voice_speed: number
         }
         Insert: {
+          botnoi_template_id?: string | null
           completed_calls?: number
           created_at?: string
           description?: string | null
@@ -107,6 +112,7 @@ export type Database = {
           voice_speed?: number
         }
         Update: {
+          botnoi_template_id?: string | null
           completed_calls?: number
           created_at?: string
           description?: string | null
@@ -216,6 +222,7 @@ export type Database = {
           created_at: string
           full_name: string
           id: string
+          org_name: string | null
           points_balance: number
           updated_at: string
         }
@@ -224,6 +231,7 @@ export type Database = {
           created_at?: string
           full_name?: string
           id: string
+          org_name?: string | null
           points_balance?: number
           updated_at?: string
         }
@@ -232,6 +240,7 @@ export type Database = {
           created_at?: string
           full_name?: string
           id?: string
+          org_name?: string | null
           points_balance?: number
           updated_at?: string
         }

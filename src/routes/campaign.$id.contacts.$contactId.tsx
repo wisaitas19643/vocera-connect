@@ -1,87 +1,108 @@
+import { useState, useEffect } from "react";
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { ChevronLeft, MessageSquare } from "lucide-react";
 
 import { AppLayout } from "@/components/vocera/AppLayout";
 import { StatusBadge, type StatusVariant } from "@/components/vocera/StatusBadge";
 import { cn } from "@/lib/utils";
+import { supabase } from "@/lib/supabase";
 
 export const Route = createFileRoute("/campaign/$id/contacts/$contactId")({
   head: () => ({ meta: [{ title: "รายละเอียดการโทร — Ringo" }] }),
   component: CallDetailPage,
 });
 
-const campaignsById: Record<string, { name: string }> = {
-  "1": { name: "ประชุมผู้ถือหุ้น ประจำปี 2026" },
-  "2": { name: "อบรมพนักงานใหม่ รุ่นที่ 12" },
-  "3": { name: "สัมมนาเทคโนโลยี AI" },
-};
-
-interface ContactData {
-  id: string;
-  name: string;
-  phone: string;
-  status: StatusVariant;
-  date: string;
-  time: string;
-}
-
-const contactsById: Record<string, ContactData> = {
-  "1": { id: "1", name: "กฤษฎา มานะธรรม", phone: "081-234-5678", status: "confirmed", date: "12/04/26", time: "10:32" },
-  "2": { id: "2", name: "พงศกร รัตนสิริ", phone: "089-111-2233", status: "rejected", date: "12/04/26", time: "10:35" },
-  "3": { id: "3", name: "ชนากานต์ ใจดี", phone: "082-555-7788", status: "missed", date: "12/04/26", time: "10:40" },
-  "4": { id: "4", name: "อรทัย ศรีสุข", phone: "086-222-3344", status: "pending", date: "12/04/26", time: "10:42" },
-  "5": { id: "5", name: "ธนกร สุขเกษม", phone: "084-987-6543", status: "confirmed", date: "12/04/26", time: "10:45" },
-  "6": { id: "6", name: "นภัสสร พงษ์ไพศาล", phone: "087-345-2211", status: "confirmed", date: "12/04/26", time: "10:48" },
-  "7": { id: "7", name: "ปวีณา วงศ์วิทย์", phone: "081-998-1122", status: "missed", date: "12/04/26", time: "10:52" },
-  "8": { id: "8", name: "สมชาย ใจกล้า", phone: "083-444-5566", status: "pending", date: "12/04/26", time: "10:55" },
-  "9": { id: "9", name: "วิภาวี ตั้งใจ", phone: "088-321-9988", status: "confirmed", date: "12/04/26", time: "10:58" },
-  "10": { id: "10", name: "เกียรติศักดิ์ พรชัย", phone: "085-654-3210", status: "rejected", date: "12/04/26", time: "11:02" },
-};
-
-type ChatRole = "bot" | "user";
-
 interface ChatMessage {
-  role: ChatRole;
+  role: "ai" | "user";
   text: string;
   time: string;
 }
-
-const MOCK_CONVERSATION: ChatMessage[] = [
-  {
-    role: "bot",
-    text: "สวัสดีค่ะ คุณ xxxx xxxxxx ดิฉันโทรมาจากงานประชุมผู้ถือหุ้น ประจำปี 2026 ต้องการสอบถามเพื่อยืนยันการเข้าร่วมงาน ในวันที่ xx xxx เวลา xx โมง xx นาทีค่ะ กรุณากด 1 เพื่อยืนยัน หรือกด 2 หากไม่สะดวก ขอบคุณค่ะ",
-    time: "10:45:01",
-  },
-  {
-    role: "user",
-    text: "ยืนยันเข้าร่วมงานครับ",
-    time: "10:45:22",
-  },
-  {
-    role: "bot",
-    text: "ขอบคุณมากค่ะ ได้รับการยืนยันเรียบร้อยแล้ว เราจะส่งรายละเอียดงานให้ทางข้อความอีกครั้ง ขอบคุณ และพบกันในงานนะคะ สวัสดีค่ะ",
-    time: "10:46:03",
-  },
-  {
-    role: "user",
-    text: "ครับ ขอบคุณครับ",
-    time: "10:46:22",
-  },
-];
 
 function CallDetailPage() {
   const { id, contactId } = Route.useParams();
   const navigate = useNavigate();
 
-  const campaign = campaignsById[id] ?? { name: `Campaign ${id}` };
-  const contact = contactsById[contactId] ?? {
-    id: contactId,
-    name: `Contact ${contactId}`,
-    phone: "—",
-    status: "pending" as StatusVariant,
-    date: "—",
-    time: "—",
+  const [loading, setLoading] = useState(true);
+  const [campaignName, setCampaignName] = useState("");
+  const [contactName, setContactName] = useState("");
+  const [contactPhone, setContactPhone] = useState("—");
+  const [callStatus, setCallStatus] = useState<StatusVariant>("pending");
+  const [callStartedAt, setCallStartedAt] = useState("");
+  const [messages, setMessages] = useState<ChatMessage[]>([]);
+
+  useEffect(() => {
+    async function load() {
+      const [{ data: camp }, { data: contact }, { data: log }] = await Promise.all([
+        supabase.from("campaigns").select("name").eq("id", id).single(),
+        supabase.from("contacts").select("full_name, phone").eq("id", contactId).single(),
+        supabase
+          .from("call_logs")
+          .select("id, status, started_at")
+          .eq("contact_id", contactId)
+          .order("created_at", { ascending: false })
+          .limit(1)
+          .maybeSingle(),
+      ]);
+
+      if (camp) setCampaignName(camp.name);
+      if (contact) {
+        setContactName(contact.full_name);
+        setContactPhone(contact.phone);
+      }
+      if (log) {
+        setCallStatus(log.status as StatusVariant);
+        setCallStartedAt(log.started_at ?? "");
+
+        const { data: msgs } = await supabase
+          .from("conversation_messages")
+          .select("role, message, created_at")
+          .eq("call_log_id", log.id)
+          .order("created_at");
+
+        if (msgs) {
+          setMessages(
+            msgs.map((m) => ({
+              role: m.role as "ai" | "user",
+              text: m.message,
+              time: new Date(m.created_at).toLocaleTimeString("th-TH", {
+                hour: "2-digit",
+                minute: "2-digit",
+                second: "2-digit",
+                hour12: false,
+              }),
+            })),
+          );
+        }
+      }
+
+      setLoading(false);
+    }
+    load();
+  }, [id, contactId]);
+
+  const formatDate = (iso: string) => {
+    if (!iso) return "—";
+    const d = new Date(iso);
+    return `${String(d.getDate()).padStart(2, "0")}/${String(d.getMonth() + 1).padStart(2, "0")}/${String(d.getFullYear()).slice(-2)}`;
   };
+
+  const formatTime = (iso: string) => {
+    if (!iso) return "—";
+    const d = new Date(iso);
+    return `${String(d.getHours()).padStart(2, "0")}:${String(d.getMinutes()).padStart(2, "0")}`;
+  };
+
+  if (loading) {
+    return (
+      <AppLayout>
+        <div className="flex h-64 items-center justify-center">
+          <p className="text-sm text-gray-400">กำลังโหลด...</p>
+        </div>
+      </AppLayout>
+    );
+  }
+
+  const displayName = contactName || `Contact ${contactId}`;
 
   return (
     <AppLayout>
@@ -101,23 +122,20 @@ function CallDetailPage() {
 
         {/* Contact info card */}
         <div className="mb-6 flex items-center gap-4 rounded-2xl bg-white p-5 shadow-card">
-          {/* Avatar + name */}
           <div className="flex items-center gap-3 flex-1 min-w-0">
             <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-brand-100 text-lg font-bold text-brand-700">
-              {contact.name.charAt(0)}
+              {displayName.charAt(0)}
             </span>
             <div className="min-w-0">
-              <div className="font-semibold text-gray-800 truncate">{contact.name}</div>
-              <div className="text-sm text-gray-400 truncate">{campaign.name}</div>
+              <div className="font-semibold text-gray-800 truncate">{displayName}</div>
+              <div className="text-sm text-gray-400 truncate">{campaignName}</div>
             </div>
           </div>
-
-          {/* Right meta */}
           <div className="flex items-center gap-5 shrink-0">
-            <span className="text-sm text-gray-600">{contact.phone}</span>
-            <span className="text-sm text-gray-600">{contact.date}</span>
-            <span className="text-sm text-gray-600">{contact.time} น.</span>
-            <StatusBadge variant={contact.status} />
+            <span className="text-sm text-gray-600">{contactPhone}</span>
+            <span className="text-sm text-gray-600">{formatDate(callStartedAt)}</span>
+            <span className="text-sm text-gray-600">{formatTime(callStartedAt)} น.</span>
+            <StatusBadge variant={callStatus} />
           </div>
         </div>
 
@@ -125,23 +143,26 @@ function CallDetailPage() {
         <div className="rounded-2xl bg-white p-5 shadow-card">
           <h2 className="mb-4 font-semibold text-gray-700">ประวัติบทสนทนา</h2>
 
-          {/* Date separator */}
-          <div className="flex justify-center mb-5">
-            <span className="rounded-full bg-gray-50 px-3 py-1 text-xs text-gray-400">
-              11-04-2024
-            </span>
-          </div>
-
-          {/* Messages */}
-          <div className="flex flex-col gap-4">
-            {MOCK_CONVERSATION.map((msg, i) =>
-              msg.role === "bot" ? (
-                <BotMessage key={i} text={msg.text} time={msg.time} />
-              ) : (
-                <UserMessage key={i} text={msg.text} time={msg.time} initial={contact.name.charAt(0)} />
-              ),
-            )}
-          </div>
+          {messages.length === 0 ? (
+            <p className="py-8 text-center text-sm text-gray-400">ยังไม่มีบทสนทนา</p>
+          ) : (
+            <>
+              <div className="flex justify-center mb-5">
+                <span className="rounded-full bg-gray-50 px-3 py-1 text-xs text-gray-400">
+                  {formatDate(callStartedAt)}
+                </span>
+              </div>
+              <div className="flex flex-col gap-4">
+                {messages.map((msg, i) =>
+                  msg.role === "ai" ? (
+                    <BotMessage key={i} text={msg.text} time={msg.time} />
+                  ) : (
+                    <UserMessage key={i} text={msg.text} time={msg.time} initial={displayName.charAt(0)} />
+                  ),
+                )}
+              </div>
+            </>
+          )}
         </div>
       </div>
     </AppLayout>

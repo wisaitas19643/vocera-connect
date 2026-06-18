@@ -1,0 +1,1649 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Product Audit — BOTNOI vs Ringo</title>
+  <style>
+    :root {
+      --brand: #7c3aed;
+      --brand-light: #f5f3ff;
+      --brand-mid: #ede9fe;
+      --green: #10b981;
+      --red: #ef4444;
+      --yellow: #f59e0b;
+      --blue: #3b82f6;
+      --gray-50: #f9fafb;
+      --gray-100: #f3f4f6;
+      --gray-200: #e5e7eb;
+      --gray-400: #9ca3af;
+      --gray-600: #4b5563;
+      --gray-700: #374151;
+      --gray-800: #1f2937;
+      --gray-900: #111827;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans Thai', sans-serif;
+      background: var(--gray-50);
+      color: var(--gray-800);
+      line-height: 1.7;
+      font-size: 15px;
+    }
+
+    /* ── Layout ── */
+    .layout { display: flex; min-height: 100vh; }
+
+    /* ── Sidebar TOC ── */
+    .sidebar {
+      width: 260px;
+      flex-shrink: 0;
+      position: fixed;
+      top: 0; left: 0;
+      height: 100vh;
+      background: white;
+      border-right: 1px solid var(--gray-200);
+      overflow-y: auto;
+      padding: 24px 0;
+      z-index: 100;
+    }
+    .sidebar-logo {
+      display: flex; align-items: center; gap: 10px;
+      padding: 0 20px 20px;
+      border-bottom: 1px solid var(--gray-100);
+      margin-bottom: 16px;
+    }
+    .sidebar-logo-icon {
+      width: 36px; height: 36px; border-radius: 10px;
+      background: var(--brand); display: flex; align-items: center; justify-content: center;
+      color: white; font-size: 18px; flex-shrink: 0;
+    }
+    .sidebar-logo-text { font-weight: 700; font-size: 14px; color: var(--gray-800); line-height: 1.2; }
+    .sidebar-logo-sub { font-size: 11px; color: var(--gray-400); font-weight: 400; }
+
+    .toc-section { padding: 0 12px 8px; }
+    .toc-label {
+      font-size: 10px; font-weight: 700; letter-spacing: 0.08em;
+      text-transform: uppercase; color: var(--gray-400);
+      padding: 0 8px 6px;
+    }
+    .toc-link {
+      display: block; padding: 6px 8px; border-radius: 8px;
+      font-size: 13px; color: var(--gray-600); text-decoration: none;
+      transition: all 0.15s; line-height: 1.4;
+    }
+    .toc-link:hover { background: var(--brand-light); color: var(--brand); }
+    .toc-link.active { background: var(--brand-light); color: var(--brand); font-weight: 600; }
+    .toc-sub { padding-left: 16px; font-size: 12px; }
+
+    /* ── Main Content ── */
+    .main { margin-left: 260px; padding: 48px 48px 80px; max-width: 1100px; }
+
+    /* ── Hero ── */
+    .hero {
+      background: linear-gradient(135deg, var(--brand) 0%, #6d28d9 100%);
+      border-radius: 20px; padding: 40px 48px; margin-bottom: 40px; color: white;
+    }
+    .hero-tag {
+      display: inline-block; background: rgba(255,255,255,0.15);
+      border: 1px solid rgba(255,255,255,0.2); border-radius: 100px;
+      font-size: 12px; font-weight: 600; letter-spacing: 0.05em;
+      padding: 4px 14px; margin-bottom: 16px;
+    }
+    .hero h1 { font-size: 32px; font-weight: 800; line-height: 1.2; margin-bottom: 12px; }
+    .hero p { font-size: 15px; opacity: 0.85; max-width: 520px; }
+    .hero-meta {
+      display: flex; gap: 24px; margin-top: 24px; padding-top: 24px;
+      border-top: 1px solid rgba(255,255,255,0.15);
+    }
+    .hero-meta-item { font-size: 12px; opacity: 0.7; }
+    .hero-meta-item strong { display: block; font-size: 16px; font-weight: 700; opacity: 1; margin-bottom: 2px; }
+
+    /* ── Section ── */
+    .section { margin-bottom: 48px; }
+    .section-header {
+      display: flex; align-items: center; gap: 12px;
+      margin-bottom: 24px; padding-bottom: 16px;
+      border-bottom: 2px solid var(--brand-mid);
+    }
+    .section-num {
+      width: 36px; height: 36px; border-radius: 10px;
+      background: var(--brand); color: white;
+      font-size: 14px; font-weight: 700;
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0;
+    }
+    .section-title { font-size: 22px; font-weight: 700; color: var(--gray-900); }
+    .section-sub { font-size: 13px; color: var(--gray-400); margin-top: 2px; }
+
+    h2 { font-size: 18px; font-weight: 700; color: var(--gray-800); margin: 28px 0 14px; }
+    h3 { font-size: 15px; font-weight: 600; color: var(--gray-700); margin: 20px 0 10px; }
+
+    p { margin-bottom: 12px; color: var(--gray-700); }
+
+    /* ── Cards ── */
+    .card {
+      background: white; border-radius: 16px;
+      border: 1px solid var(--gray-200); padding: 24px;
+      margin-bottom: 16px;
+    }
+    .card-title {
+      font-size: 14px; font-weight: 700; color: var(--gray-700);
+      margin-bottom: 12px; display: flex; align-items: center; gap: 8px;
+    }
+    .card-icon {
+      width: 28px; height: 28px; border-radius: 8px;
+      background: var(--brand-light); color: var(--brand);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 14px;
+    }
+
+    .card-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 16px; }
+    .card-grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px; margin-bottom: 16px; }
+
+    /* ── KPI Cards ── */
+    .kpi-row { display: flex; gap: 16px; margin-bottom: 24px; }
+    .kpi {
+      flex: 1; background: white; border-radius: 14px;
+      border: 1px solid var(--gray-200); padding: 20px;
+      text-align: center;
+    }
+    .kpi-val { font-size: 28px; font-weight: 800; color: var(--brand); }
+    .kpi-label { font-size: 12px; color: var(--gray-400); margin-top: 4px; }
+
+    /* ── Tables ── */
+    .table-wrap { overflow-x: auto; margin-bottom: 20px; }
+    table { width: 100%; border-collapse: collapse; font-size: 13px; }
+    thead tr { background: var(--gray-50); }
+    th {
+      padding: 10px 14px; text-align: left; font-size: 11px;
+      font-weight: 700; letter-spacing: 0.05em; text-transform: uppercase;
+      color: var(--gray-400); border-bottom: 1px solid var(--gray-200);
+    }
+    td { padding: 10px 14px; border-bottom: 1px solid var(--gray-100); color: var(--gray-700); vertical-align: top; }
+    tr:last-child td { border-bottom: none; }
+    tr:hover td { background: var(--brand-light); }
+    table td:first-child { font-weight: 500; color: var(--gray-800); }
+
+    /* ── Badges ── */
+    .badge {
+      display: inline-flex; align-items: center; gap: 5px;
+      padding: 3px 10px; border-radius: 100px;
+      font-size: 11px; font-weight: 600; white-space: nowrap;
+    }
+    .badge-green { background: #d1fae5; color: #065f46; }
+    .badge-red { background: #fee2e2; color: #991b1b; }
+    .badge-yellow { background: #fef3c7; color: #92400e; }
+    .badge-blue { background: #dbeafe; color: #1e40af; }
+    .badge-purple { background: var(--brand-mid); color: var(--brand); }
+    .badge-gray { background: var(--gray-100); color: var(--gray-600); }
+
+    /* ── Priority Badges ── */
+    .p0 { background: #fee2e2; color: #991b1b; font-size: 11px; font-weight: 700; padding: 2px 8px; border-radius: 6px; }
+    .p1 { background: #fef3c7; color: #92400e; font-size: 11px; font-weight: 700; padding: 2px 8px; border-radius: 6px; }
+    .p2 { background: #dbeafe; color: #1e40af; font-size: 11px; font-weight: 700; padding: 2px 8px; border-radius: 6px; }
+
+    .effort-s { background: #d1fae5; color: #065f46; font-size: 11px; font-weight: 700; padding: 2px 8px; border-radius: 6px; }
+    .effort-m { background: #fef3c7; color: #92400e; font-size: 11px; font-weight: 700; padding: 2px 8px; border-radius: 6px; }
+    .effort-l { background: #fee2e2; color: #991b1b; font-size: 11px; font-weight: 700; padding: 2px 8px; border-radius: 6px; }
+    .effort-xl { background: #f3e8ff; color: #6b21a8; font-size: 11px; font-weight: 700; padding: 2px 8px; border-radius: 6px; }
+
+    /* ── Code/Monospace ── */
+    pre {
+      background: var(--gray-900); color: #e5e7eb;
+      border-radius: 12px; padding: 20px 24px;
+      font-size: 12.5px; line-height: 1.8; overflow-x: auto;
+      margin: 16px 0; font-family: 'JetBrains Mono', 'Fira Code', 'Courier New', monospace;
+    }
+    code {
+      background: var(--brand-light); color: var(--brand);
+      padding: 2px 6px; border-radius: 5px; font-size: 12px;
+      font-family: 'JetBrains Mono', 'Fira Code', monospace;
+    }
+
+    /* ── Alert/Callout ── */
+    .callout {
+      display: flex; gap: 12px; padding: 16px 20px; border-radius: 12px;
+      margin: 16px 0; font-size: 13px; line-height: 1.6;
+    }
+    .callout-icon { font-size: 18px; flex-shrink: 0; margin-top: 1px; }
+    .callout-warn { background: #fefce8; border: 1px solid #fde68a; }
+    .callout-warn .callout-title { color: #92400e; font-weight: 700; margin-bottom: 4px; }
+    .callout-warn .callout-body { color: #78350f; }
+    .callout-info { background: #eff6ff; border: 1px solid #bfdbfe; }
+    .callout-info .callout-title { color: #1e40af; font-weight: 700; margin-bottom: 4px; }
+    .callout-info .callout-body { color: #1e3a8a; }
+    .callout-danger { background: #fff1f2; border: 1px solid #fecdd3; }
+    .callout-danger .callout-title { color: #9f1239; font-weight: 700; margin-bottom: 4px; }
+    .callout-danger .callout-body { color: #881337; }
+
+    /* ── Task Card ── */
+    .task-card {
+      background: white; border-radius: 14px;
+      border: 1px solid var(--gray-200);
+      margin-bottom: 14px; overflow: hidden;
+    }
+    .task-header {
+      display: flex; align-items: center; gap: 10px;
+      padding: 14px 20px; background: var(--gray-50);
+      border-bottom: 1px solid var(--gray-100);
+      flex-wrap: wrap; gap: 8px;
+    }
+    .task-id { font-family: monospace; font-size: 12px; font-weight: 700; color: var(--brand); }
+    .task-title { font-size: 14px; font-weight: 700; color: var(--gray-800); flex: 1; min-width: 200px; }
+    .task-body { padding: 16px 20px; }
+    .task-file { font-family: monospace; font-size: 11px; color: var(--gray-400); margin-bottom: 8px; }
+    .task-file span { color: var(--brand); }
+    .task-list { list-style: none; }
+    .task-list li {
+      padding: 4px 0; font-size: 13px; color: var(--gray-700);
+      padding-left: 18px; position: relative;
+    }
+    .task-list li::before {
+      content: '→'; position: absolute; left: 0;
+      color: var(--brand); font-size: 11px; top: 5px;
+    }
+    .task-dep {
+      margin-top: 10px; padding-top: 10px; border-top: 1px solid var(--gray-100);
+      font-size: 12px; color: var(--gray-400);
+    }
+    .task-dep span { color: var(--brand); font-weight: 600; }
+    .task-bug {
+      background: #fff1f2; border: 1px solid #fecdd3; border-radius: 8px;
+      padding: 8px 12px; font-size: 12px; color: #9f1239; margin-top: 8px;
+      font-weight: 600;
+    }
+
+    /* ── Comparison Check ── */
+    .check { color: var(--green); font-size: 16px; }
+    .cross { color: var(--red); font-size: 16px; }
+    .warn-icon { color: var(--yellow); font-size: 16px; }
+
+    /* ── IA Tree ── */
+    .ia-tree {
+      background: var(--gray-900); color: #d1fae5;
+      border-radius: 12px; padding: 20px 24px;
+      font-size: 12.5px; line-height: 1.9; overflow-x: auto;
+      margin: 16px 0; font-family: 'JetBrains Mono', 'Fira Code', monospace;
+    }
+
+    /* ── Workflow ── */
+    .workflow {
+      display: flex; gap: 0; margin: 20px 0; overflow-x: auto; padding-bottom: 8px;
+    }
+    .workflow-step {
+      flex-shrink: 0; background: white; border: 1px solid var(--gray-200);
+      border-radius: 12px; padding: 16px 20px; min-width: 160px; text-align: center;
+      position: relative;
+    }
+    .workflow-step + .workflow-step { margin-left: 8px; }
+    .workflow-step::after {
+      content: '→'; position: absolute; right: -18px; top: 50%; transform: translateY(-50%);
+      color: var(--gray-400); font-size: 18px; z-index: 1;
+    }
+    .workflow-step:last-child::after { display: none; }
+    .workflow-num {
+      width: 28px; height: 28px; border-radius: 50%;
+      background: var(--brand); color: white;
+      font-size: 12px; font-weight: 700;
+      display: flex; align-items: center; justify-content: center;
+      margin: 0 auto 8px;
+    }
+    .workflow-title { font-size: 12px; font-weight: 700; color: var(--gray-800); }
+    .workflow-sub { font-size: 11px; color: var(--gray-400); margin-top: 4px; }
+
+    /* ── Strengths/Weaknesses ── */
+    .sw-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin: 16px 0; }
+    .sw-box { background: white; border-radius: 14px; border: 1px solid var(--gray-200); padding: 20px; }
+    .sw-box-title { font-size: 13px; font-weight: 700; margin-bottom: 12px; display: flex; align-items: center; gap: 8px; }
+    .sw-item { font-size: 13px; padding: 7px 0; border-bottom: 1px solid var(--gray-100); display: flex; gap: 10px; line-height: 1.5; }
+    .sw-item:last-child { border-bottom: none; }
+
+    /* ── Sprint Header ── */
+    .sprint-header {
+      background: linear-gradient(135deg, var(--brand) 0%, #6d28d9 100%);
+      color: white; border-radius: 14px; padding: 16px 24px;
+      margin: 28px 0 16px; display: flex; align-items: center; gap: 12px;
+    }
+    .sprint-num {
+      background: rgba(255,255,255,0.2); border-radius: 8px;
+      padding: 4px 12px; font-size: 12px; font-weight: 700;
+    }
+    .sprint-title { font-size: 16px; font-weight: 700; }
+    .sprint-sub { font-size: 12px; opacity: 0.8; }
+
+    /* ── Timeline ── */
+    .timeline { padding-left: 24px; border-left: 2px solid var(--gray-200); margin: 16px 0; }
+    .timeline-item { position: relative; margin-bottom: 24px; }
+    .timeline-dot {
+      position: absolute; left: -31px; top: 4px;
+      width: 12px; height: 12px; border-radius: 50%;
+      background: var(--brand); border: 2px solid white;
+      box-shadow: 0 0 0 2px var(--brand);
+    }
+    .timeline-week { font-size: 12px; font-weight: 700; color: var(--brand); margin-bottom: 6px; }
+    .timeline-tasks { display: flex; flex-wrap: wrap; gap: 6px; }
+    .timeline-task {
+      background: var(--brand-light); color: var(--brand);
+      border-radius: 8px; padding: 4px 10px; font-size: 12px; font-weight: 600;
+    }
+
+    /* ── Do/Don't ── */
+    .do-dont { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin: 16px 0; }
+    .do-box { background: #f0fdf4; border: 1px solid #bbf7d0; border-radius: 14px; padding: 20px; }
+    .dont-box { background: #fff1f2; border: 1px solid #fecdd3; border-radius: 14px; padding: 20px; }
+    .do-title { color: #166534; font-weight: 700; font-size: 13px; margin-bottom: 12px; display: flex; align-items: center; gap: 6px; }
+    .dont-title { color: #9f1239; font-weight: 700; font-size: 13px; margin-bottom: 12px; display: flex; align-items: center; gap: 6px; }
+    .do-item { font-size: 13px; color: #14532d; padding: 6px 0; border-bottom: 1px solid #bbf7d0; display: flex; gap: 8px; }
+    .do-item:last-child { border-bottom: none; }
+    .dont-item { font-size: 13px; color: #881337; padding: 6px 0; border-bottom: 1px solid #fecdd3; display: flex; gap: 8px; }
+    .dont-item:last-child { border-bottom: none; }
+
+    /* ── Divider ── */
+    .divider { border: none; border-top: 1px solid var(--gray-200); margin: 40px 0; }
+
+    /* ── Footnote ── */
+    .footnote {
+      background: var(--gray-50); border: 1px solid var(--gray-200);
+      border-radius: 12px; padding: 16px 20px;
+      font-size: 12px; color: var(--gray-400); margin-top: 16px;
+    }
+
+    /* ── Scrollbar ── */
+    ::-webkit-scrollbar { width: 5px; height: 5px; }
+    ::-webkit-scrollbar-track { background: transparent; }
+    ::-webkit-scrollbar-thumb { background: var(--gray-200); border-radius: 10px; }
+
+    @media (max-width: 900px) {
+      .sidebar { display: none; }
+      .main { margin-left: 0; padding: 24px 20px 60px; }
+      .card-grid, .card-grid-3, .sw-grid, .do-dont { grid-template-columns: 1fr; }
+      .kpi-row { flex-wrap: wrap; }
+    }
+  </style>
+</head>
+<body>
+<div class="layout">
+
+  <!-- ── Sidebar ── -->
+  <nav class="sidebar">
+    <div class="sidebar-logo">
+      <div class="sidebar-logo-icon">📋</div>
+      <div>
+        <div class="sidebar-logo-text">Product Audit</div>
+        <div class="sidebar-logo-sub">BOTNOI vs Ringo · Jun 2026</div>
+      </div>
+    </div>
+
+    <div class="toc-section">
+      <div class="toc-label">ส่วนที่ 1 — BOTNOI Analysis</div>
+      <a href="#ia" class="toc-link">1.1 Information Architecture</a>
+      <a href="#ux" class="toc-link">1.2 UX/UI Analysis</a>
+      <a href="#features" class="toc-link">1.3 Feature Analysis</a>
+      <a href="#datamodel" class="toc-link">1.4 Data Model</a>
+      <a href="#api" class="toc-link">1.5 API Design</a>
+      <a href="#analytics" class="toc-link">1.6 Analytics Metrics</a>
+      <a href="#workflow" class="toc-link">1.7 Workflow</a>
+      <a href="#benchmark" class="toc-link">1.8 Benchmark</a>
+      <a href="#gaps" class="toc-link">1.9 Feature Gaps</a>
+      <a href="#improvements" class="toc-link">1.10 Improvements</a>
+      <a href="#roadmap" class="toc-link">1.11 Roadmap</a>
+    </div>
+
+    <div class="toc-section" style="border-top: 1px solid var(--gray-100); padding-top: 16px; margin-top: 8px;">
+      <div class="toc-label">ส่วนที่ 2 — Ringo Analysis</div>
+      <a href="#ringo-features" class="toc-link">2.1 Feature Inventory</a>
+      <a href="#ringo-gap" class="toc-link">2.2 Gap Analysis</a>
+      <a href="#ringo-bugs" class="toc-link">2.3 Bugs พบ</a>
+    </div>
+
+    <div class="toc-section" style="border-top: 1px solid var(--gray-100); padding-top: 16px; margin-top: 8px;">
+      <div class="toc-label">ส่วนที่ 3 — Action Plan</div>
+      <a href="#sprint0" class="toc-link">Sprint 0 — Foundation</a>
+      <a href="#sprint1" class="toc-link">Sprint 1 — Core</a>
+      <a href="#sprint2" class="toc-link">Sprint 2 — UX</a>
+      <a href="#sprint3" class="toc-link">Sprint 3 — Growth</a>
+      <a href="#timeline" class="toc-link">Timeline</a>
+      <a href="#verdict" class="toc-link">สรุปข้อแนะนำ</a>
+    </div>
+  </nav>
+
+  <!-- ── Main ── -->
+  <main class="main">
+
+    <!-- Hero -->
+    <div class="hero">
+      <div class="hero-tag">COMPETITIVE ANALYSIS · PRODUCT AUDIT</div>
+      <h1>BOTNOI Voice Outbound<br>vs Ringo</h1>
+      <p>Reverse Engineering และ Gap Analysis เพื่อกำหนด Roadmap การพัฒนา Ringo ให้ดีกว่า BOTNOI</p>
+      <div class="hero-meta">
+        <div class="hero-meta-item"><strong>15 มิ.ย. 2569</strong>วันที่ Audit</div>
+        <div class="hero-meta-item"><strong>20 Tasks</strong>Action Items</div>
+        <div class="hero-meta-item"><strong>7 Bugs</strong>พบในโค้ด</div>
+        <div class="hero-meta-item"><strong>3 Sprints</strong>แผนการทำงาน</div>
+      </div>
+    </div>
+
+    <div class="footnote">
+      <strong>หมายเหตุ:</strong> BOTNOI Voice เป็น SPA ที่ต้องล็อกอิน ไม่สามารถ scrape UI ได้โดยตรง
+      การวิเคราะห์อ้างอิงจาก (1) public documentation ของ BOTNOI (2) โค้ด Ringo ที่ integrate กับ BOTNOI API
+      สะท้อน data model จริง (3) Industry standard สำหรับ Voicebot Outbound SaaS
+    </div>
+
+    <hr class="divider" />
+
+    <!-- ═══════════════════════════════════════════ -->
+    <!-- ส่วนที่ 1 — BOTNOI Analysis                -->
+    <!-- ═══════════════════════════════════════════ -->
+
+    <div class="section-header">
+      <div class="section-num">1</div>
+      <div>
+        <div class="section-title">BOTNOI Voice Outbound — Analysis</div>
+        <div class="section-sub">Reverse Engineering ระบบ Outbound Voicebot ของ BOTNOI</div>
+      </div>
+    </div>
+
+    <!-- 1.1 Information Architecture -->
+    <div id="ia" class="section">
+      <h2>1.1 Information Architecture</h2>
+      <div class="ia-tree">
+BOTNOI Voice Platform
+├── 🏠  Dashboard
+│   ├── Total Calls Today / Active Campaigns
+│   ├── Points Balance
+│   └── Recent Activity
+│
+├── 🤖  Voicebot
+│   ├── Outbound  ← ระบบหลักที่วิเคราะห์
+│   │   ├── Campaign List
+│   │   ├── Create Campaign (Wizard 3-5 ขั้น)
+│   │   ├── Campaign Detail + KPIs
+│   │   └── Call Results Table
+│   └── Inbound  ← อีก product แยกออกไป
+│
+├── 👥  Contacts  (Per-campaign, ไม่มี Global Book)
+│   ├── Import CSV
+│   └── Contact List per Campaign
+│
+├── 📋  Call Logs
+│   ├── All Calls (Filter by Campaign/Status)
+│   ├── Recording Playback
+│   └── Transcript View
+│
+├── 📊  Analytics
+│   ├── Overview Dashboard
+│   ├── Campaign Performance Table
+│   ├── Daily/Weekly Charts
+│   └── Export Report
+│
+└── ⚙️  Settings
+    ├── Account & Profile
+    ├── API Key Management
+    ├── Voice Library
+    ├── Notification Settings
+    └── Billing & Points
+      </div>
+    </div>
+
+    <!-- 1.2 UX/UI -->
+    <div id="ux" class="section">
+      <h2>1.2 UX/UI Analysis</h2>
+
+      <div class="sw-grid">
+        <div class="sw-box">
+          <div class="sw-box-title"><span style="color:var(--green)">✅</span> จุดแข็ง (Strengths)</div>
+          <div class="sw-item"><span>🇹🇭</span><span>Thai-first Platform — ภาษา UI, เสียง, script ทำมาเพื่อคนไทยโดยเฉพาะ</span></div>
+          <div class="sw-item"><span>🎙️</span><span>TTS Quality — เสียง BOTNOI เป็นหนึ่งในดีที่สุดในไทย ฟังเป็นธรรมชาติมาก</span></div>
+          <div class="sw-item"><span>🔌</span><span>API-first Architecture — REST API ให้ developer integrate ได้เอง</span></div>
+          <div class="sw-item"><span>💰</span><span>Points System — Prepaid แทน subscription ลดความซับซ้อนด้านการเงิน</span></div>
+          <div class="sw-item"><span>🔧</span><span>No-code Script Builder — ตั้ง keyword + response ไม่ต้องเขียน code</span></div>
+        </div>
+        <div class="sw-box">
+          <div class="sw-box-title"><span style="color:var(--red)">❌</span> จุดอ่อน (Weaknesses)</div>
+          <div class="sw-item"><span>📋</span><span>ไม่มี Global Contact Book — ต้อง upload CSV ใหม่ทุก campaign</span></div>
+          <div class="sw-item"><span>⏰</span><span>Scheduling จำกัด — ไม่มี time-window ที่ยืดหยุ่น</span></div>
+          <div class="sw-item"><span>📊</span><span>Analytics ตื้น — ดูตัวเลขได้แต่ไม่มี drill-down หรือ funnel</span></div>
+          <div class="sw-item"><span>🧠</span><span>ไม่มี Conversation Intelligence — ไม่วิเคราะห์ intent, sentiment</span></div>
+          <div class="sw-item"><span>👥</span><span>ไม่มี Team/Role — ไม่รองรับ multi-user workspace</span></div>
+        </div>
+      </div>
+
+      <h3>UX Pain Points ที่พบ</h3>
+      <div class="callout callout-warn">
+        <span class="callout-icon">⚠️</span>
+        <div>
+          <div class="callout-title">Pain Points หลัก</div>
+          <div class="callout-body">
+            <strong>Upload CSV ซ้ำ</strong> — ทุก campaign ต้อง upload ใหม่แม้ contact list เหมือนกัน |
+            <strong>ไม่รู้ Real-time Progress</strong> — ไม่มี live update ว่ากำลังโทรถึงใคร |
+            <strong>ไม่มี TTS Preview</strong> — ต้อง run จริงถึงจะได้ยินเสียง |
+            <strong>Export ลำบาก</strong> — ไม่มี consolidated report ข้าม campaign |
+            <strong>Point หมดกลางคัน</strong> — แจ้งเตือนช้า campaign หยุดโดยไม่รู้ตัว
+          </div>
+        </div>
+      </div>
+
+      <h3>Layout Patterns ที่ BOTNOI ใช้</h3>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Pattern</th><th>ตำแหน่ง</th><th>วัตถุประสงค์</th></tr></thead>
+          <tbody>
+            <tr><td>Card Grid</td><td>Campaign List</td><td>แสดงรายการ campaign พร้อม KPI summary</td></tr>
+            <tr><td>Data Table</td><td>Contact List, Call Logs</td><td>จัดการข้อมูลจำนวนมาก + filter/sort</td></tr>
+            <tr><td>Step Wizard</td><td>Create Campaign</td><td>ลดความซับซ้อน แบ่งเป็น Step 1→5</td></tr>
+            <tr><td>Modal Overlay</td><td>Quick Edit, Confirm Delete</td><td>Action ที่ไม่ต้องเปลี่ยนหน้า</td></tr>
+            <tr><td>Progress Bar</td><td>Campaign Running</td><td>บอก % ความคืบหน้า real-time</td></tr>
+            <tr><td>Donut Chart</td><td>Analytics</td><td>สัดส่วน call outcomes</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- 1.3 Feature Analysis -->
+    <div id="features" class="section">
+      <h2>1.3 Feature Analysis</h2>
+
+      <h3>A. Campaign Management</h3>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Feature</th><th>ทำอะไร</th><th>Business Purpose</th><th>Backend Logic</th></tr></thead>
+          <tbody>
+            <tr><td>Create Campaign</td><td>สร้าง outbound call campaign</td><td>จัดการกลุ่มการโทร</td><td>INSERT campaigns + bulk INSERT contacts</td></tr>
+            <tr><td>Campaign Status</td><td>draft/scheduled/running/completed/paused</td><td>Track lifecycle</td><td>State machine transitions</td></tr>
+            <tr><td>Pause/Resume</td><td>หยุดและทำต่อระหว่าง run</td><td>User control</td><td>Save cursor + resume from index</td></tr>
+            <tr><td>Clone Campaign</td><td>Copy campaign ใหม่</td><td>ทำซ้ำเร็ว ไม่ต้อง setup ใหม่</td><td>Deep copy + reset status</td></tr>
+            <tr><td>Schedule Campaign</td><td>ตั้งเวลาให้ run อัตโนมัติ</td><td>ไม่ต้องนั่งรอกดเอง</td><td>Cron job / scheduled worker</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h3>B. Call Execution Engine</h3>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Feature</th><th>ทำอะไร</th><th>Backend Logic</th></tr></thead>
+          <tbody>
+            <tr><td>Sequential Dialing</td><td>โทรทีละคน</td><td>Loop with await, save result per call</td></tr>
+            <tr><td>Parallel Dialing</td><td>โทรพร้อมกันหลายสาย</td><td>Worker pool + rate limiting</td></tr>
+            <tr><td>Answer Detection (AMD)</td><td>แยก human vs voicemail</td><td>Answering Machine Detection algorithm</td></tr>
+            <tr><td>Call Recording</td><td>บันทึกเสียงสนทนา</td><td>Stream audio → S3/Cloud Storage</td></tr>
+            <tr><td>Transcript</td><td>แปลงเสียงเป็นข้อความ</td><td>STT (Speech-to-Text)</td></tr>
+            <tr><td>Intent Detection</td><td>ตีความว่า ยืนยัน/ปฏิเสธ</td><td>Keyword matching หรือ NLU</td></tr>
+            <tr><td>Smart Retry</td><td>โทรซ้ำอัจฉริยะ</td><td>Exponential backoff + time-based rules</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="callout callout-warn">
+        <span class="callout-icon">⚠️</span>
+        <div>
+          <div class="callout-title">ข้อควรระวัง — Sequential Dialing Problem</div>
+          <div class="callout-body">ถ้าโทร 1,000 คน แต่ละสายใช้เวลา 30 วินาที = <strong>8+ ชั่วโมง</strong> ในการรัน 1 campaign
+          Parallel Dialing จึงจำเป็นมากสำหรับ scale ที่ใช้งานได้จริง</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 1.4 Data Model -->
+    <div id="datamodel" class="section">
+      <h2>1.4 Data Model (Conceptual ER Diagram)</h2>
+      <pre>
+[Organization]
+  id, name, plan, points_balance
+  └──1:N──► [User]
+               id, org_id, email, role (admin/operator/viewer)
+               └──1:N──► [Campaign]
+                            id, user_id, name, status,
+                            scheduled_start, scheduled_end,
+                            call_window_start, call_window_end,
+                            script_id, voice_id, max_retries,
+                            retry_interval, total_contacts,
+                            completed_calls, created_at
+
+[Contact Group]
+  id, org_id, name
+  └──M:N──► [Contact]
+               id, org_id, full_name, phone, email,
+               tags[], is_opted_out, extra_data (JSONB)
+
+[Campaign] ──M:N──► [Contact]
+  via campaign_contacts:
+    campaign_id, contact_id, status, retry_count, last_called_at
+
+[Campaign] ──1:N──► [Call Log]
+  id, campaign_id, contact_id, call_id (BOTNOI ref),
+  status, started_at, ended_at, duration_seconds,
+  recording_url, transcript_url, amd_result
+
+[Call Log] ──1:N──► [Conversation Message]
+  id, call_log_id, role (bot/user), message,
+  intent (confirmed/rejected/unclear),
+  timestamp_seconds, confidence_score
+
+[Script Template]
+  id, user_id, name, content, variables[],
+  voice_id, voice_speed, type (wedding/meeting/etc)
+
+[Point Transaction]
+  id, user_id, amount, type (credit/debit),
+  reference_id (campaign_id), note, created_at
+
+[Webhook]
+  id, user_id, url, events[], secret, active
+      </pre>
+    </div>
+
+    <!-- 1.5 API Design -->
+    <div id="api" class="section">
+      <h2>1.5 API Design (คาดการณ์)</h2>
+      <div class="card-grid">
+        <div class="card">
+          <div class="card-title"><div class="card-icon">📁</div> Campaign APIs</div>
+          <pre style="margin:0; font-size:11.5px; padding:14px;">POST   /api/v1/campaigns
+GET    /api/v1/campaigns
+GET    /api/v1/campaigns/:id
+PATCH  /api/v1/campaigns/:id
+DELETE /api/v1/campaigns/:id
+POST   /api/v1/campaigns/:id/start
+POST   /api/v1/campaigns/:id/pause
+POST   /api/v1/campaigns/:id/resume
+GET    /api/v1/campaigns/:id/progress</pre>
+        </div>
+        <div class="card">
+          <div class="card-title"><div class="card-icon">👥</div> Contact APIs</div>
+          <pre style="margin:0; font-size:11.5px; padding:14px;">POST   /api/v1/contacts/import
+GET    /api/v1/contacts
+POST   /api/v1/contacts
+GET    /api/v1/contacts/:id
+PATCH  /api/v1/contacts/:id
+DELETE /api/v1/contacts/:id
+POST   /api/v1/contacts/:id/opt-out</pre>
+        </div>
+        <div class="card">
+          <div class="card-title"><div class="card-icon">📞</div> Call APIs</div>
+          <pre style="margin:0; font-size:11.5px; padding:14px;">POST   /api/v1/calls
+GET    /api/v1/calls
+GET    /api/v1/calls/:id
+GET    /api/v1/calls/:id/recording
+GET    /api/v1/calls/:id/transcript
+POST   /api/v1/calls/:id/retry</pre>
+        </div>
+        <div class="card">
+          <div class="card-title"><div class="card-icon">📊</div> Analytics APIs</div>
+          <pre style="margin:0; font-size:11.5px; padding:14px;">GET    /api/v1/analytics/overview
+GET    /api/v1/analytics/daily
+GET    /api/v1/analytics/campaigns
+GET    /api/v1/analytics/export
+
+GET    /api/v1/voices
+POST   /api/v1/tts/preview
+POST   /api/v1/outbound/dial</pre>
+        </div>
+      </div>
+    </div>
+
+    <!-- 1.6 Analytics -->
+    <div id="analytics" class="section">
+      <h2>1.6 Analytics Metrics</h2>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Metric</th><th>ความหมาย</th><th>สูตรคำนวณ</th></tr></thead>
+          <tbody>
+            <tr><td>Total Calls</td><td>จำนวนสายทั้งหมด</td><td><code>COUNT(call_logs)</code></td></tr>
+            <tr><td>Answer Rate</td><td>% ที่รับสาย</td><td><code>answered / total × 100</code></td></tr>
+            <tr><td>Success Rate</td><td>% ที่ยืนยัน</td><td><code>confirmed / answered × 100</code></td></tr>
+            <tr><td>Rejection Rate</td><td>% ที่ปฏิเสธ</td><td><code>rejected / answered × 100</code></td></tr>
+            <tr><td>Missed Rate</td><td>% ที่ไม่รับสาย</td><td><code>missed / total × 100</code></td></tr>
+            <tr><td>Avg Duration</td><td>ความยาวสายเฉลี่ย</td><td><code>AVG(duration_seconds)</code></td></tr>
+            <tr><td>Cost per Call</td><td>ต้นทุนต่อสาย</td><td><code>total_points / total_calls</code></td></tr>
+            <tr><td>Daily Trend</td><td>สายต่อวัน</td><td><code>GROUP BY DATE(started_at)</code></td></tr>
+            <tr><td>Peak Hours</td><td>ชั่วโมงที่โทรสำเร็จสูงสุด</td><td><code>GROUP BY HOUR(started_at) WHERE status='confirmed'</code></td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- 1.7 Workflow -->
+    <div id="workflow" class="section">
+      <h2>1.7 End-to-End Workflow</h2>
+      <div class="workflow">
+        <div class="workflow-step">
+          <div class="workflow-num">1</div>
+          <div class="workflow-title">สร้าง Campaign</div>
+          <div class="workflow-sub">ชื่อ, script, voice, schedule</div>
+        </div>
+        <div class="workflow-step">
+          <div class="workflow-num">2</div>
+          <div class="workflow-title">Upload Contacts</div>
+          <div class="workflow-sub">CSV import + validate</div>
+        </div>
+        <div class="workflow-step">
+          <div class="workflow-num">3</div>
+          <div class="workflow-title">ตั้งค่า Schedule</div>
+          <div class="workflow-sub">time window, retries</div>
+        </div>
+        <div class="workflow-step">
+          <div class="workflow-num">4</div>
+          <div class="workflow-title">Review & Launch</div>
+          <div class="workflow-sub">cost estimate, point check</div>
+        </div>
+        <div class="workflow-step">
+          <div class="workflow-num">5</div>
+          <div class="workflow-title">Execution</div>
+          <div class="workflow-sub">dial → intent → save</div>
+        </div>
+        <div class="workflow-step">
+          <div class="workflow-num">6</div>
+          <div class="workflow-title">Results</div>
+          <div class="workflow-sub">KPI, table, export</div>
+        </div>
+        <div class="workflow-step">
+          <div class="workflow-num">7</div>
+          <div class="workflow-title">Post-Campaign</div>
+          <div class="workflow-sub">follow up, clone, archive</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 1.8 Benchmark -->
+    <div id="benchmark" class="section">
+      <h2>1.8 Competitive Benchmarking</h2>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Feature</th><th>BOTNOI</th><th>Bland AI</th><th>Retell AI</th><th>Vapi</th><th>Air AI</th></tr></thead>
+          <tbody>
+            <tr>
+              <td>Thai Language</td>
+              <td><span class="badge badge-green">✅ Native</span></td>
+              <td><span class="badge badge-red">❌</span></td>
+              <td><span class="badge badge-yellow">⚠️ Limited</span></td>
+              <td><span class="badge badge-yellow">⚠️ Limited</span></td>
+              <td><span class="badge badge-red">❌</span></td>
+            </tr>
+            <tr>
+              <td>Conversation AI</td>
+              <td><span class="badge badge-yellow">⚠️ Keyword-only</span></td>
+              <td><span class="badge badge-green">✅ LLM</span></td>
+              <td><span class="badge badge-green">✅ LLM</span></td>
+              <td><span class="badge badge-green">✅ LLM</span></td>
+              <td><span class="badge badge-green">✅ Always-on</span></td>
+            </tr>
+            <tr>
+              <td>Parallel Dialing</td>
+              <td><span class="badge badge-red">❌ Sequential</span></td>
+              <td><span class="badge badge-green">✅ 1000+</span></td>
+              <td><span class="badge badge-green">✅ 100+</span></td>
+              <td><span class="badge badge-green">✅</span></td>
+              <td><span class="badge badge-green">✅</span></td>
+            </tr>
+            <tr>
+              <td>A/B Script Testing</td>
+              <td><span class="badge badge-red">❌</span></td>
+              <td><span class="badge badge-green">✅</span></td>
+              <td><span class="badge badge-green">✅</span></td>
+              <td><span class="badge badge-yellow">⚠️</span></td>
+              <td><span class="badge badge-red">❌</span></td>
+            </tr>
+            <tr>
+              <td>Call Recording</td>
+              <td><span class="badge badge-green">✅</span></td>
+              <td><span class="badge badge-green">✅</span></td>
+              <td><span class="badge badge-green">✅</span></td>
+              <td><span class="badge badge-green">✅</span></td>
+              <td><span class="badge badge-green">✅</span></td>
+            </tr>
+            <tr>
+              <td>AI Transcript Analysis</td>
+              <td><span class="badge badge-yellow">⚠️ Basic</span></td>
+              <td><span class="badge badge-green">✅ AI</span></td>
+              <td><span class="badge badge-green">✅ AI</span></td>
+              <td><span class="badge badge-green">✅</span></td>
+              <td><span class="badge badge-green">✅</span></td>
+            </tr>
+            <tr>
+              <td>CRM Integration</td>
+              <td><span class="badge badge-red">❌</span></td>
+              <td><span class="badge badge-green">✅</span></td>
+              <td><span class="badge badge-green">✅</span></td>
+              <td><span class="badge badge-green">✅</span></td>
+              <td><span class="badge badge-green">✅</span></td>
+            </tr>
+            <tr>
+              <td>Multi-user Team</td>
+              <td><span class="badge badge-red">❌</span></td>
+              <td><span class="badge badge-green">✅</span></td>
+              <td><span class="badge badge-green">✅</span></td>
+              <td><span class="badge badge-green">✅</span></td>
+              <td><span class="badge badge-green">✅</span></td>
+            </tr>
+            <tr>
+              <td>Global Contact Book</td>
+              <td><span class="badge badge-red">❌</span></td>
+              <td><span class="badge badge-green">✅</span></td>
+              <td><span class="badge badge-green">✅</span></td>
+              <td><span class="badge badge-green">✅</span></td>
+              <td><span class="badge badge-green">✅</span></td>
+            </tr>
+            <tr>
+              <td>Local Market Focus</td>
+              <td><span class="badge badge-purple">🇹🇭 Thai</span></td>
+              <td><span class="badge badge-blue">🌐 Global</span></td>
+              <td><span class="badge badge-blue">🌐 Global</span></td>
+              <td><span class="badge badge-blue">🌐 Global</span></td>
+              <td><span class="badge badge-blue">🌐 Global</span></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- 1.9 Feature Gaps -->
+    <div id="gaps" class="section">
+      <h2>1.9 Feature Gaps ของ BOTNOI</h2>
+      <div class="card" style="border-color:#fecdd3; background:#fff1f2;">
+        <div class="card-title" style="color:#9f1239;">❌ Critical Gaps (Missing Core Features)</div>
+        <ul class="task-list">
+          <li><strong>Parallel/Concurrent Dialing</strong> — เฉพาะ Sequential, scale ไม่ได้สำหรับ 10,000+ contacts</li>
+          <li><strong>LLM-powered Conversation</strong> — Keyword matching ไม่รองรับ free-form response</li>
+          <li><strong>Global Contact Book</strong> — ต้อง upload CSV ใหม่ทุก campaign</li>
+          <li><strong>Real-time Analytics</strong> — ไม่มี live metrics ระหว่าง campaign running</li>
+          <li><strong>Multi-user / Team Workspace</strong> — 1 account = 1 user</li>
+          <li><strong>CRM/Webhook Integration</strong> — ผล call ไม่ไหลเข้า HubSpot/LINE OA</li>
+        </ul>
+      </div>
+      <div class="card" style="border-color:#fde68a; background:#fefce8;">
+        <div class="card-title" style="color:#92400e;">⚠️ Important Gaps (UX ด้อยกว่า World-class)</div>
+        <ul class="task-list">
+          <li><strong>Visual Call Flow Builder</strong> — config ด้วย text/keyword เท่านั้น ไม่มี drag-drop</li>
+          <li><strong>A/B Script Testing</strong> — ไม่รู้ว่า script ไหนดีกว่า</li>
+          <li><strong>AMD (Answering Machine Detection)</strong> — ไม่แยก voicemail vs human</li>
+          <li><strong>Sentiment Analysis</strong> — ไม่วิเคราะห์ความรู้สึกของผู้รับสาย</li>
+          <li><strong>Smart Retry (AI-based)</strong> — retry ตามเวลาตายตัว ไม่ดู peak time ของ contact</li>
+          <li><strong>Preview TTS Audio</strong> — ต้อง run campaign จริงถึงได้ยินเสียง</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- 1.10 Improvements -->
+    <div id="improvements" class="section">
+      <h2>1.10 Suggested Improvements</h2>
+      <div class="card-grid-3">
+        <div class="card">
+          <div class="card-title"><span style="background:#d1fae5;color:#065f46;" class="badge">Quick Win</span> 1–2 วัน</div>
+          <ul class="task-list">
+            <li>Preview TTS ก่อน launch</li>
+            <li>Script character counter (→ วินาที)</li>
+            <li>Contact preview หลัง upload CSV</li>
+            <li>Points cost estimate</li>
+            <li>Campaign Duplication (1-click clone)</li>
+          </ul>
+        </div>
+        <div class="card">
+          <div class="card-title"><span style="background:#fef3c7;color:#92400e;" class="badge">Medium</span> 1–2 สัปดาห์</div>
+          <ul class="task-list">
+            <li>Global Contact Book</li>
+            <li>Real-time Progress (WebSocket)</li>
+            <li>Recording Playback in-app</li>
+            <li>Advanced Scheduling (time window)</li>
+            <li>Webhook / Callback support</li>
+            <li>Export Excel/PDF</li>
+          </ul>
+        </div>
+        <div class="card">
+          <div class="card-title"><span style="background:#f3e8ff;color:#6b21a8;" class="badge">Major</span> 1–2 เดือน</div>
+          <ul class="task-list">
+            <li>LLM-powered Conversation</li>
+            <li>Visual Flow Builder (drag-drop)</li>
+            <li>Parallel Dialing Engine</li>
+            <li>Multi-user Team Workspace</li>
+            <li>CRM Integration (HubSpot/LINE)</li>
+            <li>AI Conversation Analytics</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- 1.11 Roadmap -->
+    <div id="roadmap" class="section">
+      <h2>1.11 Product Roadmap</h2>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Priority</th><th>#</th><th>Feature</th><th>Effort</th><th>เหตุผล</th></tr></thead>
+          <tbody>
+            <tr><td><span class="p0">P0</span></td><td>1</td><td>Real BOTNOI API Integration</td><td><span class="effort-l">L</span></td><td>ตอนนี้ mock ทั้งหมด</td></tr>
+            <tr><td><span class="p0">P0</span></td><td>2</td><td>Campaign Status State Machine</td><td><span class="effort-m">M</span></td><td>Lifecycle management</td></tr>
+            <tr><td><span class="p0">P0</span></td><td>3</td><td>Real-time Analytics from DB</td><td><span class="effort-m">M</span></td><td>ตอนนี้ hardcode ข้อมูล</td></tr>
+            <tr><td><span class="p0">P0</span></td><td>4</td><td>Points Deduction per Call</td><td><span class="effort-m">M</span></td><td>Monetization พื้นฐาน</td></tr>
+            <tr><td><span class="p1">P1</span></td><td>5</td><td>Global Contact Book</td><td><span class="effort-l">L</span></td><td>UX ดีกว่า BOTNOI</td></tr>
+            <tr><td><span class="p1">P1</span></td><td>6</td><td>Smart Scheduling (Time Window)</td><td><span class="effort-m">M</span></td><td>โทรในเวลาที่เหมาะสม</td></tr>
+            <tr><td><span class="p1">P1</span></td><td>7</td><td>Preview TTS Audio</td><td><span class="effort-s">S</span></td><td>ลด trial-and-error</td></tr>
+            <tr><td><span class="p1">P1</span></td><td>8</td><td>Webhook Support</td><td><span class="effort-m">M</span></td><td>Integration ecosystem</td></tr>
+            <tr><td><span class="p1">P1</span></td><td>9</td><td>Recording Playback UI</td><td><span class="effort-m">M</span></td><td>Campaign audit</td></tr>
+            <tr><td><span class="p1">P1</span></td><td>10</td><td>Multi-user Workspace</td><td><span class="effort-xl">XL</span></td><td>B2B requirement</td></tr>
+            <tr><td><span class="p2">P2</span></td><td>11</td><td>Parallel Dialing Engine</td><td><span class="effort-xl">XL</span></td><td>Scale ได้จริง</td></tr>
+            <tr><td><span class="p2">P2</span></td><td>12</td><td>LLM-powered Conversation</td><td><span class="effort-xl">XL</span></td><td>Future-proof platform</td></tr>
+            <tr><td><span class="p2">P2</span></td><td>13</td><td>Visual Call Flow Builder</td><td><span class="effort-xl">XL</span></td><td>Power user UX</td></tr>
+            <tr><td><span class="p2">P2</span></td><td>14</td><td>A/B Script Testing</td><td><span class="effort-l">L</span></td><td>Data-driven optimization</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <hr class="divider" />
+
+    <!-- ═══════════════════════════════════════════ -->
+    <!-- ส่วนที่ 2 — Ringo Analysis                 -->
+    <!-- ═══════════════════════════════════════════ -->
+
+    <div class="section-header">
+      <div class="section-num">2</div>
+      <div>
+        <div class="section-title">Ringo — Current State Analysis</div>
+        <div class="section-sub">วิเคราะห์โค้ดโปรเจกต์ปัจจุบัน เปรียบเทียบกับ BOTNOI</div>
+      </div>
+    </div>
+
+    <!-- 2.1 Feature Inventory -->
+    <div id="ringo-features" class="section">
+      <h2>2.1 Feature Inventory ของ Ringo</h2>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>หน้า / Module</th><th>Feature ที่มี</th><th>สถานะ</th></tr></thead>
+          <tbody>
+            <tr><td>Auth</td><td>Login, Register, Google OAuth</td><td><span class="badge badge-green">✅ ทำงานได้</span></td></tr>
+            <tr><td>Dashboard</td><td>KPI cards, Recent campaigns</td><td><span class="badge badge-yellow">⚠️ ข้อมูลไม่แน่ใจว่า real</span></td></tr>
+            <tr><td>Campaign List</td><td>List, Delete, Create button, Empty state</td><td><span class="badge badge-green">✅ Connected to DB</span></td></tr>
+            <tr><td>Campaign Create</td><td>2-step wizard, CSV upload, Script, Voice, Retries</td><td><span class="badge badge-yellow">⚠️ ขาด fields สำคัญ</span></td></tr>
+            <tr><td>Campaign Detail</td><td>KPI (5 metrics), Pie chart, Contact list, Filter</td><td><span class="badge badge-yellow">⚠️ KPI บางตัว = 0 เสมอ</span></td></tr>
+            <tr><td>Campaign Runner</td><td>Start/Pause/Resume/Stop, Progress, Results table, Export CSV, Retry missed</td><td><span class="badge badge-red">❌ ใช้ Mock API</span></td></tr>
+            <tr><td>Analytics</td><td>KPI cards, Bar chart, Campaign table</td><td><span class="badge badge-red">❌ Hardcoded ทั้งหมด</span></td></tr>
+            <tr><td>Settings &gt; Account</td><td>Edit name, Points balance, Point history</td><td><span class="badge badge-yellow">⚠️ History hardcoded</span></td></tr>
+            <tr><td>Settings &gt; Call Defaults</td><td>Script templates, Voice, Keywords, Flow, Notifications</td><td><span class="badge badge-green">✅ Save/Load จาก DB</span></td></tr>
+            <tr><td>AppLayout</td><td>Sidebar nav, Points balance, User info, Logout</td><td><span class="badge badge-green">✅ ทำงานได้</span></td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- 2.2 Gap Analysis -->
+    <div id="ringo-gap" class="section">
+      <h2>2.2 Gap Analysis: Ringo vs BOTNOI</h2>
+
+      <h3>Feature Gap</h3>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Feature</th><th>BOTNOI</th><th>Ringo</th><th>Gap Level</th></tr></thead>
+          <tbody>
+            <tr><td>Real Calling (BOTNOI API)</td><td>✅</td><td>❌ Mock</td><td><span class="badge badge-red">Critical</span></td></tr>
+            <tr><td>Campaign scheduling</td><td>✅</td><td>⚠️ บันทึกแต่ไม่ auto-trigger</td><td><span class="badge badge-red">High</span></td></tr>
+            <tr><td>Global Contact Book</td><td>❌</td><td>❌</td><td><span class="badge badge-blue">ทั้งคู่ไม่มี → โอกาส!</span></td></tr>
+            <tr><td>Real-time progress</td><td>✅</td><td>⚠️ Frontend memory only</td><td><span class="badge badge-red">High</span></td></tr>
+            <tr><td>Recording playback</td><td>✅</td><td>❌</td><td><span class="badge badge-yellow">Medium</span></td></tr>
+            <tr><td>Conversation transcript UI</td><td>✅</td><td>⚠️ Schema มีแต่ UI ไม่แสดง</td><td><span class="badge badge-yellow">Medium</span></td></tr>
+            <tr><td>Analytics จากข้อมูลจริง</td><td>✅</td><td>❌ Hardcoded</td><td><span class="badge badge-red">Critical</span></td></tr>
+            <tr><td>Points deduction per call</td><td>✅</td><td>❌ ไม่หักจริง</td><td><span class="badge badge-red">High</span></td></tr>
+            <tr><td>Webhook support</td><td>✅</td><td>❌</td><td><span class="badge badge-yellow">Medium</span></td></tr>
+            <tr><td>Multi-user team</td><td>❌</td><td>❌</td><td><span class="badge badge-gray">P1 ทั้งคู่</span></td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h3>Data Model Gap</h3>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>ส่วนที่ขาด</th><th>ผลกระทบ</th></tr></thead>
+          <tbody>
+            <tr><td><code>rejected_calls</code>, <code>missed_calls</code> ใน campaigns</td><td>Campaign KPI แสดงผิด (rejected/missed = 0 เสมอ)</td></tr>
+            <tr><td><code>call_window_start</code>/<code>end</code> ใน campaigns</td><td>ตั้งค่า Time Window แล้วแต่ไม่ถูกบันทึก</td></tr>
+            <tr><td><code>amd_result</code> ใน call_logs</td><td>ไม่แยก voicemail vs human pickup</td></tr>
+            <tr><td>Global contacts table (ไม่ผูกกับ campaign)</td><td>ต้อง upload ใหม่ทุก campaign</td></tr>
+            <tr><td><code>point_transactions</code> table</td><td>Point history ยัง hardcode</td></tr>
+            <tr><td>Organization/Team tables</td><td>ไม่รองรับ multi-user</td></tr>
+            <tr><td>Webhook configuration table</td><td>ไม่มี integration layer</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- 2.3 Bugs -->
+    <div id="ringo-bugs" class="section">
+      <h2>2.3 Bugs ที่พบจากการ Review โค้ด</h2>
+      <div class="callout callout-danger">
+        <span class="callout-icon">🚨</span>
+        <div>
+          <div class="callout-title">7 Bugs พบในโค้ดปัจจุบัน</div>
+          <div class="callout-body">ต้องแก้ก่อน launch จริง — บางอันส่งผลต่อ data integrity</div>
+        </div>
+      </div>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>#</th><th>Bug</th><th>ไฟล์ · บรรทัด</th><th>ความร้ายแรง</th></tr></thead>
+          <tbody>
+            <tr>
+              <td>1</td>
+              <td>callStartDate/Time/callEndDate/callEndTime ถูก collect ใน state แต่ไม่ถูก pass เข้า <code>campaignStore.add()</code> เลย — ข้อมูล schedule หาย!</td>
+              <td><code>campaign.create.tsx:97–123</code></td>
+              <td><span class="badge badge-red">High</span></td>
+            </tr>
+            <tr>
+              <td>2</td>
+              <td><code>kpis.rejected</code> และ <code>kpis.missed</code> hardcode เป็น 0 เสมอ</td>
+              <td><code>campaign.$id.index.tsx:76–79</code></td>
+              <td><span class="badge badge-red">High</span></td>
+            </tr>
+            <tr>
+              <td>3</td>
+              <td>activities ทุก row มี <code>status = "pending"</code> เสมอ — ไม่ join กับ call_logs</td>
+              <td><code>campaign.$id.index.tsx:57–63</code></td>
+              <td><span class="badge badge-red">High</span></td>
+            </tr>
+            <tr>
+              <td>4</td>
+              <td>Analytics ทั้งหมด hardcode — dailyCalls, campaigns arrays เป็น static data</td>
+              <td><code>analytics.index.tsx:27–40</code></td>
+              <td><span class="badge badge-red">High</span></td>
+            </tr>
+            <tr>
+              <td>5</td>
+              <td>Point History hardcode เป็น static array HISTORY</td>
+              <td><code>settings.index.tsx:18–21</code></td>
+              <td><span class="badge badge-yellow">Medium</span></td>
+            </tr>
+            <tr>
+              <td>6</td>
+              <td><code>updateContacts()</code> ลบ contacts ทั้งหมดแล้วสร้างใหม่ — ทำลาย call history</td>
+              <td><code>campaignStore.ts:126–138</code></td>
+              <td><span class="badge badge-yellow">Medium</span></td>
+            </tr>
+            <tr>
+              <td>7</td>
+              <td>Campaign Runner ใช้ Mock API ทั้งหมด — ไม่มีการโทรจริง</td>
+              <td><code>botnoiService.ts:22–41</code></td>
+              <td><span class="badge badge-red">Critical</span></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <hr class="divider" />
+
+    <!-- ═══════════════════════════════════════════ -->
+    <!-- ส่วนที่ 3 — Action Plan                    -->
+    <!-- ═══════════════════════════════════════════ -->
+
+    <div class="section-header">
+      <div class="section-num">3</div>
+      <div>
+        <div class="section-title">Action Plan — Task List สำหรับทีม</div>
+        <div class="section-sub">20 Tasks พร้อม Effort, Priority และลำดับการทำงาน</div>
+      </div>
+    </div>
+
+    <div class="kpi-row">
+      <div class="kpi"><div class="kpi-val" style="color:#991b1b;">4</div><div class="kpi-label">P0 Critical Tasks</div></div>
+      <div class="kpi"><div class="kpi-val" style="color:#92400e;">9</div><div class="kpi-label">P1 Important Tasks</div></div>
+      <div class="kpi"><div class="kpi-val" style="color:#1e40af;">7</div><div class="kpi-label">P2 Nice to Have</div></div>
+      <div class="kpi"><div class="kpi-val">~16 wks</div><div class="kpi-label">Estimated Total</div></div>
+    </div>
+
+    <!-- Sprint 0 -->
+    <div id="sprint0">
+      <div class="sprint-header">
+        <div class="sprint-num">SPRINT 0</div>
+        <div>
+          <div class="sprint-title">Foundation — ต้องทำก่อนทุกอย่าง</div>
+          <div class="sprint-sub">ระบบใช้งานจริงไม่ได้ถ้าไม่มีสิ่งเหล่านี้</div>
+        </div>
+      </div>
+
+      <div class="task-card">
+        <div class="task-header">
+          <span class="task-id">TASK-001</span>
+          <span class="p0">P0</span>
+          <span class="effort-l">L · 3–5 วัน</span>
+          <span class="task-title">Real BOTNOI API Integration</span>
+        </div>
+        <div class="task-body">
+          <div class="task-file">ไฟล์: <span>src/services/botnoiService.ts</span></div>
+          <ul class="task-list">
+            <li>แทนที่ mock function ด้วย real HTTP call ไปยัง BOTNOI Outbound API</li>
+            <li>Parse response: callId, status, duration, recording_url</li>
+            <li>Handle errors: rate limit, invalid phone, insufficient points</li>
+            <li>Add retry logic สำหรับ network failures</li>
+            <li>Update TypeScript types ให้ตรงกับ BOTNOI API response จริง</li>
+          </ul>
+          <div class="task-dep">⛔ Blocker: ต้องมี BOTNOI API docs + API key สำหรับ staging ก่อน</div>
+        </div>
+      </div>
+
+      <div class="task-card">
+        <div class="task-header">
+          <span class="task-id">TASK-002</span>
+          <span class="p0">P0</span>
+          <span class="effort-s">S · 1 วัน</span>
+          <span class="task-title">Campaign Status State Machine</span>
+        </div>
+        <div class="task-body">
+          <div class="task-file">ไฟล์: <span>src/lib/campaignStore.ts</span>, <span>src/hooks/useCampaignRunner.ts</span></div>
+          <ul class="task-list">
+            <li>กำหนด valid transitions: <code>draft → scheduled → running → paused → completed/failed</code></li>
+            <li>อัพเดต DB status ทุกครั้งที่ state เปลี่ยน</li>
+            <li>Prevent invalid transitions เช่น completed → running โดยไม่ reset</li>
+          </ul>
+          <div class="task-dep">ต้องทำหลัง: <span>TASK-001</span></div>
+        </div>
+      </div>
+
+      <div class="task-card">
+        <div class="task-header">
+          <span class="task-id">TASK-003</span>
+          <span class="p0">P0</span>
+          <span class="effort-m">M · 2–3 วัน</span>
+          <span class="task-title">Fix Campaign KPI (rejected/missed count)</span>
+        </div>
+        <div class="task-body">
+          <div class="task-file">ไฟล์: <span>src/routes/campaign.$id.index.tsx</span>, <span>src/lib/campaignStore.ts</span></div>
+          <div class="task-bug">🐛 BUG: kpis.rejected และ kpis.missed hardcode เป็น 0 เสมอ (บรรทัด 76–79)</div>
+          <ul class="task-list">
+            <li>Query call_logs GROUP BY status สำหรับแต่ละ campaign</li>
+            <li>อัพเดต <code>getById()</code> ให้รวม aggregated call stats</li>
+            <li>เพิ่ม column <code>rejected_calls</code>, <code>missed_calls</code> ใน campaigns table</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="task-card">
+        <div class="task-header">
+          <span class="task-id">TASK-007</span>
+          <span class="p0">P0</span>
+          <span class="effort-m">M · 1–2 วัน</span>
+          <span class="task-title">Fix Missing Schedule Fields (BUG)</span>
+        </div>
+        <div class="task-body">
+          <div class="task-file">ไฟล์: <span>src/routes/campaign.create.tsx</span>, <span>src/lib/campaignStore.ts</span></div>
+          <div class="task-bug">🐛 BUG: callStartDate, callEndDate, callStartTime, callEndTime เก็บใน state แต่ไม่ถูก pass เข้า campaignStore.add() เลย — ข้อมูล schedule หายหมด! (บรรทัด 97–123)</div>
+          <ul class="task-list">
+            <li>เพิ่ม <code>call_window_start</code>, <code>call_window_end</code> ใน campaigns DB schema</li>
+            <li>Pass fields เข้า CreateCampaignPayload</li>
+            <li>Validate: call window ต้องไม่ทับ event date</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- Sprint 1 -->
+    <div id="sprint1">
+      <div class="sprint-header">
+        <div class="sprint-num">SPRINT 1</div>
+        <div>
+          <div class="sprint-title">Core Experience — Data ต้องมาจาก DB จริง</div>
+          <div class="sprint-sub">แก้ทุก hardcode + เชื่อม monetization</div>
+        </div>
+      </div>
+
+      <div class="task-card">
+        <div class="task-header">
+          <span class="task-id">TASK-004</span>
+          <span class="p0">P0</span>
+          <span class="effort-m">M · 2–3 วัน</span>
+          <span class="task-title">Analytics: Connect to Real DB Data</span>
+        </div>
+        <div class="task-body">
+          <div class="task-file">ไฟล์: <span>src/routes/analytics.index.tsx</span></div>
+          <div class="task-bug">🐛 BUG: dailyCalls, campaigns arrays ถูก hardcode ทั้งหมด</div>
+          <ul class="task-list">
+            <li>สร้าง Supabase DB function: <code>get_daily_calls(user_id, from, to)</code></li>
+            <li>สร้าง DB function: <code>get_campaign_performance(user_id)</code></li>
+            <li>สร้าง DB function: <code>get_overview_kpis(user_id)</code></li>
+            <li>Replace hardcoded data ด้วย <code>useEffect + supabase.rpc()</code></li>
+            <li>เพิ่ม Date Range Picker (7d / 30d / custom)</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="task-card">
+        <div class="task-header">
+          <span class="task-id">TASK-005</span>
+          <span class="p0">P0</span>
+          <span class="effort-m">M · 2–3 วัน</span>
+          <span class="task-title">Points System: Deduct per Call + Transaction History</span>
+        </div>
+        <div class="task-body">
+          <div class="task-file">ไฟล์: <span>src/hooks/useCampaignRunner.ts</span>, <span>src/routes/settings.index.tsx</span></div>
+          <ul class="task-list">
+            <li>สร้าง Supabase DB function: <code>deduct_points(user_id, amount, ref_id)</code></li>
+            <li>เรียก deduct_points หลังแต่ละสายสำเร็จ</li>
+            <li>สร้าง table: <code>point_transactions</code> (user_id, amount, type, ref_id, note)</li>
+            <li>Replace hardcoded HISTORY ด้วย query จาก point_transactions</li>
+            <li>Handle insufficient points: pause campaign + toast warning</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="task-card">
+        <div class="task-header">
+          <span class="task-id">TASK-006</span>
+          <span class="p1">P1</span>
+          <span class="effort-s">S · 1–2 วัน</span>
+          <span class="task-title">Contact Detail Page (Call History + Recording)</span>
+        </div>
+        <div class="task-body">
+          <div class="task-file">ไฟล์: <span>src/routes/campaign.$id.contacts.$contactId.tsx</span></div>
+          <ul class="task-list">
+            <li>แสดง contact info: ชื่อ, เบอร์, extra_data</li>
+            <li>ดึง call_logs ทั้งหมดของ contact นี้ (ข้าม campaign)</li>
+            <li>แสดง conversation_messages ต่อแต่ละ call_log</li>
+            <li>ถ้ามี recording_url: แสดง <code>&lt;audio&gt;</code> player</li>
+            <li>Badge แสดง intent (confirmed/rejected/missed) ของแต่ละสาย</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="task-card">
+        <div class="task-header">
+          <span class="task-id">TASK-012</span>
+          <span class="p1">P1</span>
+          <span class="effort-m">M · 2 วัน</span>
+          <span class="task-title">Campaign Detail: Load Real Call Results from DB</span>
+        </div>
+        <div class="task-body">
+          <div class="task-file">ไฟล์: <span>src/routes/campaign.$id.index.tsx</span></div>
+          <div class="task-bug">🐛 BUG: activities ทุก row status = "pending" เสมอ ไม่ join กับ call_logs (บรรทัด 57–63)</div>
+          <ul class="task-list">
+            <li>Query <code>call_logs JOIN contacts</code> สำหรับ campaign นี้</li>
+            <li>Map status จาก call_logs.status ไม่ hardcode "pending"</li>
+            <li>แสดง started_at เป็น date/time จริง</li>
+            <li>Filter tabs ทำงานตาม status จริงที่โหลดมาจาก DB</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- Sprint 2 -->
+    <div id="sprint2">
+      <div class="sprint-header">
+        <div class="sprint-num">SPRINT 2</div>
+        <div>
+          <div class="sprint-title">UX Improvements — ทำให้ดีกว่า BOTNOI</div>
+          <div class="sprint-sub">Features ที่จะทำให้ Ringo โดดเด่น</div>
+        </div>
+      </div>
+
+      <div class="task-card">
+        <div class="task-header">
+          <span class="task-id">TASK-008</span>
+          <span class="p1">P1</span>
+          <span class="effort-s">S · 1 วัน</span>
+          <span class="task-title">Campaign List: Search + Filter by Status</span>
+        </div>
+        <div class="task-body">
+          <div class="task-file">ไฟล์: <span>src/routes/campaign.index.tsx</span></div>
+          <ul class="task-list">
+            <li>Search input (filter by campaign name real-time)</li>
+            <li>Status filter tabs: All / Draft / Running / Completed</li>
+            <li>Sort options: Newest / Oldest / Name A-Z</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="task-card">
+        <div class="task-header">
+          <span class="task-id">TASK-009</span>
+          <span class="p1">P1</span>
+          <span class="effort-m">M · 2–3 วัน</span>
+          <span class="task-title">Script Template Library Page</span>
+        </div>
+        <div class="task-body">
+          <div class="task-file">ไฟล์: สร้าง <span>src/routes/settings.templates.tsx</span></div>
+          <ul class="task-list">
+            <li>หน้า list script templates ทั้งหมด</li>
+            <li>Create / Edit / Delete template</li>
+            <li>เลือก template ตอน create campaign (แทนการพิมพ์ใหม่ทุกครั้ง)</li>
+            <li>เชื่อม script_templates table ที่มีอยู่แล้วใน DB</li>
+            <li>เพิ่ม Tab "Templates" ใน Settings sidebar</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="task-card">
+        <div class="task-header">
+          <span class="task-id">TASK-010</span>
+          <span class="p1">P1</span>
+          <span class="effort-s">S · 1 วัน</span>
+          <span class="task-title">TTS Preview Button</span>
+        </div>
+        <div class="task-body">
+          <div class="task-file">ไฟล์: <span>src/routes/campaign.create.tsx</span>, <span>src/routes/settings.call-defaults.tsx</span></div>
+          <ul class="task-list">
+            <li>ปุ่ม "▶ ฟังตัวอย่างเสียง" ใน Script card</li>
+            <li>เรียก BOTNOI TTS API ด้วย sample text จาก script ที่กรอกอยู่</li>
+            <li>Play audio inline ใน browser ด้วย <code>&lt;audio&gt;</code> tag</li>
+            <li>Disable ระหว่างโหลด + show loading spinner</li>
+          </ul>
+          <div class="task-dep">Dependency: BOTNOI TTS Preview API endpoint (ตรวจสอบ docs)</div>
+        </div>
+      </div>
+
+      <div class="task-card">
+        <div class="task-header">
+          <span class="task-id">TASK-011</span>
+          <span class="p1">P1</span>
+          <span class="effort-s">S · 0.5 วัน</span>
+          <span class="task-title">Points Cost Estimate ก่อน Launch Campaign</span>
+        </div>
+        <div class="task-body">
+          <div class="task-file">ไฟล์: <span>src/components/CampaignRunner.tsx</span></div>
+          <ul class="task-list">
+            <li>แสดง "แคมเปญนี้จะใช้ ~{contacts.length} points"</li>
+            <li>เตือน "Point คงเหลือ {balance} — ไม่เพียงพอ" ถ้าน้อยกว่า</li>
+            <li>Disable ปุ่ม Start พร้อม tooltip ถ้า points ไม่พอ</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="task-card">
+        <div class="task-header">
+          <span class="task-id">TASK-013</span>
+          <span class="p1">P1</span>
+          <span class="effort-l">L · 3–5 วัน</span>
+          <span class="task-title">Global Contact Book</span>
+        </div>
+        <div class="task-body">
+          <div class="task-file">ไฟล์: สร้าง <span>src/routes/contacts.tsx</span>, DB migration</div>
+          <ul class="task-list">
+            <li>สร้าง global contacts table (user_id, name, phone, tags[], extra_data)</li>
+            <li>สร้าง Contact List page ใน Sidebar navigation</li>
+            <li>Import CSV → global contacts (แทนที่ per-campaign import)</li>
+            <li>ตอน Create Campaign: เลือกจาก Contact Book หรือ upload CSV ใหม่</li>
+            <li>Contact Tags/Groups สำหรับกรองรายชื่อ</li>
+            <li>แสดง call history cross-campaign ของแต่ละ contact</li>
+          </ul>
+          <div class="callout callout-warn" style="margin-top:12px; font-size:13px;">
+            <span class="callout-icon">⚠️</span>
+            <div>
+              <div class="callout-title">ต้องทำ DB Migration</div>
+              <div class="callout-body">เอา campaign_id FK ออกจาก contacts, เพิ่ม user_id, สร้าง campaign_contacts join table — ระวัง backward compatibility</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="task-card">
+        <div class="task-header">
+          <span class="task-id">TASK-014</span>
+          <span class="p1">P1</span>
+          <span class="effort-m">M · 2–3 วัน</span>
+          <span class="task-title">Real-time Campaign Progress (Supabase Realtime)</span>
+        </div>
+        <div class="task-body">
+          <div class="task-file">ไฟล์: <span>src/hooks/useCampaignRunner.ts</span>, <span>src/components/CampaignRunner.tsx</span></div>
+          <ul class="task-list">
+            <li>Subscribe to Supabase Realtime ใน call_logs table</li>
+            <li>เมื่อ row ใหม่เข้ามา → อัพเดต progress + results โดยอัตโนมัติ</li>
+            <li>Progress survive browser refresh (ตอนนี้หายทันทีถ้า refresh)</li>
+            <li>แสดง "กำลังทำงาน" badge ใน Campaign List</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="task-card">
+        <div class="task-header">
+          <span class="task-id">TASK-015</span>
+          <span class="p2">P2</span>
+          <span class="effort-m">M · 2–3 วัน</span>
+          <span class="task-title">Webhook Support</span>
+        </div>
+        <div class="task-body">
+          <div class="task-file">ไฟล์: Supabase Edge Function + <span>src/routes/settings.webhooks.tsx</span></div>
+          <ul class="task-list">
+            <li>สร้าง webhook_configs table: user_id, url, events[], secret, active</li>
+            <li>Settings UI: เพิ่ม Webhook tab</li>
+            <li>Edge Function: ส่ง POST ไปยัง webhook URL หลังแต่ละสาย</li>
+            <li>Retry failed webhook delivery (3 attempts + exponential backoff)</li>
+            <li>Webhook delivery log</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- Sprint 3 -->
+    <div id="sprint3">
+      <div class="sprint-header">
+        <div class="sprint-num">SPRINT 3</div>
+        <div>
+          <div class="sprint-title">Growth Features — Scale & Enterprise</div>
+          <div class="sprint-sub">ฟีเจอร์สำหรับขยายตลาดและ B2B</div>
+        </div>
+      </div>
+
+      <div class="task-card">
+        <div class="task-header">
+          <span class="task-id">TASK-016</span>
+          <span class="p2">P2</span>
+          <span class="effort-l">L · 2–3 วัน</span>
+          <span class="task-title">Dashboard: Real Data + Quick Actions</span>
+        </div>
+        <div class="task-body">
+          <ul class="task-list">
+            <li>Recent campaigns (5 latest) จาก DB</li>
+            <li>Today's call count จาก call_logs</li>
+            <li>This week success rate</li>
+            <li>Points balance widget (live)</li>
+            <li>Upcoming campaigns (scheduled ที่ยังไม่ได้รัน)</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="task-card">
+        <div class="task-header">
+          <span class="task-id">TASK-017</span>
+          <span class="p2">P2</span>
+          <span class="effort-xl">XL · 1–2 สัปดาห์</span>
+          <span class="task-title">Parallel Dialing Engine (Backend Worker)</span>
+        </div>
+        <div class="task-body">
+          <ul class="task-list">
+            <li>ย้าย campaign execution ออกจาก browser ไปยัง Supabase Edge Function</li>
+            <li>สร้าง campaign_queue table: campaign_id, batch_size, concurrency</li>
+            <li>Worker pool: โทร N สายพร้อมกัน (เช่น 5-10 concurrent)</li>
+            <li>Frontend subscribe Realtime แทนการ loop เอง</li>
+            <li>Handle partial failure gracefully</li>
+          </ul>
+          <div class="callout callout-warn" style="margin-top:12px; font-size:13px;">
+            <span class="callout-icon">⚠️</span>
+            <div>
+              <div class="callout-body">ต้อง redesign architecture ของ campaign runner ทั้งหมด — ทำแยก branch และ test อย่างละเอียด</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="task-card">
+        <div class="task-header">
+          <span class="task-id">TASK-018</span>
+          <span class="p2">P2</span>
+          <span class="effort-l">L · 3–4 วัน</span>
+          <span class="task-title">Call Recording Playback UI</span>
+        </div>
+        <div class="task-body">
+          <div class="task-file">ไฟล์: <span>src/routes/campaign.$id.contacts.$contactId.tsx</span></div>
+          <ul class="task-list">
+            <li>ถ้า call_log.recording_url มีค่า → แสดง <code>&lt;audio&gt;</code> player</li>
+            <li>Timeline: แสดง conversation_messages พร้อม timestamp</li>
+            <li>Jump to timestamp: กด message แล้ว audio seek ไปตำแหน่งนั้น</li>
+            <li>Download recording button</li>
+          </ul>
+          <div class="task-dep">Dependency: <span>TASK-001</span> — BOTNOI API ส่ง recording_url จริง</div>
+        </div>
+      </div>
+
+      <div class="task-card">
+        <div class="task-header">
+          <span class="task-id">TASK-019</span>
+          <span class="p2">P2</span>
+          <span class="effort-m">M · 2–3 วัน</span>
+          <span class="task-title">Advanced Filter + Export Excel</span>
+        </div>
+        <div class="task-body">
+          <div class="task-file">ไฟล์: <span>src/routes/campaign.$id.contacts.tsx</span>, <span>src/components/CampaignRunner.tsx</span></div>
+          <ul class="task-list">
+            <li>Filter: status, date range, duration range</li>
+            <li>Search by name/phone</li>
+            <li>Export Excel (.xlsx) นอกจาก CSV</li>
+            <li>Pagination จริง (ตอนนี้ <code>slice(0,10)</code> ไม่มี load more)</li>
+            <li>Sort by: name, status, date, duration</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="task-card">
+        <div class="task-header">
+          <span class="task-id">TASK-020</span>
+          <span class="p2">P2</span>
+          <span class="effort-xl">XL · 2–4 สัปดาห์</span>
+          <span class="task-title">Multi-user / Team Workspace</span>
+        </div>
+        <div class="task-body">
+          <ul class="task-list">
+            <li>สร้าง organizations table</li>
+            <li>สร้าง organization_members: org_id, user_id, role (admin/operator/viewer)</li>
+            <li>Invite member ด้วย email + accept flow</li>
+            <li>ย้าย campaigns/contacts ให้ belong to org แทน user</li>
+            <li>Permission system ตาม role</li>
+            <li>Audit log: ใครทำอะไรเมื่อไหร่</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- Timeline -->
+    <div id="timeline" class="section" style="margin-top:40px;">
+      <h2>Timeline แนะนำ</h2>
+      <div class="timeline">
+        <div class="timeline-item">
+          <div class="timeline-dot"></div>
+          <div class="timeline-week">Week 1 — Foundation</div>
+          <div class="timeline-tasks">
+            <span class="timeline-task">TASK-001 Real BOTNOI API</span>
+            <span class="timeline-task">TASK-002 State Machine</span>
+            <span class="timeline-task">TASK-007 Fix Schedule Bug</span>
+          </div>
+        </div>
+        <div class="timeline-item">
+          <div class="timeline-dot"></div>
+          <div class="timeline-week">Week 2 — Data Integrity</div>
+          <div class="timeline-tasks">
+            <span class="timeline-task">TASK-003 Fix KPI</span>
+            <span class="timeline-task">TASK-012 Campaign Detail Data</span>
+            <span class="timeline-task">TASK-005 Points System</span>
+          </div>
+        </div>
+        <div class="timeline-item">
+          <div class="timeline-dot"></div>
+          <div class="timeline-week">Week 3 — UX Completion</div>
+          <div class="timeline-tasks">
+            <span class="timeline-task">TASK-004 Analytics</span>
+            <span class="timeline-task">TASK-006 Contact Detail</span>
+            <span class="timeline-task">TASK-010 TTS Preview</span>
+            <span class="timeline-task">TASK-011 Cost Estimate</span>
+          </div>
+        </div>
+        <div class="timeline-item">
+          <div class="timeline-dot"></div>
+          <div class="timeline-week">Week 4 — Polish</div>
+          <div class="timeline-tasks">
+            <span class="timeline-task">TASK-008 Search + Filter</span>
+            <span class="timeline-task">TASK-009 Script Templates</span>
+            <span class="timeline-task">TASK-014 Realtime Progress</span>
+          </div>
+        </div>
+        <div class="timeline-item">
+          <div class="timeline-dot"></div>
+          <div class="timeline-week">Month 2 — Growth</div>
+          <div class="timeline-tasks">
+            <span class="timeline-task">TASK-013 Global Contact Book</span>
+            <span class="timeline-task">TASK-015 Webhook</span>
+            <span class="timeline-task">TASK-016 Dashboard</span>
+            <span class="timeline-task">TASK-018 Recording Playback</span>
+          </div>
+        </div>
+        <div class="timeline-item">
+          <div class="timeline-dot"></div>
+          <div class="timeline-week">Month 3+ — Enterprise</div>
+          <div class="timeline-tasks">
+            <span class="timeline-task">TASK-017 Parallel Dialing</span>
+            <span class="timeline-task">TASK-019 Advanced Export</span>
+            <span class="timeline-task">TASK-020 Multi-user Team</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Verdict -->
+    <div id="verdict" class="section">
+      <h2>สรุป — สิ่งที่ควรนำมาปรับใช้กับ Ringo</h2>
+
+      <div style="display:flex; flex-direction:column; gap:16px;">
+        <div class="card" style="border-color:#bbf7d0; background:#f0fdf4;">
+          <div class="card-title" style="color:#166534; font-size:15px;">✅ ต้องทำตาม (BOTNOI ทำถูก ควร copy)</div>
+          <ul class="task-list">
+            <li><strong>Points prepaid system</strong> — Ringo มีโครงสร้างแล้ว แค่ต้อง implement transaction จริง (TASK-005)</li>
+            <li><strong>Keyword-based Call Flow</strong> — Ringo มีแล้วใน Settings และทำได้ดีกว่า BOTNOI (มี 3 outcomes ชัดเจน + response message)</li>
+            <li><strong>Script Template System</strong> — DB schema มีแล้ว แค่ขาด UI (TASK-009)</li>
+            <li><strong>Export CSV + BOM</strong> — Ringo ทำดีกว่า BOTNOI อยู่แล้ว (รองรับ Excel ภาษาไทย) — รักษาไว้</li>
+          </ul>
+        </div>
+
+        <div class="card" style="border-color:#fde68a; background:#fefce8;">
+          <div class="card-title" style="color:#92400e; font-size:15px;">⚡ ควรปรับปรุงก่อนทำตาม (ทำให้ดีกว่า BOTNOI)</div>
+          <ul class="task-list">
+            <li><strong>Campaign Runner UX</strong> — Ringo มี animated progress, current-caller card, mini summary ที่ดีกว่า — รักษาไว้และ upgrade ด้วย Realtime (TASK-014)</li>
+            <li><strong>Analytics</strong> — BOTNOI แค่ basic แต่ Ringo ควรทำ drill-down, date range filter, cross-campaign comparison ที่ลึกกว่า (TASK-004)</li>
+            <li><strong>Contact Management</strong> — แทนที่จะทำ per-campaign contact แบบ BOTNOI ให้ทำ Global Contact Book เลย (TASK-013)</li>
+          </ul>
+        </div>
+
+        <div class="card" style="border-color:#fecdd3; background:#fff1f2;">
+          <div class="card-title" style="color:#9f1239; font-size:15px;">❌ ไม่ควรทำตาม (BOTNOI ทำผิด หรือ design decision ที่ไม่เหมาะ)</div>
+          <ul class="task-list">
+            <li><strong>Sequential-only Dialing</strong> — Scale ไม่ได้ Ringo ควรออกแบบให้รองรับ parallel ตั้งแต่ต้น (TASK-017)</li>
+            <li><strong>No Contact Book</strong> — บังคับ upload CSV ทุก campaign เป็น UX ที่แย่มาก อย่าทำตาม</li>
+            <li><strong>Single-user Account</strong> — ถ้า Ringo target B2B ควร design org structure ไว้ใน data model แม้ UI จะยังไม่ทำก็ตาม</li>
+            <li><strong>Keyword-only Intent Detection ระยะยาว</strong> — ใช้ได้ระยะสั้น แต่อนาคตต้อง move ไป LLM เพื่อรองรับ free-form conversation จริงๆ</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- Footer -->
+    <hr class="divider" />
+    <div style="text-align:center; color:var(--gray-400); font-size:12px; padding-bottom:24px;">
+      Product Audit: BOTNOI Voice Outbound vs Ringo · สร้างวันที่ 15 มิถุนายน 2569 ·
+      <strong style="color:var(--brand);">Ringo</strong> — Outbound Calling Campaign Platform
+    </div>
+
+  </main>
+</div>
+
+<script>
+  // Active TOC highlight on scroll
+  const links = document.querySelectorAll('.toc-link');
+  const sections = document.querySelectorAll('[id]');
+
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        links.forEach(l => l.classList.remove('active'));
+        const active = document.querySelector(`.toc-link[href="#${entry.target.id}"]`);
+        if (active) active.classList.add('active');
+      }
+    });
+  }, { rootMargin: '-20% 0px -70% 0px' });
+
+  sections.forEach(s => observer.observe(s));
+</script>
+</body>
+</html>
