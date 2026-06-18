@@ -36,9 +36,9 @@ function CampaignEditPage() {
 }
 
 const VOICES = [
-  { id: "41", name: "ไชเรน", role: "ผู้หญิง-วัยรุ่น" },
-  { id: "8",  name: "เอวา",  role: "ผู้หญิง-วัยผู้ใหญ่" },
-  { id: "4",  name: "สโม้ค", role: "ผู้ชาย-วัยผู้ใหญ่" },
+  { id: "6",  name: "ไซเรน",      role: "ผู้หญิง-วัยรุ่น" },
+  { id: "4",  name: "แม็กซ์",     role: "ผู้ชาย-วัยผู้ใหญ่" },
+  { id: "37", name: "ผู้ใหญ่ลี", role: "ผู้ชาย-สำเนียงสุพรรณ" },
 ];
 
 
@@ -63,7 +63,7 @@ function CampaignEditPageInner() {
 
   // Step 2 state
   const [script, setScript] = useState("");
-  const [voice, setVoice] = useState("41");
+  const [voice, setVoice] = useState("6");
   const [dbTemplates, setDbTemplates] = useState<DbTemplate[]>([]);
   const [activeTemplate, setActiveTemplate] = useState("");
 

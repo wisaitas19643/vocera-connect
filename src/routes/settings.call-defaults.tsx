@@ -17,9 +17,9 @@ export const Route = createFileRoute("/settings/call-defaults")({
 });
 
 const VOICES = [
-  { id: "41", name: "ไชเรน",  role: "ผู้หญิง · วัยรุ่น", emoji: "🌸", bg: "bg-pink-50", active: "bg-pink-50 border-pink-500", text: "text-pink-700" },
-  { id: "8",  name: "เอวา",   role: "ผู้หญิง · วัยผู้ใหญ่", emoji: "👩‍💼", bg: "bg-blue-50", active: "bg-blue-50 border-blue-500", text: "text-blue-700" },
-  { id: "4",  name: "สโม้ค",  role: "ผู้ชาย · วัยผู้ใหญ่", emoji: "🧑‍💼", bg: "bg-teal-50", active: "bg-teal-50 border-teal-500", text: "text-teal-700" },
+  { id: "6",  name: "ไซเรน",      role: "ผู้หญิง · วัยรุ่น",    emoji: "🌸", bg: "bg-pink-50",   active: "bg-pink-50 border-pink-500",   text: "text-pink-700" },
+  { id: "4",  name: "แม็กซ์",     role: "ผู้ชาย · วัยผู้ใหญ่",  emoji: "🧑‍💼", bg: "bg-teal-50",   active: "bg-teal-50 border-teal-500",   text: "text-teal-700" },
+  { id: "37", name: "ผู้ใหญ่ลี", role: "ผู้ชาย · สำเนียงสุพรรณ", emoji: "👴", bg: "bg-amber-50",  active: "bg-amber-50 border-amber-500", text: "text-amber-700" },
 ];
 
 const TEMPLATES = [
@@ -61,7 +61,7 @@ function CallDefaultsPage() {
   const [script, setScript] = useState(TEMPLATES[0].script);
   const [activeTemplate, setActiveTemplate] = useState("");
   const [dbTemplates, setDbTemplates] = useState<DbTemplate[]>([]);
-  const [voice, setVoice] = useState("41");
+  const [voice, setVoice] = useState("6");
   const [notifySuccess, setNotifySuccess] = useState(false);
   const [notifyLowPoints, setNotifyLowPoints] = useState(false);
   const [confirmResponse, setConfirmResponse] = useState("ขอบคุณค่ะ ยืนยันการเข้าร่วมเรียบร้อยแล้วค่ะ แล้วพบกันนะคะ");
