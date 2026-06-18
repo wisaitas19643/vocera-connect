@@ -10,9 +10,6 @@ import {
   CheckCircle2,
   FileText,
   Mic,
-  Plus,
-  Minus,
-  ChevronDown,
 } from "lucide-react";
 
 import { Button } from "@/components/vocera/Button";
@@ -21,6 +18,9 @@ import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover
 import { cn } from "@/lib/utils";
 import { RequireAuth } from "@/components/vocera/RequireAuth";
 import * as campaignStore from "@/lib/campaignStore";
+import { supabase } from "@/lib/supabase";
+
+interface DbTemplate { id: string; name: string; script: string; }
 
 export const Route = createFileRoute("/campaign/$id/edit")({
   head: () => ({ meta: [{ title: "Edit campaign — Ringo" }] }),
@@ -36,12 +36,11 @@ function CampaignEditPage() {
 }
 
 const VOICES = [
-  { id: "41", name: "ไชเรน", role: "ผู้หญิง-วัยรุ่น" },
-  { id: "8",  name: "เอวา",  role: "ผู้หญิง-วัยผู้ใหญ่" },
-  { id: "4",  name: "สโม้ค", role: "ผู้ชาย-วัยผู้ใหญ่" },
+  { id: "6",  name: "ไซเรน",      role: "ผู้หญิง-วัยรุ่น" },
+  { id: "4",  name: "แม็กซ์",     role: "ผู้ชาย-วัยผู้ใหญ่" },
+  { id: "37", name: "ผู้ใหญ่ลี", role: "ผู้ชาย-สำเนียงสุพรรณ" },
 ];
 
-const INTERVALS = [10, 20, 30, 60];
 
 function CampaignEditPageInner() {
   const { id } = Route.useParams();
@@ -64,13 +63,21 @@ function CampaignEditPageInner() {
 
   // Step 2 state
   const [script, setScript] = useState("");
-  const [voice, setVoice] = useState("41");
-  const [speed, setSpeed] = useState(1);
-  const [retries, setRetries] = useState(0);
-  const [interval, setIntervalValue] = useState(10);
+  const [voice, setVoice] = useState("6");
+  const [dbTemplates, setDbTemplates] = useState<DbTemplate[]>([]);
+  const [activeTemplate, setActiveTemplate] = useState("");
 
   // ดึงข้อมูลแคมเปญจาก Supabase
   useEffect(() => {
+    supabase.auth.getUser().then(({ data: { user } }) => {
+      if (!user) return;
+      supabase
+        .from("script_templates")
+        .select("id, name, script")
+        .eq("user_id", user.id)
+        .order("created_at")
+        .then(({ data }) => { if (data?.length) setDbTemplates(data); });
+    });
     campaignStore.getById(id).then((camp) => {
       if (!camp) {
         setLoadError("ไม่พบแคมเปญนี้");
@@ -293,45 +300,56 @@ function CampaignEditPageInner() {
                 <span className="flex h-9 w-9 items-center justify-center rounded-full bg-brand-100 text-brand-700">
                   <FileText className="h-4 w-4" />
                 </span>
-                <h3 className="font-semibold text-gray-800">สคริปต์การโทร (ค่าเริ่มต้น)</h3>
+                <h3 className="font-semibold text-gray-800">สคริปต์การโทร</h3>
               </div>
+              {dbTemplates.length > 0 && (
+                <div className="mt-4">
+                  <p className="mb-2 text-xs font-medium text-gray-500">เลือก Template</p>
+                  <div className="flex flex-wrap gap-2">
+                    {dbTemplates.map((t) => (
+                      <button
+                        key={t.id}
+                        type="button"
+                        onClick={() => { setScript(t.script); setActiveTemplate(t.id); }}
+                        className={cn(
+                          "rounded-full border px-3.5 py-1.5 text-sm font-medium transition-colors",
+                          activeTemplate === t.id
+                            ? "border-brand-700 bg-brand-50 text-brand-700"
+                            : "border-gray-200 bg-white text-gray-600 hover:border-brand-300",
+                        )}
+                      >
+                        {t.name}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+              )}
               <textarea
                 value={script}
-                onChange={(e) => setScript(e.target.value)}
+                onChange={(e) => { setScript(e.target.value); setActiveTemplate(""); }}
                 className="mt-4 min-h-40 w-full rounded-xl border border-brand-200 bg-brand-50 p-4 text-sm text-gray-700 outline-none focus:border-brand-700"
                 maxLength={2000}
               />
               <div className="mt-3 flex flex-wrap items-center gap-2">
-                <span className="text-xs text-gray-500">รองรับตัวแปร:</span>
-                {["{ชื่อ}", "{ชื่องาน}", "{วันที่}", "{เวลา}"].map((v) => (
-                  <span
-                    key={v}
-                    className="rounded-full bg-brand-100 px-3 py-1 text-xs font-medium text-brand-700"
-                  >
+                <span className="text-xs text-gray-500">ตัวแปรที่ใช้ได้:</span>
+                {["{Org_name}", "{Appointment Date}", "{Appointment Time}"].map((v) => (
+                  <span key={v} className="rounded-full bg-brand-100 px-3 py-1 text-xs font-medium text-brand-700">
                     {v}
                   </span>
                 ))}
               </div>
             </div>
 
-            <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
-              {/* Voice card */}
-              <div className="rounded-2xl bg-white p-5 shadow-card">
+            {/* Voice card */}
+            <div className="rounded-2xl bg-white p-5 shadow-card">
                 <div className="flex items-center gap-2">
                   <span className="flex h-9 w-9 items-center justify-center rounded-full bg-brand-100 text-brand-700">
                     <Mic className="h-4 w-4" />
                   </span>
                   <h3 className="font-semibold text-gray-800">ตั้งค่าเสียง</h3>
                 </div>
-                <div className="mt-4 flex items-center justify-between">
+                <div className="mt-4">
                   <span className="text-sm font-medium text-gray-700">เลือกเสียงพูด</span>
-                  <button
-                    type="button"
-                    className="flex h-7 w-7 items-center justify-center rounded-full border border-brand-300 text-brand-700 hover:bg-brand-50"
-                    aria-label="เพิ่มเสียง"
-                  >
-                    <Plus className="h-4 w-4" />
-                  </button>
                 </div>
                 <div className="mt-3 grid grid-cols-3 gap-2">
                   {VOICES.map((v) => (
@@ -354,73 +372,6 @@ function CampaignEditPageInner() {
                     </button>
                   ))}
                 </div>
-                <div className="mt-5">
-                  <label className="text-sm font-medium text-gray-700">
-                    ความเร็ว: {speed.toFixed(2)}X
-                  </label>
-                  <input
-                    type="range"
-                    min={0.5}
-                    max={2}
-                    step={0.25}
-                    value={speed}
-                    onChange={(e) => setSpeed(parseFloat(e.target.value))}
-                    className="mt-2 w-full accent-brand-700"
-                  />
-                </div>
-              </div>
-
-              {/* Call settings card */}
-              <div className="rounded-2xl bg-white p-5 shadow-card">
-                <div className="flex items-center gap-2">
-                  <span className="flex h-9 w-9 items-center justify-center rounded-full bg-brand-100 text-brand-700">
-                    <Phone className="h-4 w-4" />
-                  </span>
-                  <h3 className="font-semibold text-gray-800">ตั้งค่าการโทร</h3>
-                </div>
-
-                <div className="mt-4">
-                  <div className="text-sm font-medium text-gray-700">จำนวนครั้งโทรซ้ำสูงสุด</div>
-                  <div className="text-xs text-gray-400">(กรณีที่ปลายสายไม่รับ)</div>
-                  <div className="mt-3 flex items-center gap-3">
-                    <button
-                      type="button"
-                      onClick={() => setRetries(Math.max(0, retries - 1))}
-                      className="flex h-8 w-8 items-center justify-center rounded-full border border-gray-300 text-gray-600 hover:border-brand-700 hover:text-brand-700"
-                    >
-                      <Minus className="h-3.5 w-3.5" />
-                    </button>
-                    <span className="min-w-16 text-center text-sm font-semibold text-gray-800">
-                      {retries} ครั้ง
-                    </span>
-                    <button
-                      type="button"
-                      onClick={() => setRetries(Math.min(10, retries + 1))}
-                      className="flex h-8 w-8 items-center justify-center rounded-full border border-gray-300 text-gray-600 hover:border-brand-700 hover:text-brand-700"
-                    >
-                      <Plus className="h-3.5 w-3.5" />
-                    </button>
-                  </div>
-                </div>
-
-                <div className="mt-5">
-                  <label className="text-sm font-medium text-gray-700">ช่วงห่างระหว่างโทรซ้ำ</label>
-                  <div className="relative mt-2">
-                    <select
-                      value={interval}
-                      onChange={(e) => setIntervalValue(parseInt(e.target.value))}
-                      className="w-full appearance-none rounded-xl border border-gray-200 bg-white px-4 py-2.5 pr-9 text-sm outline-none focus:border-brand-700"
-                    >
-                      {INTERVALS.map((m) => (
-                        <option key={m} value={m}>
-                          {m} นาที
-                        </option>
-                      ))}
-                    </select>
-                    <ChevronDown className="pointer-events-none absolute right-3 top-1/2 h-4 w-4 -translate-y-1/2 text-gray-400" />
-                  </div>
-                </div>
-              </div>
             </div>
 
             <div className="flex items-center gap-3 pt-2">
