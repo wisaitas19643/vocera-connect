@@ -4,11 +4,6 @@ import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
 const BOTNOI_API_KEY = Deno.env.get("BOTNOI_API_KEY") ?? "";
 const BOTNOI_BASE = "https://api-voice.botnoi.ai/api/voicebot";
 
-const LEGACY_VOICE_MAP: Record<string, string> = {
-  mali: "41",
-  samorn: "8",
-  somchai: "4",
-};
 
 const CORS = {
   "Access-Control-Allow-Origin": "*",
@@ -78,7 +73,7 @@ serve(async (req) => {
       }
     }
 
-    const speakerId = LEGACY_VOICE_MAP[voiceId] ?? voiceId ?? "41";
+    const speakerId = voiceId ?? "41";
 
     // ── Step 1: สร้าง Template ──
     const tplRes = await fetch(`${BOTNOI_BASE}/confirm/create_template`, {

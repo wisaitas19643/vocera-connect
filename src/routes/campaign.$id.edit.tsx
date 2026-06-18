@@ -78,6 +78,8 @@ function CampaignEditPageInner() {
       }
       setName(camp.name);
       setEventTime(camp.time ?? "");
+      if (camp.script) setScript(camp.script);
+      if (camp.voice_id) setVoice(camp.voice_id);
       if (camp.date) {
         const [d, m, y] = camp.date.split("/").map(Number);
         if (d && m && y) setEventDate(new Date(y, m - 1, d));
@@ -105,6 +107,8 @@ function CampaignEditPageInner() {
       name: name.trim(),
       date: eventDate ? format(eventDate, "dd/MM/yyyy") : undefined,
       time: eventTime || undefined,
+      script: script || undefined,
+      voice_id: voice || undefined,
     });
     toast.success(`✅ บันทึกแคมเปญ "${name.trim()}" สำเร็จ`);
     navigate({ to: "/campaign" });
