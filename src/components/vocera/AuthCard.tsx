@@ -22,6 +22,7 @@ const loginSchema = z.object({
 const registerSchema = z
   .object({
     name: z.string().trim().min(1, { message: "กรุณากรอกชื่อ-นามสกุล" }).max(100),
+    orgName: z.string().trim().min(1, { message: "กรุณากรอกชื่อองค์กร" }).max(200),
     email: z.string().trim().email({ message: "อีเมลไม่ถูกต้อง" }).max(255),
     password: z.string().min(8, { message: "รหัสผ่านอย่างน้อย 8 ตัวอักษร" }).max(128),
     confirmPassword: z.string(),
@@ -179,7 +180,7 @@ function RegisterForm() {
     formState: { errors, isSubmitting },
   } = useForm<RegisterValues>({
     resolver: zodResolver(registerSchema),
-    defaultValues: { name: "", email: "", password: "", confirmPassword: "" },
+    defaultValues: { name: "", orgName: "", email: "", password: "", confirmPassword: "" },
   });
 
   const onSubmit = handleSubmit(async (values) => {
@@ -195,6 +196,12 @@ function RegisterForm() {
     if (error) {
       setAuthError(error.message);
       return;
+    }
+    if (data.user) {
+      await supabase
+        .from("profiles")
+        .update({ org_name: values.orgName })
+        .eq("id", data.user.id);
     }
     if (data.session) {
       navigate({ to: "/dashboard" });
@@ -228,6 +235,13 @@ function RegisterForm() {
         autoComplete="name"
         error={errors.name?.message}
         {...register("name")}
+      />
+      <Field
+        label="ชื่อองค์กร"
+        placeholder="เช่น บริษัท ABC จำกัด"
+        autoComplete="organization"
+        error={errors.orgName?.message}
+        {...register("orgName")}
       />
       <Field
         label="อีเมล"

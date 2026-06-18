@@ -135,12 +135,14 @@ export async function updateContacts(id: string, contacts: RunnerContact[]): Pro
 
 export async function update(
   id: string,
-  fields: Partial<Pick<Campaign, "name" | "date" | "time" | "status">>,
+  fields: Partial<Pick<Campaign, "name" | "date" | "time" | "status" | "script" | "voice_id">>,
 ): Promise<void> {
   const dbUpdate: TablesUpdate<"campaigns"> = {};
 
   if (fields.name !== undefined) dbUpdate.name = fields.name;
   if (fields.status !== undefined) dbUpdate.status = fields.status;
+  if (fields.script !== undefined) dbUpdate.script = fields.script;
+  if (fields.voice_id !== undefined) dbUpdate.voice_id = fields.voice_id;
 
   if (fields.date !== undefined || fields.time !== undefined) {
     const iso = parseDateTimeToISO(fields.date ?? "", fields.time ?? "");

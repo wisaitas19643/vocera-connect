@@ -1,0 +1,4870 @@
+================================================================================
+                          BOTNOI API - SPEAKERS LIST
+                        Complete Voice Library Reference
+================================================================================
+
+Total Voices: 404+ voices
+- V2 Premium Voices: 51 voices
+- V1 Classic Voices: 353 voices
+
+================================================================================
+V2 PREMIUM VOICES
+================================================================================
+
+Speaker ID: 8
+Name: Ava V2 (เอวา V2)
+Gender: Female
+Age Style: Adult
+Primary Language: TH
+Available Languages: th, en
+Voice Style: N/A
+Speech Style: Storytelling
+Speed: Normal
+Price: 2 credits
+--------------------------------------------------------------------------------
+
+Speaker ID: 4
+Name: Smoke V2 (สโม๊ค V2)
+Gender: Male
+Age Style: Adult
+Primary Language: TH
+Available Languages: th, en
+Voice Style: N/A
+Speech Style: N/A
+Speed: Normal
+Price: 2 credits
+--------------------------------------------------------------------------------
+
+Speaker ID: 12
+Name: Nadia V2 (นาเดียร์ V2)
+Gender: Female
+Age Style: Teens
+Primary Language: EN
+Available Languages: th, en
+Voice Style: Confident
+Speech Style: Storytelling, Narrating
+Speed: Normal
+Price: 2 credits
+--------------------------------------------------------------------------------
+
+Speaker ID: 13
+Name: Neo V2 (เนโอ V2)
+Gender: Male
+Age Style: Teens
+Primary Language: TH
+Available Languages: th, en
+Voice Style: Gentle
+Speech Style: Storytelling, Narrating
+Speed: Normal
+Price: 2 credits
+--------------------------------------------------------------------------------
+
+Speaker ID: 23
+Name: Bow V2 (โบ V2)
+Gender: Female
+Age Style: Child
+Primary Language: TH
+Available Languages: th, en
+Voice Style: N/A
+Speech Style: N/A
+Speed: Normal
+Price: 2 credits
+--------------------------------------------------------------------------------
+
+Speaker ID: 27
+Name: Alan V2 (อลัน V2)
+Gender: Male
+Age Style: Adult
+Primary Language: TH
+Available Languages: th, en
+Voice Style: N/A
+Speech Style: N/A
+Speed: Normal
+Price: 2 credits
+--------------------------------------------------------------------------------
+
+Speaker ID: 29
+Name: YingAiko V2 (หญิงไอโกะ V2)
+Gender: Female
+Age Style: Teens
+Primary Language: TH
+Available Languages: th, en
+Voice Style: Sweet
+Speech Style: Storytelling, Anime
+Speed: Normal
+Price: 2 credits
+--------------------------------------------------------------------------------
+
+Speaker ID: 32
+Name: Aunty Grace V2 (น้าเกรซ V2)
+Gender: Female
+Age Style: Adult
+Primary Language: TH
+Available Languages: th, en
+Voice Style: Warm
+Speech Style: Storytelling, Narrating
+Speed: Normal
+Price: 2 credits
+--------------------------------------------------------------------------------
+
+Speaker ID: 37
+Name: Nick V2 (นิค V2)
+Gender: Male
+Age Style: Adult
+Primary Language: TH
+Available Languages: th, en
+Voice Style: Confident
+Speech Style: Storytelling, Narrating
+Speed: Normal
+Price: 2 credits
+--------------------------------------------------------------------------------
+
+Speaker ID: 41
+Name: Siren V2 (ไซเรน V2)
+Gender: Female
+Age Style: Teens
+Primary Language: TH
+Available Languages: th, en
+Voice Style: Exciting
+Speech Style: Storytelling, News Reading
+Speed: Fast
+Price: 2 credits
+--------------------------------------------------------------------------------
+
+Speaker ID: 43
+Name: JaiDee V2 (ใจดี V2)
+Gender: Male
+Age Style: Adult
+Primary Language: TH
+Available Languages: th, en
+Voice Style: N/A
+Speech Style: N/A
+Speed: Normal
+Price: 5 credits
+--------------------------------------------------------------------------------
+
+Speaker ID: 46
+Name: Alisa V2 (อลิสา V2)
+Gender: Female
+Age Style: Teens
+Primary Language: TH
+Available Languages: th, en
+Voice Style: N/A
+Speech Style: N/A
+Speed: Normal
+Price: 2 credits
+--------------------------------------------------------------------------------
+
+Speaker ID: 48
+Name: Bamboo V2 (แบมบู V2)
+Gender: Female
+Age Style: Teens
+Primary Language: TH
+Available Languages: th, en
+Voice Style: N/A
+Speech Style: N/A
+Speed: Normal
+Price: 2 credits
+--------------------------------------------------------------------------------
+
+Speaker ID: 49
+Name: Oto V2 (โอโตะ V2)
+Gender: Male
+Age Style: Teens
+Primary Language: TH
+Available Languages: th, en
+Voice Style: Sweet
+Speech Style: Storytelling, Anime
+Speed: Normal
+Price: 2 credits
+--------------------------------------------------------------------------------
+
+Speaker ID: 50
+Name: Kru D Dee V2 (ครูดีดี๊ V2)
+Gender: Female
+Age Style: Adult
+Primary Language: TH
+Available Languages: th, en
+Voice Style: Trustworthy
+Speech Style: Storytelling, Narrating
+Speed: Slow
+Price: 2 credits
+--------------------------------------------------------------------------------
+
+Speaker ID: 52
+Name: Hiro V2 (ฮิโระ V2)
+Gender: Male
+Age Style: Teens
+Primary Language: TH
+Available Languages: th, en
+Voice Style: Cute
+Speech Style: Storytelling, Anime
+Speed: Normal
+Price: 2 credits
+--------------------------------------------------------------------------------
+
+Speaker ID: 53
+Name: Ben V2 (เบน V2)
+Gender: Male
+Age Style: Adult
+Primary Language: TH
+Available Languages: th, en
+Voice Style: N/A
+Speech Style: N/A
+Speed: Normal
+Price: 2 credits
+--------------------------------------------------------------------------------
+
+Speaker ID: 54
+Name: Sali V2 (สาลี V2)
+Gender: Female
+Age Style: Teens
+Primary Language: TH
+Available Languages: th, en
+Voice Style: N/A
+Speech Style: N/A
+Speed: Slow
+Price: 2 credits
+--------------------------------------------------------------------------------
+
+Speaker ID: 55
+Name: Mr.Bread V2 (นายเบรด V2)
+Gender: Male
+Age Style: Teens
+Primary Language: TH
+Available Languages: th, en
+Voice Style: Playful
+Speech Style: Storytelling, News Reading
+Speed: Fast
+Price: 2 credits
+--------------------------------------------------------------------------------
+
+Speaker ID: 57
+Name: Vanilla V2 (วนิลา V2)
+Gender: Female
+Age Style: Teens
+Primary Language: TH
+Available Languages: th, en
+Voice Style: Cute
+Speech Style: Documentary, Storytelling
+Speed: Normal
+Price: 2 credits
+--------------------------------------------------------------------------------
+
+Speaker ID: 59
+Name: Ileen V2 (ไอลีน V2)
+Gender: Female
+Age Style: Teens
+Primary Language: TH
+Available Languages: th, en
+Voice Style: Cute
+Speech Style: Narrating, Anime
+Speed: Normal
+Price: 2 credits
+--------------------------------------------------------------------------------
+
+Speaker ID: 60
+Name: meow V2 (เหมียว V2)
+Gender: Female
+Age Style: Adult
+Primary Language: TH
+Available Languages: th, en
+Voice Style: Confident
+Speech Style: Storytelling, Narrating
+Speed: Normal
+Price: 2 credits
+--------------------------------------------------------------------------------
+
+Speaker ID: 61
+Name: Jao Nerd V2 (เจ้าเนิร์ด V2)
+Gender: Female
+Age Style: Teens
+Primary Language: TH
+Available Languages: th, en
+Voice Style: Serious
+Speech Style: Storytelling, Narrating
+Speed: Slow
+Price: 2 credits
+--------------------------------------------------------------------------------
+
+Speaker ID: 63
+Name: Neo V2 (เนโอ V2)
+Gender: Male
+Age Style: Teens
+Primary Language: TH
+Available Languages: th, en
+Voice Style: Gentle
+Speech Style: Storytelling, Narrating
+Speed: Normal
+Price: 2 credits
+--------------------------------------------------------------------------------
+
+Speaker ID: 64
+Name: Teddy V2 (เท็ดดี้ V2)
+Gender: Male
+Age Style: Teens
+Primary Language: TH
+Available Languages: th, en
+Voice Style: Gentle
+Speech Style: Storytelling, Narrating
+Speed: Normal
+Price: 2 credits
+--------------------------------------------------------------------------------
+
+Speaker ID: 65
+Name: Ngam V2 (คุณงาม V2)
+Gender: Female
+Age Style: Adult
+Primary Language: TH
+Available Languages: th, en
+Voice Style: Confident
+Speech Style: Storytelling, Narrating
+Speed: Normal
+Price: 2 credits
+--------------------------------------------------------------------------------
+
+Speaker ID: 67
+Name: Top V2 (ท็อป V2)
+Gender: Male
+Age Style: Teens
+Primary Language: TH
+Available Languages: th, en
+Voice Style: Soothing
+Speech Style: Storytelling, Narrating
+Speed: Normal
+Price: 2 credits
+--------------------------------------------------------------------------------
+
+Speaker ID: 68
+Name: Mani V2 (มานี V2)
+Gender: Female
+Age Style: Adult
+Primary Language: TH
+Available Languages: th, en
+Voice Style: N/A
+Speech Style: N/A
+Speed: Normal
+Price: 2 credits
+--------------------------------------------------------------------------------
+
+Speaker ID: 70
+Name: Ananda V2 (อนันดา V2)
+Gender: Male
+Age Style: Child
+Primary Language: TH
+Available Languages: th, en
+Voice Style: N/A
+Speech Style: N/A
+Speed: Slow
+Price: 2 credits
+--------------------------------------------------------------------------------
+
+Speaker ID: 71
+Name: Know V2 (น้องโนว์ V2)
+Gender: Male
+Age Style: Teens
+Primary Language: TH
+Available Languages: th, en
+Voice Style: Gentle
+Speech Style: Storytelling, Narrating
+Speed: Normal
+Price: 2 credits
+--------------------------------------------------------------------------------
+
+Speaker ID: 72
+Name: Fommy V2 (ฟอมมี่ V2)
+Gender: Female
+Age Style: Adult
+Primary Language: TH
+Available Languages: th, en
+Voice Style: Confident
+Speech Style: Documentary, News Reading
+Speed: Normal
+Price: 2 credits
+--------------------------------------------------------------------------------
+
+Speaker ID: 73
+Name: Kaew (Northeast) V2 (คำแก้ว (อีสาน) V2)
+Gender: Female
+Age Style: Adult
+Primary Language: TH
+Available Languages: th, en
+Voice Style: Northeastern accent
+Speech Style: Storytelling, Local
+Speed: Normal
+Price: 2 credits
+--------------------------------------------------------------------------------
+
+Speaker ID: 74
+Name: Uncle Warm V2 (อาวอร์ม V2)
+Gender: Male
+Age Style: Adult
+Primary Language: TH
+Available Languages: th, en
+Voice Style: Warm
+Speech Style: Storytelling, Narrating
+Speed: Slow
+Price: 2 credits
+--------------------------------------------------------------------------------
+
+Speaker ID: 76
+Name: tee V2 (ตี๋ V2)
+Gender: Male
+Age Style: Adult
+Primary Language: TH
+Available Languages: th, en
+Voice Style: Confident
+Speech Style: Storytelling, Narrating
+Speed: Normal
+Price: 2 credits
+--------------------------------------------------------------------------------
+
+Speaker ID: 78
+Name: Toto V2 (โตโต้ V2)
+Gender: Male
+Age Style: Adult
+Primary Language: TH
+Available Languages: th, en
+Voice Style: N/A
+Speech Style: N/A
+Speed: Normal
+Price: 2 credits
+--------------------------------------------------------------------------------
+
+Speaker ID: 79
+Name: Aekkarat V2 (คุณเอกรัฐ V2)
+Gender: Male
+Age Style: Adult
+Primary Language: TH
+Available Languages: th, en
+Voice Style: N/A
+Speech Style: N/A
+Speed: Normal
+Price: 5 credits
+--------------------------------------------------------------------------------
+
+Speaker ID: 83
+Name: Lara Reed V2 (ลาร่า รีด V2)
+Gender: Female
+Age Style: Adult
+Primary Language: EN
+Available Languages: th, en
+Voice Style: N/A
+Speech Style: N/A
+Speed: Normal
+Price: 2 credits
+--------------------------------------------------------------------------------
+
+Speaker ID: 84
+Name: Andy V2 (แอนดี้ V2)
+Gender: Male
+Age Style: Adult
+Primary Language: EN
+Available Languages: th, en
+Voice Style: N/A
+Speech Style: N/A
+Speed: Normal
+Price: 2 credits
+--------------------------------------------------------------------------------
+
+Speaker ID: 9
+Name: Leo V2 (เลโอ V2)
+Gender: Male
+Age Style: Adult
+Primary Language: TH
+Available Languages: th, en
+Voice Style: N/A
+Speech Style: N/A
+Speed: Normal
+Price: 2 credits
+--------------------------------------------------------------------------------
+
+Speaker ID: 95
+Name: Bio V2 (ไบโอ V2)
+Gender: Female
+Age Style: Teens
+Primary Language: TH
+Available Languages: th, en
+Voice Style: เสียงนุ่มนวล
+Speech Style: สไตล์เล่าเรื่อง, สไตล์บรรยาย
+Speed: Normal
+Price: 2 credits
+--------------------------------------------------------------------------------
+
+Speaker ID: 191
+Name: Timmy V2 (ทิมมี่ V2)
+Gender: Male
+Age Style: Child
+Primary Language: EN
+Available Languages: th, en
+Voice Style: Gentle
+Speech Style: Storytelling, Narrating
+Speed: Normal
+Price: 2 credits
+--------------------------------------------------------------------------------
+
+Speaker ID: 192
+Name: Emma V2 (เอมม่า V2)
+Gender: Female
+Age Style: Teens
+Primary Language: EN
+Available Languages: th, en
+Voice Style: Sweet
+Speech Style: Storytelling, Narrating
+Speed: Normal
+Price: 2 credits
+--------------------------------------------------------------------------------
+
+Speaker ID: 193
+Name: Chris (คริส)
+Gender: Male
+Age Style: Adult
+Primary Language: EN
+Available Languages: th, en
+Voice Style: Gentle
+Speech Style: Storytelling, Narrating
+Speed: Normal
+Price: 2 credits
+--------------------------------------------------------------------------------
+
+Speaker ID: 225
+Name: Michael V2 (ไมเคิล V2)
+Gender: Male
+Age Style: Teens
+Primary Language: EN
+Available Languages: th, en
+Voice Style: เสียงนุ่มนวล
+Speech Style: สไตล์เล่าเรื่อง, สไตล์บรรยาย
+Speed: Normal
+Price: 2 credits
+--------------------------------------------------------------------------------
+
+Speaker ID: 226
+Name: Albert V2 (อัลเบิร์ด V2)
+Gender: Male
+Age Style: Teens
+Primary Language: EN
+Available Languages: th, en
+Voice Style: เสียงนุ่มนวล
+Speech Style: สไตล์เล่าเรื่อง, สไตล์บรรยาย
+Speed: Normal
+Price: 2 credits
+--------------------------------------------------------------------------------
+
+Speaker ID: 227
+Name: James V2 (เจมส์ V2)
+Gender: Male
+Age Style: Teens
+Primary Language: EN
+Available Languages: th, en
+Voice Style: เสียงนุ่มนวล
+Speech Style: สไตล์เล่าเรื่อง, สไตล์บรรยาย
+Speed: Normal
+Price: 2 credits
+--------------------------------------------------------------------------------
+
+Speaker ID: 228
+Name: John V2 (จอห์น V2)
+Gender: Male
+Age Style: Teens
+Primary Language: EN
+Available Languages: th, en
+Voice Style: เสียงนุ่มนวล
+Speech Style: สไตล์เล่าเรื่อง, สไตล์บรรยาย
+Speed: Normal
+Price: 2 credits
+--------------------------------------------------------------------------------
+
+Speaker ID: 237
+Name: Fiona V2 (ฟิโอนา V2)
+Gender: Male
+Age Style: Teens
+Primary Language: EN
+Available Languages: th, en
+Voice Style: เสียงนุ่มนวล
+Speech Style: สไตล์เล่าเรื่อง, สไตล์บรรยาย
+Speed: Normal
+Price: 2 credits
+--------------------------------------------------------------------------------
+
+Speaker ID: 239
+Name: Amanda V2 (อแมนดา V2)
+Gender: Male
+Age Style: Teens
+Primary Language: EN
+Available Languages: th, en
+Voice Style: เสียงนุ่มนวล
+Speech Style: สไตล์เล่าเรื่อง, สไตล์บรรยาย
+Speed: Normal
+Price: 2 credits
+--------------------------------------------------------------------------------
+
+Speaker ID: 240
+Name: Amber V2 (แอมเบอร์ V2)
+Gender: Male
+Age Style: Teens
+Primary Language: EN
+Available Languages: th, en
+Voice Style: เสียงนุ่มนวล
+Speech Style: สไตล์เล่าเรื่อง, สไตล์บรรยาย
+Speed: Normal
+Price: 2 credits
+--------------------------------------------------------------------------------
+
+Speaker ID: 241
+Name: Christa V2 (คริสต้า V2)
+Gender: Male
+Age Style: Teens
+Primary Language: EN
+Available Languages: th, en
+Voice Style: เสียงนุ่มนวล
+Speech Style: สไตล์เล่าเรื่อง, สไตล์บรรยาย
+Speed: Normal
+Price: 2 credits
+--------------------------------------------------------------------------------
+
+
+================================================================================
+V1 CLASSIC VOICES
+================================================================================
+
+Speaker ID: 2
+Name: Bow (โบ)
+Gender: Female
+Age Style: Child
+Primary Language: TH
+Available Languages: en, id, ja, lo, my, th, vi, zh
+Voice Style: Cute
+Speech Style: Storytelling
+Speed: Normal
+Price: 1 credits
+--------------------------------------------------------------------------------
+
+Speaker ID: 3
+Name: Ngam (คุณงาม)
+Gender: Female
+Age Style: Adult
+Primary Language: TH
+Available Languages: en, id, ja, lo, my, th, vi, zh
+Voice Style: Confident
+Speech Style: Storytelling, Narrating
+Speed: Normal
+Price: 1 credits
+--------------------------------------------------------------------------------
+
+Speaker ID: 4
+Name: Max (แม็กซ์)
+Gender: Male
+Age Style: Adult
+Primary Language: TH
+Available Languages: en, id, ja, lo, my, th, vi, zh
+Voice Style: Trustworthy
+Speech Style: Storytelling, News Reading
+Speed: Normal
+Price: 1 credits
+--------------------------------------------------------------------------------
+
+Speaker ID: 5
+Name: Alan (อลัน)
+Gender: Male
+Age Style: Adult
+Primary Language: TH
+Available Languages: en, id, ja, lo, my, th, vi, zh
+Voice Style: Exciting
+Speech Style: Storytelling, News Reading
+Speed: Normal
+Price: 1 credits
+--------------------------------------------------------------------------------
+
+Speaker ID: 6
+Name: Siren (ไซเรน)
+Gender: Female
+Age Style: Teens
+Primary Language: TH
+Available Languages: en, id, ja, lo, my, th, vi, zh
+Voice Style: Exciting
+Speech Style: Storytelling, News Reading
+Speed: Fast
+Price: 1 credits
+--------------------------------------------------------------------------------
+
+Speaker ID: 7
+Name: Alisa (อลิสา)
+Gender: Female
+Age Style: Teens
+Primary Language: TH
+Available Languages: en, id, ja, lo, my, th, vi, zh
+Voice Style: Cute
+Speech Style: Storytelling, Narrating
+Speed: Normal
+Price: 1 credits
+--------------------------------------------------------------------------------
+
+Speaker ID: 8
+Name: Leo (เลโอ)
+Gender: Male
+Age Style: Adult
+Primary Language: TH
+Available Languages: en, id, ja, lo, my, th, vi, zh
+Voice Style: Exciting
+Speech Style: News Reading, Documentary
+Speed: Fast
+Price: 1 credits
+--------------------------------------------------------------------------------
+
+Speaker ID: 9
+Name: Nadia (นาเดียร์)
+Gender: Female
+Age Style: Teens
+Primary Language: EN
+Available Languages: th, en, lo, zh, vi, id, my, ja
+Voice Style: N/A
+Speech Style: Storytelling, Narrating
+Speed: Normal
+Price: 1 credits
+--------------------------------------------------------------------------------
+
+Speaker ID: 11
+Name: Vanilla (วนิลา)
+Gender: Female
+Age Style: Teens
+Primary Language: TH
+Available Languages: en, id, ja, lo, my, th, vi, zh
+Voice Style: Cute
+Speech Style: Storytelling, Documentary
+Speed: Normal
+Price: 1 credits
+--------------------------------------------------------------------------------
+
+Speaker ID: 13
+Name: Ananda (อนันดา)
+Gender: Male
+Age Style: Child
+Primary Language: TH
+Available Languages: en, id, ja, lo, my, th, vi, zh
+Voice Style: Cute
+Speech Style: Novel, Anime
+Speed: Slow
+Price: 1 credits
+--------------------------------------------------------------------------------
+
+Speaker ID: 14
+Name: Ileen (ไอลีน)
+Gender: Female
+Age Style: Teens
+Primary Language: TH
+Available Languages: en, id, ja, lo, my, th, vi, zh
+Voice Style: Cute
+Speech Style: Narrating, Anime
+Speed: Normal
+Price: 1 credits
+--------------------------------------------------------------------------------
+
+Speaker ID: 15
+Name: Hiro (ฮิโระ)
+Gender: Male
+Age Style: Teens
+Primary Language: TH
+Available Languages: en, id, ja, lo, my, th, vi, zh
+Voice Style: Cute
+Speech Style: Storytelling, Anime
+Speed: Normal
+Price: 1 credits
+--------------------------------------------------------------------------------
+
+Speaker ID: 16
+Name: Kru D Dee (ครูดีดี๊)
+Gender: Female
+Age Style: Adult
+Primary Language: TH
+Available Languages: en, id, ja, lo, my, th, vi, zh
+Voice Style: Trustworthy
+Speech Style: Storytelling, Narrating
+Speed: Slow
+Price: 1 credits
+--------------------------------------------------------------------------------
+
+Speaker ID: 17
+Name: Jao Nerd (เจ้าเนิร์ด)
+Gender: Female
+Age Style: Teens
+Primary Language: TH
+Available Languages: en, id, ja, lo, my, th, vi, zh
+Voice Style: Serious
+Speech Style: Storytelling, Narrating
+Speed: Slow
+Price: 1 credits
+--------------------------------------------------------------------------------
+
+Speaker ID: 18
+Name: Oto (โอโตะ)
+Gender: Male
+Age Style: Teens
+Primary Language: TH
+Available Languages: en, id, ja, lo, my, th, vi, zh
+Voice Style: Sweet
+Speech Style: Storytelling, Anime
+Speed: Normal
+Price: 1 credits
+--------------------------------------------------------------------------------
+
+Speaker ID: 19
+Name: Uncle Warm (อาวอร์ม)
+Gender: Male
+Age Style: Adult
+Primary Language: TH
+Available Languages: en, id, ja, lo, my, th, vi, zh
+Voice Style: Warm
+Speech Style: Storytelling, Narrating
+Speed: Slow
+Price: 1 credits
+--------------------------------------------------------------------------------
+
+Speaker ID: 20
+Name: Peter (ปีเตอร์)
+Gender: Male
+Age Style: Adult
+Primary Language: EN
+Available Languages: en, id, ja, lo, my, vi, zh
+Voice Style: Trustworthy
+Speech Style: Storytelling, News Reading
+Speed: Normal
+Price: 1 credits
+--------------------------------------------------------------------------------
+
+Speaker ID: 26
+Name: YingAiko (หญิงไอโกะ)
+Gender: Female
+Age Style: Teens
+Primary Language: TH
+Available Languages: en, id, ja, lo, my, th, vi, zh
+Voice Style: Sweet
+Speech Style: Storytelling, Anime
+Speed: Normal
+Price: 1 credits
+--------------------------------------------------------------------------------
+
+Speaker ID: 27
+Name: Aunty Grace (น้าเกรซ)
+Gender: Female
+Age Style: Adult
+Primary Language: TH
+Available Languages: en, id, ja, lo, my, th, vi, zh
+Voice Style: Warm
+Speech Style: Storytelling, Narrating
+Speed: Normal
+Price: 1 credits
+--------------------------------------------------------------------------------
+
+Speaker ID: 28
+Name: Ajarn Lin (อาจารย์หลิน)
+Gender: Female
+Age Style: Adult
+Primary Language: TH
+Available Languages: en, id, ja, lo, my, th, vi, zh
+Voice Style: Warm
+Speech Style: Narrating, Teaching
+Speed: Normal
+Price: 1 credits
+--------------------------------------------------------------------------------
+
+Speaker ID: 29
+Name: Smoke (สโม๊ค)
+Gender: Male
+Age Style: Teens
+Primary Language: TH
+Available Languages: en, id, ja, lo, my, th, vi, zh
+Voice Style: Playful
+Speech Style: Storytelling, Anime
+Speed: Normal
+Price: 1 credits
+--------------------------------------------------------------------------------
+
+Speaker ID: 30
+Name: Toto (โตโต้)
+Gender: Male
+Age Style: Adult
+Primary Language: TH
+Available Languages: en, id, ja, lo, my, th, vi, zh
+Voice Style: Soothing
+Speech Style: Storytelling, Documentary
+Speed: Normal
+Price: 1 credits
+--------------------------------------------------------------------------------
+
+Speaker ID: 31
+Name: Mr.Bread (นายเบรด)
+Gender: Male
+Age Style: Teens
+Primary Language: TH
+Available Languages: en, id, ja, lo, my, th, vi, zh
+Voice Style: Playful
+Speech Style: Storytelling, News Reading
+Speed: Fast
+Price: 1 credits
+--------------------------------------------------------------------------------
+
+Speaker ID: 32
+Name: Neo (เนโอ)
+Gender: Male
+Age Style: Teens
+Primary Language: TH
+Available Languages: en, id, ja, lo, my, th, vi, zh
+Voice Style: Gentle
+Speech Style: Storytelling, Narrating
+Speed: Normal
+Price: 1 credits
+--------------------------------------------------------------------------------
+
+Speaker ID: 33
+Name: Sali (สาลี)
+Gender: Female
+Age Style: Teens
+Primary Language: TH
+Available Languages: en, id, ja, lo, my, th, vi, zh
+Voice Style: Gentle
+Speech Style: Storytelling, Narrating
+Speed: Slow
+Price: 1 credits
+--------------------------------------------------------------------------------
+
+Speaker ID: 34
+Name: Bamboo (แบมบู)
+Gender: Female
+Age Style: Teens
+Primary Language: TH
+Available Languages: en, id, ja, lo, my, th, vi, zh
+Voice Style: Soothing
+Speech Style: Storytelling, Narrating
+Speed: Normal
+Price: 1 credits
+--------------------------------------------------------------------------------
+
+Speaker ID: 37
+Name: Poo-Yai Lee (ผู้ใหญ่ลี (สุพรรณ))
+Gender: Male
+Age Style: Adult
+Primary Language: TH
+Available Languages: en, id, ja, lo, my, th, vi, zh
+Voice Style: Regional accent
+Speech Style: Storytelling, Local
+Speed: Normal
+Price: 0 credits
+--------------------------------------------------------------------------------
+
+Speaker ID: 38
+Name: Teddy (เท็ดดี้)
+Gender: Male
+Age Style: Teens
+Primary Language: TH
+Available Languages: en, id, ja, lo, my, th, vi, zh
+Voice Style: Gentle
+Speech Style: Storytelling, Narrating
+Speed: Normal
+Price: 1 credits
+--------------------------------------------------------------------------------
+
+Speaker ID: 39
+Name: tee (ตี๋)
+Gender: Male
+Age Style: Adult
+Primary Language: TH
+Available Languages: en, id, ja, lo, my, th, vi, zh
+Voice Style: Confident
+Speech Style: Storytelling, Narrating
+Speed: Normal
+Price: 1 credits
+--------------------------------------------------------------------------------
+
+Speaker ID: 40
+Name: Matt (แม็ท)
+Gender: Male
+Age Style: Teens
+Primary Language: EN
+Available Languages: en, id, ja, lo, my, vi, zh
+Voice Style: Sweet
+Speech Style: Storytelling, News Reading
+Speed: Normal
+Price: 1 credits
+--------------------------------------------------------------------------------
+
+Speaker ID: 41
+Name: Ellie (เอลลี่)
+Gender: Female
+Age Style: Teens
+Primary Language: EN
+Available Languages: en, id, ja, lo, my, vi, zh
+Voice Style: Confident
+Speech Style: Storytelling, News Reading
+Speed: Normal
+Price: 1 credits
+--------------------------------------------------------------------------------
+
+Speaker ID: 42
+Name: meow (เหมียว)
+Gender: Female
+Age Style: Adult
+Primary Language: TH
+Available Languages: en, id, ja, lo, my, th, vi, zh
+Voice Style: Confident
+Speech Style: Storytelling, Narrating
+Speed: Normal
+Price: 1 credits
+--------------------------------------------------------------------------------
+
+Speaker ID: 45
+Name: Touch (ทัช)
+Gender: Male
+Age Style: Adult
+Primary Language: TH
+Available Languages: en, id, ja, lo, my, th, vi, zh
+Voice Style: Confident
+Speech Style: Storytelling, Narrating
+Speed: Normal
+Price: 1 credits
+--------------------------------------------------------------------------------
+
+Speaker ID: 46
+Name: Ben (เบน)
+Gender: Male
+Age Style: Adult
+Primary Language: TH
+Available Languages: en, id, ja, lo, my, th, vi, zh
+Voice Style: Soothing
+Speech Style: News Reading
+Speed: Normal
+Price: 1 credits
+--------------------------------------------------------------------------------
+
+Speaker ID: 47
+Name: Know (น้องโนว์)
+Gender: Male
+Age Style: Teens
+Primary Language: TH
+Available Languages: en, id, ja, lo, my, th, vi, zh
+Voice Style: Gentle and tender
+Speech Style: Storytelling, Narrating
+Speed: Normal
+Price: 1 credits
+--------------------------------------------------------------------------------
+
+Speaker ID: 48
+Name: Top (ท็อป)
+Gender: Male
+Age Style: Teens
+Primary Language: TH
+Available Languages: en, id, ja, lo, my, th, vi, zh
+Voice Style: Deep
+Speech Style: Storytelling, Narrating
+Speed: Normal
+Price: 1 credits
+--------------------------------------------------------------------------------
+
+Speaker ID: 52
+Name: Mani (มานี)
+Gender: Female
+Age Style: Adult
+Primary Language: TH
+Available Languages: th
+Voice Style: Cute
+Speech Style: Storytelling, Anime
+Speed: Normal
+Price: 1 credits
+--------------------------------------------------------------------------------
+
+Speaker ID: 56
+Name: Nick (นิค)
+Gender: Male
+Age Style: Adult
+Primary Language: TH
+Available Languages: en, id, ja, lo, my, th, vi, zh
+Voice Style: Confident
+Speech Style: Storytelling, Narrating
+Speed: Normal
+Price: 1 credits
+--------------------------------------------------------------------------------
+
+Speaker ID: 59
+Name: Juan (เจวียน)
+Gender: Female
+Age Style: Teens
+Primary Language: ZH
+Available Languages: zh
+Voice Style: Sweet
+Speech Style: Storytelling, Narrating
+Speed: Slow
+Price: 1 credits
+--------------------------------------------------------------------------------
+
+Speaker ID: 60
+Name: Xin Seller (แม่ค้าซิน)
+Gender: Female
+Age Style: Adult
+Primary Language: ZH
+Available Languages: zh
+Voice Style: Clear
+Speech Style: News Reading
+Speed: Normal
+Price: 1 credits
+--------------------------------------------------------------------------------
+
+Speaker ID: 61
+Name: Jie Seller (พ่อค้าหวัง)
+Gender: Male
+Age Style: Teens
+Primary Language: ZH
+Available Languages: zh
+Voice Style: Clear
+Speech Style: News Reading
+Speed: Normal
+Price: 1 credits
+--------------------------------------------------------------------------------
+
+Speaker ID: 62
+Name: Qing (ชิง)
+Gender: Female
+Age Style: Adult
+Primary Language: ZH
+Available Languages: zh
+Voice Style: Calm
+Speech Style: Storytelling, Narrating
+Speed: Normal
+Price: 1 credits
+--------------------------------------------------------------------------------
+
+Speaker ID: 63
+Name: Kanna Teacher  (ครูคันนะ)
+Gender: Female
+Age Style: Teens
+Primary Language: JA
+Available Languages: en, id, ja, lo, my, vi, zh
+Voice Style: Clear
+Speech Style: Narrating, Teaching
+Speed: Normal
+Price: 1 credits
+--------------------------------------------------------------------------------
+
+Speaker ID: 64
+Name: Sae (ซาเอะ)
+Gender: Female
+Age Style: Adult
+Primary Language: JA
+Available Languages: en, id, ja, lo, my, vi, zh
+Voice Style: Calm
+Speech Style: News Reading, Storytelling
+Speed: Normal
+Price: 1 credits
+--------------------------------------------------------------------------------
+
+Speaker ID: 65
+Name: Dia (เดีย)
+Gender: Female
+Age Style: Teens
+Primary Language: ID
+Available Languages: en, id, ja, lo, my, vi, zh
+Voice Style: Calm
+Speech Style: Storytelling, News Reading
+Speed: Normal
+Price: 0 credits
+--------------------------------------------------------------------------------
+
+Speaker ID: 66
+Name: Taufik (เทาฟิก)
+Gender: Male
+Age Style: Adult
+Primary Language: ID
+Available Languages: en, id, ja, lo, my, vi, zh
+Voice Style: Soothing
+Speech Style: Storytelling, News Reading
+Speed: Fast
+Price: 0 credits
+--------------------------------------------------------------------------------
+
+Speaker ID: 67
+Name: Tedi (เทดี้)
+Gender: Male
+Age Style: Teens
+Primary Language: ID
+Available Languages: en, id, ja, lo, my, vi, zh
+Voice Style: Confident
+Speech Style: Storytelling, Documentary
+Speed: Fast
+Price: 0 credits
+--------------------------------------------------------------------------------
+
+Speaker ID: 68
+Name: Zamira Teacher  (ครูซามีระ)
+Gender: Female
+Age Style: Adult
+Primary Language: ID
+Available Languages: en, id, ja, lo, my, vi, zh
+Voice Style: Calm
+Speech Style: Storytelling, Teaching
+Speed: Fast
+Price: 0 credits
+--------------------------------------------------------------------------------
+
+Speaker ID: 69
+Name: Dang (ดั่ง)
+Gender: Male
+Age Style: Adult
+Primary Language: VI
+Available Languages: en, id, ja, lo, my, vi, zh
+Voice Style: Calm
+Speech Style: Storytelling, Documentary
+Speed: Slow
+Price: 1 credits
+--------------------------------------------------------------------------------
+
+Speaker ID: 70
+Name: Hung (ฮง)
+Gender: Male
+Age Style: Adult
+Primary Language: VI
+Available Languages: en, id, ja, lo, my, vi, zh
+Voice Style: Calm
+Speech Style: Storytelling, Narrating
+Speed: Slow
+Price: 1 credits
+--------------------------------------------------------------------------------
+
+Speaker ID: 71
+Name: Thanh (ถั่ญ)
+Gender: Female
+Age Style: Adult
+Primary Language: VI
+Available Languages: en, id, ja, lo, my, vi, zh
+Voice Style: Clear
+Speech Style: Storytelling, News Reading
+Speed: Fast
+Price: 1 credits
+--------------------------------------------------------------------------------
+
+Speaker ID: 72
+Name: Diep (เซียบ)
+Gender: Female
+Age Style: Adult
+Primary Language: VI
+Available Languages: en, id, ja, lo, my, vi, zh
+Voice Style: Calm
+Speech Style: Storytelling, Narrating
+Speed: Fast
+Price: 1 credits
+--------------------------------------------------------------------------------
+
+Speaker ID: 73
+Name: Phuong (เฟื่อง)
+Gender: Female
+Age Style: Adult
+Primary Language: VI
+Available Languages: en, id, ja, lo, my, vi, zh
+Voice Style: Confident
+Speech Style: Documentary, Narrating
+Speed: Normal
+Price: 1 credits
+--------------------------------------------------------------------------------
+
+Speaker ID: 74
+Name: Johnny (จอห์นนี่)
+Gender: Male
+Age Style: Teens
+Primary Language: VI
+Available Languages: en, id, ja, lo, my, vi, zh
+Voice Style: Confident
+Speech Style: Narrating, Anime
+Speed: Normal
+Price: 1 credits
+--------------------------------------------------------------------------------
+
+Speaker ID: 77
+Name: Phorn (พร)
+Gender: Female
+Age Style: Adult
+Primary Language: LO
+Available Languages: lo
+Voice Style: Gentle and tender
+Speech Style: Narrating, Documentary
+Speed: Slow
+Price: 1 credits
+--------------------------------------------------------------------------------
+
+Speaker ID: 78
+Name: Sorn (ศร)
+Gender: Male
+Age Style: Teens
+Primary Language: LO
+Available Languages: en, id, ja, km, lo, my, vi, zh
+Voice Style: Sweet
+Speech Style: Storytelling, News Reading
+Speed: Normal
+Price: 1 credits
+--------------------------------------------------------------------------------
+
+Speaker ID: 79
+Name: Waris Teacher (ครูวริศ)
+Gender: Female
+Age Style: Teens
+Primary Language: LO
+Available Languages: en, id, ja, km, lo, my, vi, zh
+Voice Style: Sweet
+Speech Style: Narrating, Teaching
+Speed: Normal
+Price: 1 credits
+--------------------------------------------------------------------------------
+
+Speaker ID: 80
+Name: BunYang (บุนยัง)
+Gender: Male
+Age Style: Teens
+Primary Language: LO
+Available Languages: en, id, ja, km, lo, my, vi, zh
+Voice Style: Calm
+Speech Style: Storytelling, Documentary
+Speed: Normal
+Price: 1 credits
+--------------------------------------------------------------------------------
+
+Speaker ID: 81
+Name: Yati Teacher (ครูยาตี)
+Gender: Female
+Age Style: Adult
+Primary Language: MY
+Available Languages: en, id, ja, lo, my, vi, zh
+Voice Style: Exciting
+Speech Style: News Reading, Teaching
+Speed: Normal
+Price: 1 credits
+--------------------------------------------------------------------------------
+
+Speaker ID: 82
+Name: Heyma (เฮย์มา)
+Gender: Female
+Age Style: Adult
+Primary Language: MY
+Available Languages: en, id, ja, lo, my, vi, zh
+Voice Style: Gentle and tender
+Speech Style: Storytelling, Narrating
+Speed: Normal
+Price: 1 credits
+--------------------------------------------------------------------------------
+
+Speaker ID: 83
+Name: Gawa (กาว่า)
+Gender: Female
+Age Style: Adult
+Primary Language: MY
+Available Languages: en, id, ja, lo, my, vi, zh
+Voice Style: Confident
+Speech Style: Storytelling, Narrating
+Speed: Fast
+Price: 1 credits
+--------------------------------------------------------------------------------
+
+Speaker ID: 84
+Name: Cetan (ซีตาน)
+Gender: Male
+Age Style: Teens
+Primary Language: MY
+Available Languages: en, id, ja, lo, my, vi, zh
+Voice Style: Calm
+Speech Style: News Reading, Narrating
+Speed: Normal
+Price: 1 credits
+--------------------------------------------------------------------------------
+
+Speaker ID: 85
+Name: Nora (South) (โนรา (ใต้))
+Gender: Female
+Age Style: Teens
+Primary Language: TH
+Available Languages: en, th
+Voice Style: Southtern accent
+Speech Style: Storytelling, Local
+Speed: Fast
+Price: 0 credits
+--------------------------------------------------------------------------------
+
+Speaker ID: 87
+Name: AiThoen (North) (อ้ายเถิน (เหนือ))
+Gender: Male
+Age Style: Teens
+Primary Language: TH
+Available Languages: en, th
+Voice Style: Northern accent, Northern accent
+Speech Style: Storytelling, Local
+Speed: Normal
+Price: 0 credits
+--------------------------------------------------------------------------------
+
+Speaker ID: 88
+Name: Fommy (ฟอมมี่)
+Gender: Female
+Age Style: Adult
+Primary Language: TH
+Available Languages: en, th
+Voice Style: Confident
+Speech Style: News Reading, Documentary
+Speed: Normal
+Price: 1 credits
+--------------------------------------------------------------------------------
+
+Speaker ID: 89
+Name: Kaew (Northeast) (คำแก้ว (อีสาน))
+Gender: Female
+Age Style: Adult
+Primary Language: TH
+Available Languages: en, th
+Voice Style: Northeastern accent
+Speech Style: Storytelling, Local
+Speed: Normal
+Price: 0 credits
+--------------------------------------------------------------------------------
+
+Speaker ID: 94
+Name: Tola (โทลา)
+Gender: Male
+Age Style: Teens
+Primary Language: KM
+Available Languages: en, id, ja, km, lo, my, vi, zh
+Voice Style: Clear
+Speech Style: News Reading, Documentary
+Speed: Normal
+Price: 1 credits
+--------------------------------------------------------------------------------
+
+Speaker ID: 95
+Name: Mala (มาลา)
+Gender: Female
+Age Style: Teens
+Primary Language: KM
+Available Languages: en, id, ja, km, lo, my, vi, zh
+Voice Style: Confident
+Speech Style: News Reading, Documentary
+Speed: Normal
+Price: 1 credits
+--------------------------------------------------------------------------------
+
+Speaker ID: 96
+Name: Olivia (โอลิเวีย)
+Gender: Female
+Age Style: Adult
+Primary Language: EN
+Available Languages: en, id, ja, km, lo, my, vi, zh
+Voice Style: Clear
+Speech Style: News Reading, Narrating
+Speed: Normal
+Price: 1 credits
+--------------------------------------------------------------------------------
+
+Speaker ID: 97
+Name: shawn (ฌอน)
+Gender: Male
+Age Style: Adult
+Primary Language: EN
+Available Languages: en, id, ja, km, lo, my, vi, zh
+Voice Style: Trustworthy
+Speech Style: News Reading, Documentary
+Speed: Normal
+Price: 1 credits
+--------------------------------------------------------------------------------
+
+Speaker ID: 98
+Name: Bobby Teacher  (อาจารย์บ็อบบี้)
+Gender: Male
+Age Style: Adult
+Primary Language: EN
+Available Languages: en, id, ja, km, lo, my, vi, zh
+Voice Style: Clear
+Speech Style: Narrating, Teaching
+Speed: Normal
+Price: 1 credits
+--------------------------------------------------------------------------------
+
+Speaker ID: 99
+Name: Polly (พอลลี่)
+Gender: Female
+Age Style: Adult
+Primary Language: EN
+Available Languages: en, id, ja, km, lo, my, vi, zh
+Voice Style: Confident
+Speech Style: News Reading, Narrating
+Speed: Normal
+Price: 1 credits
+--------------------------------------------------------------------------------
+
+Speaker ID: 100
+Name: Irene (ไอรีน)
+Gender: Female
+Age Style: Adult
+Primary Language: EN
+Available Languages: en, id, ja, km, lo, my, vi, zh
+Voice Style: Sweet
+Speech Style: Storytelling, Narrating
+Speed: Normal
+Price: 1 credits
+--------------------------------------------------------------------------------
+
+Speaker ID: 102
+Name: Paul (พอล)
+Gender: Male
+Age Style: Adult
+Primary Language: EN
+Available Languages: en, id, ja, km, lo, my, vi, zh
+Voice Style: Confident
+Speech Style: News Reading, Narrating
+Speed: Normal
+Price: 1 credits
+--------------------------------------------------------------------------------
+
+Speaker ID: 101
+Name: Nelson (เนลสัน)
+Gender: Male
+Age Style: Adult
+Primary Language: EN
+Available Languages: en, id, ja, km, lo, my, vi, zh
+Voice Style: Clear
+Speech Style: Storytelling, Documentary
+Speed: Normal
+Price: 1 credits
+--------------------------------------------------------------------------------
+
+Speaker ID: 103
+Name: Alvin (เอลวิน)
+Gender: Male
+Age Style: Adult
+Primary Language: EN
+Available Languages: en, id, ja, km, lo, my, vi, zh
+Voice Style: Gentle and tender
+Speech Style: News Reading, Narrating
+Speed: Normal
+Price: 1 credits
+--------------------------------------------------------------------------------
+
+Speaker ID: 104
+Name: Judy (จูดี้)
+Gender: Female
+Age Style: Adult
+Primary Language: EN
+Available Languages: en, id, ja, km, lo, my, vi, zh
+Voice Style: Confident
+Speech Style: Storytelling, News Reading
+Speed: Normal
+Price: 1 credits
+--------------------------------------------------------------------------------
+
+Speaker ID: 107
+Name: Kara (คาร่า)
+Gender: Female
+Age Style: Adult
+Primary Language: EN
+Available Languages: en, id, ja, km, lo, my, vi, zh
+Voice Style: Clear
+Speech Style: News Reading, Documentary
+Speed: Normal
+Price: 1 credits
+--------------------------------------------------------------------------------
+
+Speaker ID: 114
+Name: Janice (เจนิส)
+Gender: Female
+Age Style: Adult
+Primary Language: EN
+Available Languages: en, id, ja, km, lo, my, vi, zh
+Voice Style: Calm
+Speech Style: Storytelling, Documentary
+Speed: Normal
+Price: 1 credits
+--------------------------------------------------------------------------------
+
+Speaker ID: 115
+Name: Ruby Teacher (ครูรูบี้)
+Gender: Female
+Age Style: Adult
+Primary Language: EN
+Available Languages: en
+Voice Style: Clear
+Speech Style: Narrating, Teaching
+Speed: Normal
+Price: 1 credits
+--------------------------------------------------------------------------------
+
+Speaker ID: 119
+Name: Kubo (คุโบ)
+Gender: Male
+Age Style: Adult
+Primary Language: JA
+Available Languages: en, id, ja, km, lo, my, vi, zh
+Voice Style: Soothing
+Speech Style: Storytelling, Narrating
+Speed: Normal
+Price: 1 credits
+--------------------------------------------------------------------------------
+
+Speaker ID: 139
+Name: Sreymum (ศรีมัม)
+Gender: Male
+Age Style: Adult
+Primary Language: KM
+Available Languages: ar, de, en, es, fil, fr, id, ja, km, ko, lo, my, nl, vi, zh
+Voice Style: Calm
+Speech Style: Storytelling, Narrating
+Speed: Normal
+Price: 1 credits
+--------------------------------------------------------------------------------
+
+Speaker ID: 140
+Name: Chai (ชัย)
+Gender: Female
+Age Style: Adult
+Primary Language: KM
+Available Languages: ar, de, en, es, fil, fr, id, ja, km, ko, lo, my, nl, vi, zh
+Voice Style: Calm
+Speech Style: News Reading, Documentary
+Speed: Normal
+Price: 1 credits
+--------------------------------------------------------------------------------
+
+Speaker ID: 141
+Name: Samai (สมัย)
+Gender: Male
+Age Style: Adult
+Primary Language: KM
+Available Languages: ar, de, en, es, fil, fr, id, ja, km, ko, lo, my, nl, vi, zh
+Voice Style: Clear
+Speech Style: Storytelling, Narrating
+Speed: Normal
+Price: 1 credits
+--------------------------------------------------------------------------------
+
+Speaker ID: 142
+Name: Kosal Teacher (อาจารย์โกศล)
+Gender: Male
+Age Style: Adult
+Primary Language: KM
+Available Languages: ar, de, en, es, fil, fr, id, ja, km, ko, lo, my, nl, vi, zh
+Voice Style: Confident
+Speech Style: News Reading, Teaching
+Speed: Normal
+Price: 1 credits
+--------------------------------------------------------------------------------
+
+Speaker ID: 143
+Name: Sopheap (โซฟีป)
+Gender: Female
+Age Style: Adult
+Primary Language: KM
+Available Languages: ar, de, en, es, fil, fr, id, ja, km, ko, lo, my, nl, vi, zh
+Voice Style: Confident
+Speech Style: Storytelling, Narrating
+Speed: Normal
+Price: 1 credits
+--------------------------------------------------------------------------------
+
+Speaker ID: 144
+Name: Sokhim (โสคิม)
+Gender: Male
+Age Style: Adult
+Primary Language: KM
+Available Languages: ar, de, en, es, fil, fr, id, ja, km, ko, lo, my, nl, vi, zh
+Voice Style: Confident
+Speech Style: News Reading, Documentary
+Speed: Normal
+Price: 1 credits
+--------------------------------------------------------------------------------
+
+Speaker ID: 145
+Name: Rathaa Teacher (ครูรฐา)
+Gender: Female
+Age Style: Adult
+Primary Language: KM
+Available Languages: ar, de, en, es, fil, fr, id, ja, km, ko, lo, my, nl, vi, zh
+Voice Style: Confident
+Speech Style: Narrating, Teaching
+Speed: Normal
+Price: 1 credits
+--------------------------------------------------------------------------------
+
+Speaker ID: 146
+Name: Kriza (กรีซ่า)
+Gender: Female
+Age Style: Adult
+Primary Language: FIL
+Available Languages: ar, de, en, es, fil, fr, id, ja, km, ko, lo, my, nl, vi, zh
+Voice Style: Clear
+Speech Style: Storytelling, Narrating
+Speed: Normal
+Price: 1 credits
+--------------------------------------------------------------------------------
+
+Speaker ID: 147
+Name: Mickyla Seller (แม่ค้ามิคเคล่า)
+Gender: Female
+Age Style: Adult
+Primary Language: FIL
+Available Languages: ar, de, en, es, fil, fr, id, ja, km, ko, lo, my, nl, vi, zh
+Voice Style: Sweet
+Speech Style: Narrating
+Speed: Normal
+Price: 1 credits
+--------------------------------------------------------------------------------
+
+Speaker ID: 148
+Name: Shuncey (ชานซี)
+Gender: Male
+Age Style: Adult
+Primary Language: FIL
+Available Languages: ar, de, en, es, fil, fr, id, ja, km, ko, lo, my, nl, vi, zh
+Voice Style: Confident
+Speech Style: Storytelling, News Reading
+Speed: Normal
+Price: 1 credits
+--------------------------------------------------------------------------------
+
+Speaker ID: 154
+Name: Tiffani (ทิฟฟานี่)
+Gender: Female
+Age Style: Adult
+Primary Language: EN
+Available Languages: en, th
+Voice Style: Trustworthy
+Speech Style: Storytelling, News Reading
+Speed: Normal
+Price: 1 credits
+--------------------------------------------------------------------------------
+
+Speaker ID: 160
+Name: Lynn (ริณณ์)
+Gender: Female
+Age Style: Adult
+Primary Language: TH
+Available Languages: en, th
+Voice Style: Confident
+Speech Style: Storytelling, Narrating
+Speed: Normal
+Price: 1 credits
+--------------------------------------------------------------------------------
+
+Speaker ID: 162
+Name: Daonapha (ดาวนภา)
+Gender: Female
+Age Style: Adult
+Primary Language: TH
+Available Languages: en, th
+Voice Style: Calm
+Speech Style: Storytelling, Narrating
+Speed: Normal
+Price: 1 credits
+--------------------------------------------------------------------------------
+
+Speaker ID: 163
+Name: Ari (อาลี)
+Gender: Male
+Age Style: Adult
+Primary Language: ID
+Available Languages: ar, de, en, es, fr, id, ko, ms, nl, pt-br, ru
+Voice Style: Gentle and tender
+Speech Style: Storytelling, Documentary
+Speed: Normal
+Price: 0 credits
+--------------------------------------------------------------------------------
+
+Speaker ID: 198
+Name: fr_4 (fr_4)
+Gender: Male
+Age Style: Adult
+Primary Language: FR
+Available Languages: ar, de, en, es, fr, id, ko, ms, nl, pt-br, ru
+Voice Style: Soothing
+Speech Style: Anime
+Speed: Normal
+Price: 1 credits
+--------------------------------------------------------------------------------
+
+Speaker ID: 208
+Name: Andy (แอนดี้)
+Gender: Male
+Age Style: Adult
+Primary Language: EN
+Available Languages: en
+Voice Style: Trustworthy, Calm
+Speech Style: Documentary
+Speed: Normal
+Price: 1 credits
+--------------------------------------------------------------------------------
+
+Speaker ID: 209
+Name: Lara Reed (ลาร่า รีด)
+Gender: Female
+Age Style: Adult
+Primary Language: EN
+Available Languages: en
+Voice Style: Clear, Calm
+Speech Style: Narrating, Documentary
+Speed: Normal
+Price: 1 credits
+--------------------------------------------------------------------------------
+
+Speaker ID: 247
+Name: fil_G0005 (fil_G0005)
+Gender: Male
+Age Style: Adult
+Primary Language: FIL
+Available Languages: fil, hi, sg, tr
+Voice Style: Mellow
+Speech Style: Storytelling
+Speed: Normal
+Price: 1 credits
+--------------------------------------------------------------------------------
+
+Speaker ID: 253
+Name: fil_G3001 (fil_G3001)
+Gender: Male
+Age Style: Adult
+Primary Language: FIL
+Available Languages: fil, hi, sg, tr
+Voice Style: Calm
+Speech Style: Narrating
+Speed: Normal
+Price: 1 credits
+--------------------------------------------------------------------------------
+
+Speaker ID: 221
+Name: Rina Teacher (ครูรินา )
+Gender: Female
+Age Style: Adult
+Primary Language: ID
+Available Languages: en, id
+Voice Style: Trustworthy, Serious
+Speech Style: Narrating
+Speed: Normal
+Price: 0 credits
+--------------------------------------------------------------------------------
+
+Speaker ID: 214
+Name: Dewi (เดวี)
+Gender: Female
+Age Style: Adult
+Primary Language: ID
+Available Languages: en, id
+Voice Style: Mellow
+Speech Style: Local
+Speed: Normal
+Price: 0 credits
+--------------------------------------------------------------------------------
+
+Speaker ID: 218
+Name: Intan Seller (แม่ค้าอินทาน)
+Gender: Female
+Age Style: Adult
+Primary Language: ID
+Available Languages: en, id
+Voice Style: Trustworthy, Clear
+Speech Style: Storytelling
+Speed: Normal
+Price: 0 credits
+--------------------------------------------------------------------------------
+
+Speaker ID: 223
+Name: Nina (นีนา)
+Gender: Female
+Age Style: Adult
+Primary Language: ID
+Available Languages: en, id
+Voice Style: Gentle and tender
+Speech Style: Storytelling
+Speed: Normal
+Price: 0 credits
+--------------------------------------------------------------------------------
+
+Speaker ID: 215
+Name: sari Seller (แม่ค้าซารี)
+Gender: Female
+Age Style: Adult
+Primary Language: ID
+Available Languages: en, id
+Voice Style: Clear
+Speech Style: Storytelling
+Speed: Normal
+Price: 0 credits
+--------------------------------------------------------------------------------
+
+Speaker ID: 225
+Name: Annisa (อันนิสา)
+Gender: Female
+Age Style: Adult
+Primary Language: ID
+Available Languages: en, id
+Voice Style: Mellow
+Speech Style: Storytelling
+Speed: Normal
+Price: 0 credits
+--------------------------------------------------------------------------------
+
+Speaker ID: 220
+Name: Ayu (อายู)
+Gender: Female
+Age Style: Adult
+Primary Language: ID
+Available Languages: en, id
+Voice Style: Serious
+Speech Style: Storytelling
+Speed: Normal
+Price: 0 credits
+--------------------------------------------------------------------------------
+
+Speaker ID: 216
+Name: Rizky Teacher (ครูริซกี)
+Gender: Male
+Age Style: Adult
+Primary Language: ID
+Available Languages: en, id
+Voice Style: Clear, Calm
+Speech Style: Teaching
+Speed: Normal
+Price: 0 credits
+--------------------------------------------------------------------------------
+
+Speaker ID: 222
+Name: Lina Seller (แม่ค้าลินา)
+Gender: Female
+Age Style: Adult
+Primary Language: ID
+Available Languages: en, id
+Voice Style: Calm
+Speech Style: Storytelling
+Speed: Normal
+Price: 0 credits
+--------------------------------------------------------------------------------
+
+Speaker ID: 224
+Name: Maya (มาญา)
+Gender: Female
+Age Style: Adult
+Primary Language: ID
+Available Languages: en, id
+Voice Style: Mellow
+Speech Style: Storytelling
+Speed: Normal
+Price: 0 credits
+--------------------------------------------------------------------------------
+
+Speaker ID: 217
+Name: Andi (แอนดิ)
+Gender: Male
+Age Style: Adult
+Primary Language: ID
+Available Languages: en, id
+Voice Style: Exciting
+Speech Style: Narrating
+Speed: Normal
+Price: 0 credits
+--------------------------------------------------------------------------------
+
+Speaker ID: 226
+Name: Bint Seller (พ่อค้าบิณฑ์)
+Gender: Male
+Age Style: Adult
+Primary Language: TH
+Available Languages: en, id, th
+Voice Style: Trustworthy
+Speech Style: Storytelling, Documentary
+Speed: Normal
+Price: 1 credits
+--------------------------------------------------------------------------------
+
+Speaker ID: 257
+Name: Sara (ซาร่า)
+Gender: Female
+Age Style: Adult
+Primary Language: SG
+Available Languages: sg
+Voice Style: N/A
+Speech Style: Storytelling
+Speed: Normal
+Price: 1 credits
+--------------------------------------------------------------------------------
+
+Speaker ID: 258
+Name: Ashley (แอชลี่)
+Gender: Female
+Age Style: Adult
+Primary Language: SG
+Available Languages: sg
+Voice Style: N/A
+Speech Style: Storytelling
+Speed: Normal
+Price: 1 credits
+--------------------------------------------------------------------------------
+
+Speaker ID: 259
+Name: sg_imda_nsc_010_en_Guy (sg_imda_nsc_010_en_Guy)
+Gender: Male
+Age Style: Adult
+Primary Language: SG
+Available Languages: sg
+Voice Style: N/A
+Speech Style: Storytelling
+Speed: Normal
+Price: 1 credits
+--------------------------------------------------------------------------------
+
+Speaker ID: 260
+Name: sg_imda_nsc_011_en_Jacob (sg_imda_nsc_011_en_Jacob)
+Gender: Male
+Age Style: Adult
+Primary Language: SG
+Available Languages: sg
+Voice Style: N/A
+Speech Style: Storytelling
+Speed: Normal
+Price: 1 credits
+--------------------------------------------------------------------------------
+
+Speaker ID: 262
+Name: Sara Seller (แม่ค้าซารา)
+Gender: Female
+Age Style: Adult
+Primary Language: AR
+Available Languages: ar
+Voice Style: Trustworthy, Gentle and tender
+Speech Style: Narrating
+Speed: Normal
+Price: 1 credits
+--------------------------------------------------------------------------------
+
+Speaker ID: 263
+Name: Omar (โอมาร์)
+Gender: Male
+Age Style: Adult
+Primary Language: AR
+Available Languages: ar
+Voice Style: Trustworthy, Calm
+Speech Style: Narrating
+Speed: Normal
+Price: 1 credits
+--------------------------------------------------------------------------------
+
+Speaker ID: 264
+Name: Ahmed Gamer (อาเหม็ด)
+Gender: Male
+Age Style: Adult
+Primary Language: AR
+Available Languages: ar
+Voice Style: Exciting, Clear
+Speech Style: Narrating
+Speed: Normal
+Price: 1 credits
+--------------------------------------------------------------------------------
+
+Speaker ID: 265
+Name: Nora Seller (แม่ค้าโนรา)
+Gender: Female
+Age Style: Adult
+Primary Language: AR
+Available Languages: ar
+Voice Style: Clear, Calm
+Speech Style: Narrating
+Speed: Normal
+Price: 1 credits
+--------------------------------------------------------------------------------
+
+Speaker ID: 271
+Name: Sofia Seller (แม่ค้าโซเฟีย)
+Gender: Female
+Age Style: Adult
+Primary Language: ES
+Available Languages: es
+Voice Style: Trustworthy
+Speech Style: Storytelling, Narrating
+Speed: Normal
+Price: 1 credits
+--------------------------------------------------------------------------------
+
+Speaker ID: 272
+Name: Gavi Teacher (ครูกาบี)
+Gender: Male
+Age Style: Adult
+Primary Language: ES
+Available Languages: es
+Voice Style: Mellow
+Speech Style: Narrating, Teaching
+Speed: Normal
+Price: 1 credits
+--------------------------------------------------------------------------------
+
+Speaker ID: 273
+Name: Pedri (เปดรี)
+Gender: Male
+Age Style: Adult
+Primary Language: ES
+Available Languages: es
+Voice Style: Exciting
+Speech Style: Narrating
+Speed: Normal
+Price: 1 credits
+--------------------------------------------------------------------------------
+
+Speaker ID: 274
+Name: Bianca Teacher (ครูบิอันกา)
+Gender: Female
+Age Style: Adult
+Primary Language: ES
+Available Languages: es
+Voice Style: Trustworthy, Gentle and tender
+Speech Style: Narrating
+Speed: Normal
+Price: 1 credits
+--------------------------------------------------------------------------------
+
+Speaker ID: 275
+Name: Elise Seller (แม่ค้าเอลิเซ)
+Gender: Female
+Age Style: Adult
+Primary Language: FR
+Available Languages: fr
+Voice Style: Clear
+Speech Style: News Reading, Narrating
+Speed: Normal
+Price: 1 credits
+--------------------------------------------------------------------------------
+
+Speaker ID: 278
+Name: Park Gamer (ปาร์ค)
+Gender: Male
+Age Style: Adult
+Primary Language: KO
+Available Languages: ko
+Voice Style: Exciting
+Speech Style: Anime
+Speed: Normal
+Price: 1 credits
+--------------------------------------------------------------------------------
+
+Speaker ID: 279
+Name: Silvia (ซิลเวีย)
+Gender: Female
+Age Style: Adult
+Primary Language: DE
+Available Languages: de
+Voice Style: Clear, Serious
+Speech Style: Documentary
+Speed: Normal
+Price: 1 credits
+--------------------------------------------------------------------------------
+
+Speaker ID: 280
+Name: Eva Teacher (ครูเอฟา)
+Gender: Female
+Age Style: Adult
+Primary Language: DE
+Available Languages: de
+Voice Style: Trustworthy, Clear
+Speech Style: Narrating
+Speed: Normal
+Price: 1 credits
+--------------------------------------------------------------------------------
+
+Speaker ID: 281
+Name: Thomas (โธมัส)
+Gender: Male
+Age Style: Adult
+Primary Language: DE
+Available Languages: de
+Voice Style: Trustworthy, Exciting
+Speech Style: Narrating, Documentary
+Speed: Normal
+Price: 1 credits
+--------------------------------------------------------------------------------
+
+Speaker ID: 282
+Name: Stephan (สเตฟาน)
+Gender: Male
+Age Style: Adult
+Primary Language: DE
+Available Languages: de
+Voice Style: Calm, Soothing
+Speech Style: Anime
+Speed: Normal
+Price: 1 credits
+--------------------------------------------------------------------------------
+
+Speaker ID: 292
+Name: sompan (Trang) (ส้มแป้น (ตรัง))
+Gender: Female
+Age Style: Adult
+Primary Language: TH
+Available Languages: th
+Voice Style: Southtern accent
+Speech Style: Storytelling, Local
+Speed: Normal
+Price: 0 credits
+--------------------------------------------------------------------------------
+
+Speaker ID: 288
+Name: Johan (โยฮัน)
+Gender: Male
+Age Style: Adult
+Primary Language: NL
+Available Languages: nl
+Voice Style: Exciting
+Speech Style: Narrating
+Speed: Normal
+Price: 1 credits
+--------------------------------------------------------------------------------
+
+Speaker ID: 293
+Name: Tawan (Phatthalung) (ตะวัน (พัทลุง))
+Gender: Male
+Age Style: Adult
+Primary Language: TH
+Available Languages: th
+Voice Style: Southtern accent
+Speech Style: Narrating, Local
+Speed: Normal
+Price: 0 credits
+--------------------------------------------------------------------------------
+
+Speaker ID: 297
+Name: Winsong (Phatthalung) (วินซง (พัทลุง))
+Gender: Male
+Age Style: Adult
+Primary Language: TH
+Available Languages: th
+Voice Style: Southtern accent
+Speech Style: Narrating, Local
+Speed: Normal
+Price: 0 credits
+--------------------------------------------------------------------------------
+
+Speaker ID: 301
+Name: Rainy (Songkhla) (เรนนี่ (สงขลา))
+Gender: Male
+Age Style: Adult
+Primary Language: TH
+Available Languages: th
+Voice Style: Southtern accent
+Speech Style: Narrating, Local
+Speed: Normal
+Price: 0 credits
+--------------------------------------------------------------------------------
+
+Speaker ID: 304
+Name: Nuth (Songkhla) (นัทธ์ (สงขลา))
+Gender: Male
+Age Style: Adult
+Primary Language: TH
+Available Languages: th
+Voice Style: Southtern accent
+Speech Style: Local
+Speed: Normal
+Price: 0 credits
+--------------------------------------------------------------------------------
+
+Speaker ID: 306
+Name: Nui (Songkhla) (นุ้ย (สงขลา))
+Gender: Male
+Age Style: Adult
+Primary Language: TH
+Available Languages: th
+Voice Style: Southtern accent
+Speech Style: Storytelling, Local
+Speed: Normal
+Price: 0 credits
+--------------------------------------------------------------------------------
+
+Speaker ID: 310
+Name: Professor Kan (Phrae) (อาจารย์กาญจน์ (แพร่))
+Gender: Male
+Age Style: Adult
+Primary Language: TH
+Available Languages: th
+Voice Style: Northern accent
+Speech Style: Teaching, Local
+Speed: Normal
+Price: 0 credits
+--------------------------------------------------------------------------------
+
+Speaker ID: 316
+Name: Su (Chiang Mai) (สุ (เชียงใหม่))
+Gender: Male
+Age Style: Adult
+Primary Language: TH
+Available Languages: th
+Voice Style: Northern accent
+Speech Style: News Reading, Local
+Speed: Normal
+Price: 0 credits
+--------------------------------------------------------------------------------
+
+Speaker ID: 326
+Name: Mine (North) (มาย (เหนือ))
+Gender: Male
+Age Style: Adult
+Primary Language: TH
+Available Languages: th
+Voice Style: Serious, Northern accent
+Speech Style: News Reading, Local
+Speed: Normal
+Price: 0 credits
+--------------------------------------------------------------------------------
+
+Speaker ID: 327
+Name: Boonpun (North) (บุญปั๋น (เหนือ))
+Gender: Male
+Age Style: Adult
+Primary Language: TH
+Available Languages: th
+Voice Style: Confident, Northern accent
+Speech Style: Storytelling, Local
+Speed: Normal
+Price: 0 credits
+--------------------------------------------------------------------------------
+
+Speaker ID: 334
+Name: Sorn Professor (NorthEast) (อาจารย์ศร (อีสาน))
+Gender: Male
+Age Style: Adult
+Primary Language: TH
+Available Languages: th
+Voice Style: Trustworthy, Northeastern accent
+Speech Style: Teaching, Local
+Speed: Normal
+Price: 0 credits
+--------------------------------------------------------------------------------
+
+Speaker ID: 335
+Name: GuyKai (NorthEast) (กายไก่ (อีสาน))
+Gender: Male
+Age Style: Adult
+Primary Language: TH
+Available Languages: th
+Voice Style: Exciting, Northeastern accent
+Speech Style: Local
+Speed: Normal
+Price: 0 credits
+--------------------------------------------------------------------------------
+
+Speaker ID: 338
+Name: Pongpon (NorthEast) (ปองพล (อีสาน))
+Gender: Male
+Age Style: Adult
+Primary Language: TH
+Available Languages: th
+Voice Style: Confident, Northeastern accent
+Speech Style: Storytelling, Local
+Speed: Normal
+Price: 0 credits
+--------------------------------------------------------------------------------
+
+Speaker ID: 343
+Name: Tonsay (Khon Kaen) (ต้นเซ (ขอนแก่น))
+Gender: Male
+Age Style: Adult
+Primary Language: TH
+Available Languages: th
+Voice Style: N/A
+Speech Style: Storytelling, Local
+Speed: Normal
+Price: 0 credits
+--------------------------------------------------------------------------------
+
+Speaker ID: 294
+Name: Fon (Trang) (ฝน (ตรัง))
+Gender: Female
+Age Style: Adult
+Primary Language: TH
+Available Languages: th
+Voice Style: Southtern accent
+Speech Style: Documentary, Local
+Speed: Normal
+Price: 0 credits
+--------------------------------------------------------------------------------
+
+Speaker ID: 295
+Name: Pin Teacher (Phatthalung) (ครูปิ่น (พัทลุง))
+Gender: Female
+Age Style: Adult
+Primary Language: TH
+Available Languages: th
+Voice Style: Southtern accent
+Speech Style: Teaching, Local
+Speed: Normal
+Price: 0 credits
+--------------------------------------------------------------------------------
+
+Speaker ID: 296
+Name: Dao Seller (Phatthalung) (แม่ค้าดาว (พัทลุง))
+Gender: Female
+Age Style: Adult
+Primary Language: TH
+Available Languages: th
+Voice Style: Southtern accent
+Speech Style: Local
+Speed: Normal
+Price: 0 credits
+--------------------------------------------------------------------------------
+
+Speaker ID: 298
+Name: Nuknik Teacher (Songkhla) (ครูนุกนิก (สงขลา))
+Gender: Female
+Age Style: Adult
+Primary Language: TH
+Available Languages: th
+Voice Style: Southtern accent
+Speech Style: Teaching, Local
+Speed: Normal
+Price: 0 credits
+--------------------------------------------------------------------------------
+
+Speaker ID: 299
+Name: Homjun Teacher (Trang) (ครูหอมจันทน์ (ตรัง))
+Gender: Female
+Age Style: Adult
+Primary Language: TH
+Available Languages: th
+Voice Style: Southtern accent
+Speech Style: Teaching, Local
+Speed: Normal
+Price: 0 credits
+--------------------------------------------------------------------------------
+
+Speaker ID: 300
+Name: Pinky Seller (Trang) (แม่ค้าพิงค์กี้ (ตรัง))
+Gender: Female
+Age Style: Adult
+Primary Language: TH
+Available Languages: th
+Voice Style: Southtern accent
+Speech Style: Local
+Speed: Normal
+Price: 0 credits
+--------------------------------------------------------------------------------
+
+Speaker ID: 302
+Name: Ploy (Songkhla) (พลอย (สงขลา))
+Gender: Female
+Age Style: Adult
+Primary Language: TH
+Available Languages: th
+Voice Style: Southtern accent
+Speech Style: Storytelling, Local
+Speed: Normal
+Price: 0 credits
+--------------------------------------------------------------------------------
+
+Speaker ID: 303
+Name: Tle (Phuket) (เติ้ล (ภูเก็ต))
+Gender: Female
+Age Style: Adult
+Primary Language: TH
+Available Languages: th
+Voice Style: Southtern accent
+Speech Style: Documentary, Local
+Speed: Normal
+Price: 0 credits
+--------------------------------------------------------------------------------
+
+Speaker ID: 305
+Name: Nokkud (Songkhla) (นกคูด (สงขลา))
+Gender: Female
+Age Style: Adult
+Primary Language: TH
+Available Languages: th
+Voice Style: Southtern accent
+Speech Style: Narrating, Local
+Speed: Normal
+Price: 0 credits
+--------------------------------------------------------------------------------
+
+Speaker ID: 307
+Name: Pang Seller (Nakhon Si Thammarat) (แม่ค้าแป้ง (นครศรีธรรมราช))
+Gender: Female
+Age Style: Adult
+Primary Language: TH
+Available Languages: th
+Voice Style: Southtern accent
+Speech Style: Local
+Speed: Normal
+Price: 0 credits
+--------------------------------------------------------------------------------
+
+Speaker ID: 309
+Name: Saijai Teacher (Chiang Rai) (ครูสายใจ (เชียงราย))
+Gender: Female
+Age Style: Adult
+Primary Language: TH
+Available Languages: th
+Voice Style: Northern accent
+Speech Style: Teaching, Local
+Speed: Normal
+Price: 0 credits
+--------------------------------------------------------------------------------
+
+Speaker ID: 311
+Name: Best (Chiang Mai) (เบส (เชียงใหม่))
+Gender: Female
+Age Style: Adult
+Primary Language: TH
+Available Languages: th
+Voice Style: Northern accent
+Speech Style: News Reading, Local
+Speed: Normal
+Price: 0 credits
+--------------------------------------------------------------------------------
+
+Speaker ID: 312
+Name: krubee (Chiang Mai) (ครูบี (เชียงใหม่))
+Gender: Female
+Age Style: Adult
+Primary Language: TH
+Available Languages: th
+Voice Style: Northern accent
+Speech Style: Local
+Speed: Normal
+Price: 0 credits
+--------------------------------------------------------------------------------
+
+Speaker ID: 313
+Name: Professor Kae (Lampang) (อาจารย์แข (ลำปาง))
+Gender: Female
+Age Style: Adult
+Primary Language: TH
+Available Languages: th
+Voice Style: Northern accent
+Speech Style: Teaching, Local
+Speed: Normal
+Price: 0 credits
+--------------------------------------------------------------------------------
+
+Speaker ID: 314
+Name: Bonita (Phrae) (โบนิต้า (แพร่))
+Gender: Female
+Age Style: Adult
+Primary Language: TH
+Available Languages: th
+Voice Style: Northern accent
+Speech Style: Narrating, Local
+Speed: Normal
+Price: 0 credits
+--------------------------------------------------------------------------------
+
+Speaker ID: 315
+Name: KhunLamai (Chiang Mai) (คุณละไม (เชียงใหม่))
+Gender: Female
+Age Style: Adult
+Primary Language: TH
+Available Languages: th
+Voice Style: Northern accent
+Speech Style: Local
+Speed: Normal
+Price: 0 credits
+--------------------------------------------------------------------------------
+
+Speaker ID: 317
+Name: Munkaew Seller (Phayao) (แม่ค้ามันแกว (พะเยา))
+Gender: Female
+Age Style: Adult
+Primary Language: TH
+Available Languages: th
+Voice Style: Northern accent
+Speech Style: Local
+Speed: Normal
+Price: 0 credits
+--------------------------------------------------------------------------------
+
+Speaker ID: 318
+Name: Aommy Seller (Chiang Mai) (แม่ค้าออมมี่ (เชียงใหม่))
+Gender: Female
+Age Style: Adult
+Primary Language: TH
+Available Languages: th
+Voice Style: Northern accent
+Speech Style: Local
+Speed: Normal
+Price: 0 credits
+--------------------------------------------------------------------------------
+
+Speaker ID: 319
+Name: Khaojao (Chiang Mai) (ข้าวจ้าว (เชียงใหม่))
+Gender: Female
+Age Style: Adult
+Primary Language: TH
+Available Languages: th
+Voice Style: Northern accent
+Speech Style: Documentary, Local
+Speed: Normal
+Price: 0 credits
+--------------------------------------------------------------------------------
+
+Speaker ID: 320
+Name: Mok Teacher (North) (ครูหมอก (เหนือ))
+Gender: Female
+Age Style: Adult
+Primary Language: TH
+Available Languages: th
+Voice Style: Trustworthy, Northern accent
+Speech Style: Teaching, Local
+Speed: Normal
+Price: 0 credits
+--------------------------------------------------------------------------------
+
+Speaker ID: 321
+Name: Imm (North) (อิ๋ม (เหนือ))
+Gender: Female
+Age Style: Adult
+Primary Language: TH
+Available Languages: th
+Voice Style: Gentle and tender, Northern accent
+Speech Style: Storytelling, Local
+Speed: Normal
+Price: 0 credits
+--------------------------------------------------------------------------------
+
+Speaker ID: 322
+Name: Ta-oh Teacher (North) (แม่ค้าต๊ะโอ๋ (เหนือ))
+Gender: Female
+Age Style: Adult
+Primary Language: TH
+Available Languages: th
+Voice Style: Confident, Northern accent
+Speech Style: Local
+Speed: Normal
+Price: 0 credits
+--------------------------------------------------------------------------------
+
+Speaker ID: 323
+Name: Kwanjai (North) (ขวัญใจ (เหนือ))
+Gender: Female
+Age Style: Adult
+Primary Language: TH
+Available Languages: th
+Voice Style: Northern accent
+Speech Style: Local
+Speed: Normal
+Price: 0 credits
+--------------------------------------------------------------------------------
+
+Speaker ID: 324
+Name: Wiangphan (North) (กุหลาบเวียงพาน (เหนือ))
+Gender: Female
+Age Style: Adult
+Primary Language: TH
+Available Languages: th
+Voice Style: Northern accent
+Speech Style: Local
+Speed: Normal
+Price: 0 credits
+--------------------------------------------------------------------------------
+
+Speaker ID: 325
+Name: KhunPut (North) (คุณพัฒ (เหนือ))
+Gender: Female
+Age Style: Adult
+Primary Language: TH
+Available Languages: th
+Voice Style: Confident, Northern accent
+Speech Style: Narrating, Local
+Speed: Normal
+Price: 0 credits
+--------------------------------------------------------------------------------
+
+Speaker ID: 328
+Name: Peach Seller (North) (แม่ค้าพีช (เหนือ))
+Gender: Female
+Age Style: Adult
+Primary Language: TH
+Available Languages: th
+Voice Style: Confident, Northern accent
+Speech Style: Local
+Speed: Normal
+Price: 0 credits
+--------------------------------------------------------------------------------
+
+Speaker ID: 329
+Name: Sripun (NorthEast) (ศรีพรรณ (อีสาน))
+Gender: Female
+Age Style: Adult
+Primary Language: TH
+Available Languages: th
+Voice Style: Northeastern accent, Mellow
+Speech Style: Narrating, Local
+Speed: Normal
+Price: 0 credits
+--------------------------------------------------------------------------------
+
+Speaker ID: 331
+Name: Harley (NorthEast) (ฮาร์เลย์ (อีสาน))
+Gender: Female
+Age Style: Adult
+Primary Language: TH
+Available Languages: th
+Voice Style: Clear, Northeastern accent
+Speech Style: Documentary, Local
+Speed: Normal
+Price: 0 credits
+--------------------------------------------------------------------------------
+
+Speaker ID: 332
+Name: Tonhon Teacher (NorthEast) (ครูต้นหน (อีสาน))
+Gender: Female
+Age Style: Adult
+Primary Language: TH
+Available Languages: th
+Voice Style: Trustworthy, Northeastern accent
+Speech Style: Teaching, Local
+Speed: Normal
+Price: 0 credits
+--------------------------------------------------------------------------------
+
+Speaker ID: 333
+Name: Iliah (NorthEast) (อิหล่า (อีสาน))
+Gender: Female
+Age Style: Adult
+Primary Language: TH
+Available Languages: th
+Voice Style: Clear, Northeastern accent
+Speech Style: News Reading, Local
+Speed: Normal
+Price: 0 credits
+--------------------------------------------------------------------------------
+
+Speaker ID: 336
+Name: June (NorthEast) (จูน (อีสาน))
+Gender: Female
+Age Style: Adult
+Primary Language: TH
+Available Languages: th
+Voice Style: Northeastern accent, Mellow
+Speech Style: Narrating, Local
+Speed: Normal
+Price: 0 credits
+--------------------------------------------------------------------------------
+
+Speaker ID: 337
+Name: SinSroi (NorthEast) (สินสร้อย (อีสาน))
+Gender: Female
+Age Style: Adult
+Primary Language: TH
+Available Languages: th
+Voice Style: Sweet, Northeastern accent
+Speech Style: Local
+Speed: Normal
+Price: 0 credits
+--------------------------------------------------------------------------------
+
+Speaker ID: 339
+Name: I-Kueng (NorthEast) (อิเกิ้ง (อีสาน))
+Gender: Female
+Age Style: Adult
+Primary Language: TH
+Available Languages: th
+Voice Style: Confident, Northeastern accent
+Speech Style: News Reading, Local
+Speed: Normal
+Price: 0 credits
+--------------------------------------------------------------------------------
+
+Speaker ID: 340
+Name: Zoe (NorthEast) (โซอี้ (อีสาน))
+Gender: Female
+Age Style: Adult
+Primary Language: TH
+Available Languages: th
+Voice Style: Calm, Northeastern accent
+Speech Style: Documentary, Local
+Speed: Normal
+Price: 0 credits
+--------------------------------------------------------------------------------
+
+Speaker ID: 341
+Name: Sumlee (NorthEast) (สำลี (อีสาน))
+Gender: Female
+Age Style: Adult
+Primary Language: TH
+Available Languages: th
+Voice Style: Serious, Northeastern accent
+Speech Style: Local
+Speed: Normal
+Price: 0 credits
+--------------------------------------------------------------------------------
+
+Speaker ID: 342
+Name: Jingjai Teacher (NorthEast) (ครูจริงใจ (อีสาน))
+Gender: Female
+Age Style: Adult
+Primary Language: TH
+Available Languages: th
+Voice Style: Calm, Northeastern accent
+Speech Style: Teaching, Local
+Speed: Normal
+Price: 0 credits
+--------------------------------------------------------------------------------
+
+Speaker ID: 359
+Name: Faiz (ฟาอิซ)
+Gender: Male
+Age Style: Adult
+Primary Language: MS
+Available Languages: ms
+Voice Style: Serious
+Speech Style: Documentary
+Speed: Normal
+Price: 1 credits
+--------------------------------------------------------------------------------
+
+Speaker ID: 356
+Name: Izan (อิซาน)
+Gender: Male
+Age Style: Adult
+Primary Language: MS
+Available Languages: ms
+Voice Style: Confident
+Speech Style: Storytelling
+Speed: Normal
+Price: 1 credits
+--------------------------------------------------------------------------------
+
+Speaker ID: 357
+Name: Ira (อิรา)
+Gender: Female
+Age Style: Adult
+Primary Language: MS
+Available Languages: ms
+Voice Style: Exciting
+Speech Style: Storytelling
+Speed: Normal
+Price: 1 credits
+--------------------------------------------------------------------------------
+
+Speaker ID: 358
+Name: Dhia Seller (แม่ค้าดียา)
+Gender: Female
+Age Style: Adult
+Primary Language: MS
+Available Languages: ms
+Voice Style: Playful
+Speech Style: Storytelling
+Speed: Normal
+Price: 1 credits
+--------------------------------------------------------------------------------
+
+Speaker ID: 352
+Name: Maria (มาเรีย)
+Gender: Female
+Age Style: Adult
+Primary Language: PT-BR
+Available Languages: pt-br
+Voice Style: Confident
+Speech Style: Storytelling
+Speed: Normal
+Price: 1 credits
+--------------------------------------------------------------------------------
+
+Speaker ID: 353
+Name: Ana (อานา)
+Gender: Female
+Age Style: Adult
+Primary Language: PT-BR
+Available Languages: pt-br
+Voice Style: Confident
+Speech Style: News Reading
+Speed: Normal
+Price: 1 credits
+--------------------------------------------------------------------------------
+
+Speaker ID: 354
+Name: Hugo Gamer (ฮูโก้ )
+Gender: Male
+Age Style: Adult
+Primary Language: PT-BR
+Available Languages: pt-br
+Voice Style: Playful
+Speech Style: Storytelling
+Speed: Normal
+Price: 1 credits
+--------------------------------------------------------------------------------
+
+Speaker ID: 355
+Name: Lucas (ลูคัส)
+Gender: Male
+Age Style: Adult
+Primary Language: PT-BR
+Available Languages: pt-br
+Voice Style: Playful
+Speech Style: Storytelling
+Speed: Normal
+Price: 1 credits
+--------------------------------------------------------------------------------
+
+Speaker ID: 349
+Name: Min-jun Seller (พ่อค้ามินจุน)
+Gender: Male
+Age Style: Adult
+Primary Language: KO
+Available Languages: ko
+Voice Style: Trustworthy
+Speech Style: Storytelling
+Speed: Normal
+Price: 1 credits
+--------------------------------------------------------------------------------
+
+Speaker ID: 351
+Name: Su-a Professor (อาจารย์ซูอา)
+Gender: Female
+Age Style: Adult
+Primary Language: KO
+Available Languages: ko
+Voice Style: Serious
+Speech Style: Teaching
+Speed: Normal
+Price: 1 credits
+--------------------------------------------------------------------------------
+
+Speaker ID: 350
+Name:  Ji-a (จีอา)
+Gender: Female
+Age Style: Adult
+Primary Language: KO
+Available Languages: ko
+Voice Style: Sweet
+Speech Style: Documentary
+Speed: Normal
+Price: 1 credits
+--------------------------------------------------------------------------------
+
+Speaker ID: 346
+Name: Nastya (นาสตยา)
+Gender: Female
+Age Style: Adult
+Primary Language: RU
+Available Languages: ru
+Voice Style: Clear
+Speech Style: Documentary
+Speed: Normal
+Price: 1 credits
+--------------------------------------------------------------------------------
+
+Speaker ID: 347
+Name: Sasha Seller (แม่ค้าซาชา)
+Gender: Female
+Age Style: Adult
+Primary Language: RU
+Available Languages: ru
+Voice Style: Clear
+Speech Style: Storytelling
+Speed: Normal
+Price: 1 credits
+--------------------------------------------------------------------------------
+
+Speaker ID: 345
+Name: Alex (อเล็กซ์ )
+Gender: Male
+Age Style: Adult
+Primary Language: RU
+Available Languages: ru
+Voice Style: Confident
+Speech Style: News Reading
+Speed: Normal
+Price: 1 credits
+--------------------------------------------------------------------------------
+
+Speaker ID: 348
+Name: Nikita Professor (อาจารย์นิกิตา)
+Gender: Male
+Age Style: Adult
+Primary Language: RU
+Available Languages: ru
+Voice Style: Serious
+Speech Style: Teaching
+Speed: Normal
+Price: 1 credits
+--------------------------------------------------------------------------------
+
+Speaker ID: 373
+Name: Cristiana (คริสเทียน่า)
+Gender: Female
+Age Style: Adult
+Primary Language: IT
+Available Languages: it
+Voice Style: Clear
+Speech Style: News Reading
+Speed: Normal
+Price: 1 credits
+--------------------------------------------------------------------------------
+
+Speaker ID: 374
+Name: Leone (ลีโอเน่)
+Gender: Female
+Age Style: Adult
+Primary Language: IT
+Available Languages: it
+Voice Style: Trustworthy
+Speech Style: Documentary
+Speed: Normal
+Price: 1 credits
+--------------------------------------------------------------------------------
+
+Speaker ID: 376
+Name: Rosalia Professor (อาจารย์โรซาลี)
+Gender: Male
+Age Style: Adult
+Primary Language: IT
+Available Languages: it
+Voice Style: Clear
+Speech Style: Teaching
+Speed: Normal
+Price: 1 credits
+--------------------------------------------------------------------------------
+
+Speaker ID: 378
+Name: Blaze (เบลซ)
+Gender: Male
+Age Style: Adult
+Primary Language: EN
+Available Languages: en
+Voice Style: Confident
+Speech Style: Anime
+Speed: Normal
+Price: 1 credits
+--------------------------------------------------------------------------------
+
+Speaker ID: 379
+Name: Kelvin Teacher (ครูเคลวิน)
+Gender: Male
+Age Style: Adult
+Primary Language: EN
+Available Languages: en
+Voice Style: Serious
+Speech Style: Teaching
+Speed: Normal
+Price: 1 credits
+--------------------------------------------------------------------------------
+
+Speaker ID: 382
+Name: Camron (คาเมรอน)
+Gender: Male
+Age Style: Adult
+Primary Language: EN
+Available Languages: en
+Voice Style: Trustworthy
+Speech Style: Documentary
+Speed: Normal
+Price: 1 credits
+--------------------------------------------------------------------------------
+
+Speaker ID: 383
+Name: Spike (สไปค์)
+Gender: Male
+Age Style: Teens
+Primary Language: EN
+Available Languages: en
+Voice Style: Exciting
+Speech Style: Documentary, Anime
+Speed: Normal
+Price: 1 credits
+--------------------------------------------------------------------------------
+
+Speaker ID: 384
+Name: Allan (อลัน)
+Gender: Male
+Age Style: Adult
+Primary Language: EN
+Available Languages: en
+Voice Style: Soothing
+Speech Style: Storytelling
+Speed: Normal
+Price: 1 credits
+--------------------------------------------------------------------------------
+
+Speaker ID: 386
+Name: Danny Gamer (แดนนี่ )
+Gender: Male
+Age Style: Adult
+Primary Language: EN
+Available Languages: en
+Voice Style: Exciting
+Speech Style: News Reading
+Speed: Normal
+Price: 1 credits
+--------------------------------------------------------------------------------
+
+Speaker ID: 387
+Name: Clark (คลาร์ก)
+Gender: Male
+Age Style: Adult
+Primary Language: EN
+Available Languages: en
+Voice Style: Trustworthy
+Speech Style: News Reading
+Speed: Fast
+Price: 1 credits
+--------------------------------------------------------------------------------
+
+Speaker ID: 389
+Name: Wade Professor (อาจารย์วาดี้)
+Gender: Male
+Age Style: Adult
+Primary Language: EN
+Available Languages: en
+Voice Style: Soothing
+Speech Style: Teaching
+Speed: Fast
+Price: 1 credits
+--------------------------------------------------------------------------------
+
+Speaker ID: 392
+Name: Jordan (จอแดน)
+Gender: Male
+Age Style: Adult
+Primary Language: EN
+Available Languages: en
+Voice Style: Clear
+Speech Style: Storytelling
+Speed: Normal
+Price: 1 credits
+--------------------------------------------------------------------------------
+
+Speaker ID: 394
+Name: Larry (ลาร์รี่)
+Gender: Male
+Age Style: Adult
+Primary Language: EN
+Available Languages: en
+Voice Style: Soothing
+Speech Style: Storytelling
+Speed: Normal
+Price: 1 credits
+--------------------------------------------------------------------------------
+
+Speaker ID: 397
+Name: Hendrix (เฮนดริก)
+Gender: Male
+Age Style: Adult
+Primary Language: EN
+Available Languages: en
+Voice Style: Mellow
+Speech Style: Narrating
+Speed: Normal
+Price: 1 credits
+--------------------------------------------------------------------------------
+
+Speaker ID: 377
+Name: Lauren (ลอเรน)
+Gender: Female
+Age Style: Adult
+Primary Language: EN
+Available Languages: en
+Voice Style: Clear
+Speech Style: News Reading
+Speed: Normal
+Price: 1 credits
+--------------------------------------------------------------------------------
+
+Speaker ID: 380
+Name: Kassidy (แคสซิดี้)
+Gender: Female
+Age Style: Adult
+Primary Language: EN
+Available Languages: en
+Voice Style: Confident
+Speech Style: Storytelling
+Speed: Normal
+Price: 1 credits
+--------------------------------------------------------------------------------
+
+Speaker ID: 381
+Name: Nia (เนีย)
+Gender: Female
+Age Style: Adult
+Primary Language: EN
+Available Languages: en
+Voice Style: Gentle and tender
+Speech Style: Storytelling
+Speed: Normal
+Price: 1 credits
+--------------------------------------------------------------------------------
+
+Speaker ID: 385
+Name: Danni Seller (แม่ค้าเดนนี่)
+Gender: Female
+Age Style: Teens
+Primary Language: EN
+Available Languages: en
+Voice Style: Clear
+Speech Style: Storytelling
+Speed: Fast
+Price: 1 credits
+--------------------------------------------------------------------------------
+
+Speaker ID: 388
+Name: Flossie (โฟลซี่)
+Gender: Female
+Age Style: Teens
+Primary Language: EN
+Available Languages: en
+Voice Style: Exciting
+Speech Style: Anime
+Speed: Normal
+Price: 1 credits
+--------------------------------------------------------------------------------
+
+Speaker ID: 390
+Name: Dina Professor (อาจารย์ไดน่า)
+Gender: Female
+Age Style: Adult
+Primary Language: EN
+Available Languages: en
+Voice Style: Clear
+Speech Style: Teaching
+Speed: Normal
+Price: 1 credits
+--------------------------------------------------------------------------------
+
+Speaker ID: 391
+Name: Bonnie (บอนนี่)
+Gender: Female
+Age Style: Child
+Primary Language: EN
+Available Languages: en
+Voice Style: Cute
+Speech Style: Storytelling
+Speed: Normal
+Price: 1 credits
+--------------------------------------------------------------------------------
+
+Speaker ID: 393
+Name: Alesia (อเลเซีย)
+Gender: Female
+Age Style: Adult
+Primary Language: EN
+Available Languages: en
+Voice Style: Confident
+Speech Style: News Reading
+Speed: Normal
+Price: 1 credits
+--------------------------------------------------------------------------------
+
+Speaker ID: 395
+Name: Jen (เจน)
+Gender: Female
+Age Style: Teens
+Primary Language: EN
+Available Languages: en
+Voice Style: Playful
+Speech Style: Anime
+Speed: Normal
+Price: 1 credits
+--------------------------------------------------------------------------------
+
+Speaker ID: 396
+Name: Shelley (เชลลีย์)
+Gender: Female
+Age Style: Adult
+Primary Language: EN
+Available Languages: en
+Voice Style: Trustworthy
+Speech Style: Documentary
+Speed: Normal
+Price: 1 credits
+--------------------------------------------------------------------------------
+
+Speaker ID: 398
+Name: Mary Seller (แม่ค้าแมรี่)
+Gender: Female
+Age Style: Teens
+Primary Language: EN
+Available Languages: en
+Voice Style: Exciting
+Speech Style: Storytelling
+Speed: Fast
+Price: 1 credits
+--------------------------------------------------------------------------------
+
+Speaker ID: 399
+Name: Serina (เซรีน่า)
+Gender: Female
+Age Style: Teens
+Primary Language: EN
+Available Languages: en
+Voice Style: Playful
+Speech Style: Anime
+Speed: Normal
+Price: 1 credits
+--------------------------------------------------------------------------------
+
+Speaker ID: 363
+Name: Usha (อูชา)
+Gender: Female
+Age Style: Adult
+Primary Language: HI
+Available Languages: hi
+Voice Style: Clear
+Speech Style: News Reading, Documentary
+Speed: Normal
+Price: 1 credits
+--------------------------------------------------------------------------------
+
+Speaker ID: 364
+Name: Ram (ราม)
+Gender: Male
+Age Style: Adult
+Primary Language: HI
+Available Languages: hi
+Voice Style: Mellow
+Speech Style: Storytelling
+Speed: Normal
+Price: 1 credits
+--------------------------------------------------------------------------------
+
+Speaker ID: 365
+Name: Preeti (ปรีติ)
+Gender: Female
+Age Style: Teens
+Primary Language: HI
+Available Languages: hi
+Voice Style: Clear
+Speech Style: Storytelling
+Speed: Normal
+Price: 1 credits
+--------------------------------------------------------------------------------
+
+Speaker ID: 366
+Name: Andrea (แอนเดรีย)
+Gender: Female
+Age Style: Adult
+Primary Language: FIL
+Available Languages: fil
+Voice Style: Mellow
+Speech Style: Narrating
+Speed: Normal
+Price: 1 credits
+--------------------------------------------------------------------------------
+
+Speaker ID: 367
+Name: Isa Professor (อาจารย์อีซา)
+Gender: Female
+Age Style: Adult
+Primary Language: FIL
+Available Languages: fil
+Voice Style: Trustworthy
+Speech Style: Teaching
+Speed: Normal
+Price: 1 credits
+--------------------------------------------------------------------------------
+
+Speaker ID: 368
+Name: Kristine Seller (แม่ค้าคริสติน)
+Gender: Female
+Age Style: Teens
+Primary Language: FIL
+Available Languages: fil
+Voice Style: Playful
+Speech Style: Storytelling
+Speed: Normal
+Price: 1 credits
+--------------------------------------------------------------------------------
+
+Speaker ID: 369
+Name: Christina (คริสติน่า)
+Gender: Female
+Age Style: Teens
+Primary Language: FIL
+Available Languages: fil
+Voice Style: Clear
+Speech Style: News Reading
+Speed: Normal
+Price: 1 credits
+--------------------------------------------------------------------------------
+
+Speaker ID: 370
+Name: Maria (มาเรีย)
+Gender: Female
+Age Style: Teens
+Primary Language: FIL
+Available Languages: fil
+Voice Style: Cute
+Speech Style: Storytelling
+Speed: Normal
+Price: 1 credits
+--------------------------------------------------------------------------------
+
+Speaker ID: 371
+Name: Ayani (อายานี)
+Gender: Male
+Age Style: Adult
+Primary Language: FIL
+Available Languages: fil
+Voice Style: Confident
+Speech Style: Storytelling
+Speed: Normal
+Price: 1 credits
+--------------------------------------------------------------------------------
+
+Speaker ID: 372
+Name: Sofia (โซเฟีย)
+Gender: Female
+Age Style: Teens
+Primary Language: FIL
+Available Languages: fil
+Voice Style: Trustworthy
+Speech Style: Documentary
+Speed: Normal
+Price: 1 credits
+--------------------------------------------------------------------------------
+
+Speaker ID: 400
+Name: Wen (เวน)
+Gender: Female
+Age Style: Adult
+Primary Language: ZH
+Available Languages: zh
+Voice Style: Mellow
+Speech Style: Documentary
+Speed: Normal
+Price: 1 credits
+--------------------------------------------------------------------------------
+
+Speaker ID: 402
+Name: Ling (หลิง)
+Gender: Female
+Age Style: Adult
+Primary Language: ZH
+Available Languages: zh
+Voice Style: Cute
+Speech Style: Storytelling
+Speed: Normal
+Price: 1 credits
+--------------------------------------------------------------------------------
+
+Speaker ID: 404
+Name: Jia Teacher (ครูเจีย)
+Gender: Female
+Age Style: Adult
+Primary Language: ZH
+Available Languages: zh
+Voice Style: Cute
+Speech Style: Teaching
+Speed: Normal
+Price: 1 credits
+--------------------------------------------------------------------------------
+
+Speaker ID: 405
+Name: Min (มิน)
+Gender: Female
+Age Style: Teens
+Primary Language: ZH
+Available Languages: zh
+Voice Style: Cute
+Speech Style: Anime
+Speed: Normal
+Price: 1 credits
+--------------------------------------------------------------------------------
+
+Speaker ID: 406
+Name: Mei Seller (แม่ค้าเม่ย)
+Gender: Female
+Age Style: Adult
+Primary Language: ZH
+Available Languages: zh
+Voice Style: Serious
+Speech Style: Storytelling
+Speed: Normal
+Price: 1 credits
+--------------------------------------------------------------------------------
+
+Speaker ID: 408
+Name: Shu (ซู)
+Gender: Female
+Age Style: Adult
+Primary Language: ZH
+Available Languages: zh
+Voice Style: Serious
+Speech Style: News Reading
+Speed: Normal
+Price: 1 credits
+--------------------------------------------------------------------------------
+
+Speaker ID: 401
+Name: Tao Teacher (ครูเต๋า)
+Gender: Male
+Age Style: Adult
+Primary Language: ZH
+Available Languages: zh
+Voice Style: Serious
+Speech Style: Teaching
+Speed: Normal
+Price: 1 credits
+--------------------------------------------------------------------------------
+
+Speaker ID: 403
+Name: Kai (ไคล์)
+Gender: Male
+Age Style: Adult
+Primary Language: ZH
+Available Languages: zh
+Voice Style: Clear
+Speech Style: News Reading, Documentary
+Speed: Normal
+Price: 1 credits
+--------------------------------------------------------------------------------
+
+Speaker ID: 407
+Name: Chen (เฉิน)
+Gender: Male
+Age Style: Adult
+Primary Language: ZH
+Available Languages: zh
+Voice Style: Trustworthy
+Speech Style: Documentary
+Speed: Normal
+Price: 1 credits
+--------------------------------------------------------------------------------
+
+Speaker ID: 375
+Name: Alfeo (อัลเฟโอ)
+Gender: Male
+Age Style: Adult
+Primary Language: IT
+Available Languages: it
+Voice Style: Serious
+Speech Style: Anime
+Speed: Normal
+Price: 1 credits
+--------------------------------------------------------------------------------
+
+Speaker ID: 409
+Name: Yuuta (ยูตะ)
+Gender: Male
+Age Style: Adult
+Primary Language: JA
+Available Languages: ja
+Voice Style: Exciting
+Speech Style: News Reading, Anime
+Speed: Normal
+Price: 1 credits
+--------------------------------------------------------------------------------
+
+Speaker ID: 410
+Name: Suzume (สึซุเมะ)
+Gender: Female
+Age Style: Adult
+Primary Language: JA
+Available Languages: ja
+Voice Style: Clear
+Speech Style: Documentary
+Speed: Normal
+Price: 1 credits
+--------------------------------------------------------------------------------
+
+Speaker ID: 411
+Name: Masaru (มาซารุ)
+Gender: Male
+Age Style: Adult
+Primary Language: JA
+Available Languages: ja
+Voice Style: Confident
+Speech Style: News Reading
+Speed: Normal
+Price: 1 credits
+--------------------------------------------------------------------------------
+
+Speaker ID: 412
+Name: Kaito ( ไคโตะ)
+Gender: Male
+Age Style: Adult
+Primary Language: JA
+Available Languages: ja
+Voice Style: Confident
+Speech Style: Storytelling, Narrating
+Speed: Normal
+Price: 1 credits
+--------------------------------------------------------------------------------
+
+Speaker ID: 413
+Name: Anan (อนัน)
+Gender: Male
+Age Style: Adult
+Primary Language: LO
+Available Languages: en, lo
+Voice Style: Confident
+Speech Style: Local
+Speed: Normal
+Price: 0 credits
+--------------------------------------------------------------------------------
+
+Speaker ID: 414
+Name: Anny (แอนนี่)
+Gender: Female
+Age Style: Adult
+Primary Language: LO
+Available Languages: en, lo
+Voice Style: Mellow
+Speech Style: Storytelling, Documentary
+Speed: Normal
+Price: 1 credits
+--------------------------------------------------------------------------------
+
+Speaker ID: 415
+Name: Aon (ออน)
+Gender: Female
+Age Style: Adult
+Primary Language: LO
+Available Languages: en, lo
+Voice Style: Mellow
+Speech Style: Storytelling, Documentary, Local
+Speed: Normal
+Price: 0 credits
+--------------------------------------------------------------------------------
+
+Speaker ID: 416
+Name: Aoy (ออย)
+Gender: Female
+Age Style: Adult
+Primary Language: LO
+Available Languages: en, lo
+Voice Style: Confident
+Speech Style: Storytelling, Narrating, Documentary
+Speed: Normal
+Price: 1 credits
+--------------------------------------------------------------------------------
+
+Speaker ID: 417
+Name: Athit (อาทิตย์)
+Gender: Male
+Age Style: Adult
+Primary Language: LO
+Available Languages: en, lo
+Voice Style: Trustworthy
+Speech Style: News Reading, Narrating
+Speed: Normal
+Price: 1 credits
+--------------------------------------------------------------------------------
+
+Speaker ID: 418
+Name: Teacher Bo  (อาจารย์โบ)
+Gender: Female
+Age Style: Adult
+Primary Language: LO
+Available Languages: en, lo
+Voice Style: Trustworthy
+Speech Style: Narrating, Teaching
+Speed: Normal
+Price: 1 credits
+--------------------------------------------------------------------------------
+
+Speaker ID: 419
+Name: Bouaban (บัวบาน)
+Gender: Female
+Age Style: Adult
+Primary Language: LO
+Available Languages: en, lo
+Voice Style: Mellow
+Speech Style: News Reading, Documentary
+Speed: Normal
+Price: 1 credits
+--------------------------------------------------------------------------------
+
+Speaker ID: 420
+Name: Chinda (จินดา)
+Gender: Female
+Age Style: Adult
+Primary Language: LO
+Available Languages: en, lo
+Voice Style: Clear
+Speech Style: News Reading, Local
+Speed: Normal
+Price: 0 credits
+--------------------------------------------------------------------------------
+
+Speaker ID: 421
+Name: Damdy (แดมมี่)
+Gender: Female
+Age Style: Adult
+Primary Language: LO
+Available Languages: en, lo
+Voice Style: Cute
+Speech Style: News Reading, Narrating
+Speed: Normal
+Price: 1 credits
+--------------------------------------------------------------------------------
+
+Speaker ID: 422
+Name: Dokmai (ดอกไม้)
+Gender: Female
+Age Style: Adult
+Primary Language: LO
+Available Languages: en, lo
+Voice Style: Cute
+Speech Style: Storytelling, Anime
+Speed: Normal
+Price: 1 credits
+--------------------------------------------------------------------------------
+
+Speaker ID: 423
+Name: Gampha (กัมพา)
+Gender: Male
+Age Style: Adult
+Primary Language: LO
+Available Languages: en, lo
+Voice Style: Clear
+Speech Style: News Reading, Local
+Speed: Normal
+Price: 0 credits
+--------------------------------------------------------------------------------
+
+Speaker ID: 424
+Name: Happynight (แฮปปี้ไนท์)
+Gender: Male
+Age Style: Adult
+Primary Language: LO
+Available Languages: en, lo
+Voice Style: Confident
+Speech Style: Storytelling, News Reading
+Speed: Normal
+Price: 1 credits
+--------------------------------------------------------------------------------
+
+Speaker ID: 425
+Name: Hom (หอม)
+Gender: Female
+Age Style: Adult
+Primary Language: LO
+Available Languages: en, lo
+Voice Style: Calm
+Speech Style: Storytelling, Narrating
+Speed: Normal
+Price: 1 credits
+--------------------------------------------------------------------------------
+
+Speaker ID: 426
+Name: Inpaeng (อินแปง)
+Gender: Male
+Age Style: Adult
+Primary Language: LO
+Available Languages: en, lo
+Voice Style: Calm
+Speech Style: Storytelling, Local
+Speed: Normal
+Price: 0 credits
+--------------------------------------------------------------------------------
+
+Speaker ID: 427
+Name: Ju (จู)
+Gender: Male
+Age Style: Adult
+Primary Language: LO
+Available Languages: en, lo
+Voice Style: Cute
+Speech Style: Storytelling, Documentary
+Speed: Normal
+Price: 1 credits
+--------------------------------------------------------------------------------
+
+Speaker ID: 428
+Name: Kaysone (ไกสอน)
+Gender: Female
+Age Style: Adult
+Primary Language: LO
+Available Languages: en, lo
+Voice Style: Confident, Clear
+Speech Style: News Reading
+Speed: Normal
+Price: 1 credits
+--------------------------------------------------------------------------------
+
+Speaker ID: 429
+Name: Khamhou (คำอ่อน)
+Gender: Male
+Age Style: Adult
+Primary Language: LO
+Available Languages: en, lo
+Voice Style: Clear
+Speech Style: News Reading, Narrating
+Speed: Normal
+Price: 1 credits
+--------------------------------------------------------------------------------
+
+Speaker ID: 430
+Name: Khamkeo (คำเค)
+Gender: Male
+Age Style: Child
+Primary Language: LO
+Available Languages: en, lo
+Voice Style: Cute
+Speech Style: Anime, Local
+Speed: Normal
+Price: 0 credits
+--------------------------------------------------------------------------------
+
+Speaker ID: 431
+Name: Khamlar Gamer (คำร่า )
+Gender: Male
+Age Style: Adult
+Primary Language: LO
+Available Languages: en, lo
+Voice Style: Exciting
+Speech Style: Documentary
+Speed: Normal
+Price: 1 credits
+--------------------------------------------------------------------------------
+
+Speaker ID: 432
+Name: Kinoy (คิโนย)
+Gender: Male
+Age Style: Adult
+Primary Language: LO
+Available Languages: en, lo
+Voice Style: Exciting, Soothing
+Speech Style: N/A
+Speed: Normal
+Price: 1 credits
+--------------------------------------------------------------------------------
+
+Speaker ID: 433
+Name: Koung (ก้อง)
+Gender: Male
+Age Style: Child
+Primary Language: LO
+Available Languages: en, lo
+Voice Style: Cute
+Speech Style: Storytelling, Narrating
+Speed: Normal
+Price: 1 credits
+--------------------------------------------------------------------------------
+
+Speaker ID: 434
+Name: Larsoy (ลาร์ซอย)
+Gender: Female
+Age Style: Adult
+Primary Language: LO
+Available Languages: en, lo
+Voice Style: Cute, Confident
+Speech Style: News Reading
+Speed: Normal
+Price: 1 credits
+--------------------------------------------------------------------------------
+
+Speaker ID: 435
+Name: Manee (มณี)
+Gender: Female
+Age Style: Adult
+Primary Language: LO
+Available Languages: en, lo
+Voice Style: Calm
+Speech Style: Narrating, Documentary
+Speed: Normal
+Price: 1 credits
+--------------------------------------------------------------------------------
+
+Speaker ID: 436
+Name: Teacher Mao (ครูเหมา)
+Gender: Female
+Age Style: Teens
+Primary Language: LO
+Available Languages: en, lo
+Voice Style: Clear
+Speech Style: Teaching, Local
+Speed: Normal
+Price: 0 credits
+--------------------------------------------------------------------------------
+
+Speaker ID: 437
+Name: Matthana (มัณฑนา)
+Gender: Female
+Age Style: Adult
+Primary Language: LO
+Available Languages: en, lo
+Voice Style: Cute, Sweet
+Speech Style: Anime
+Speed: Normal
+Price: 1 credits
+--------------------------------------------------------------------------------
+
+Speaker ID: 438
+Name: May Seller (แม่ค้าเมย์)
+Gender: Female
+Age Style: Adult
+Primary Language: LO
+Available Languages: en, lo
+Voice Style: Clear
+Speech Style: Local
+Speed: Normal
+Price: 0 credits
+--------------------------------------------------------------------------------
+
+Speaker ID: 439
+Name: Teacher Min (อาจารย์มิน)
+Gender: Female
+Age Style: Adult
+Primary Language: LO
+Available Languages: en, lo
+Voice Style: Trustworthy
+Speech Style: Teaching, Local
+Speed: Normal
+Price: 0 credits
+--------------------------------------------------------------------------------
+
+Speaker ID: 440
+Name: Nalee (นารี)
+Gender: Female
+Age Style: Adult
+Primary Language: LO
+Available Languages: en, lo
+Voice Style: Sweet
+Speech Style: Documentary, Local
+Speed: Normal
+Price: 0 credits
+--------------------------------------------------------------------------------
+
+Speaker ID: 441
+Name: Nalika (นาลิกา)
+Gender: Female
+Age Style: Adult
+Primary Language: LO
+Available Languages: en, lo
+Voice Style: Calm
+Speech Style: Narrating, Documentary
+Speed: Normal
+Price: 1 credits
+--------------------------------------------------------------------------------
+
+Speaker ID: 442
+Name: Teacher Namwan (ครูน้ำหวาน)
+Gender: Female
+Age Style: Adult
+Primary Language: LO
+Available Languages: en, lo
+Voice Style: Cute, Sweet
+Speech Style: Teaching
+Speed: Normal
+Price: 1 credits
+--------------------------------------------------------------------------------
+
+Speaker ID: 443
+Name: Nong (น้อง)
+Gender: Female
+Age Style: Child
+Primary Language: LO
+Available Languages: en, lo
+Voice Style: Sweet, Calm
+Speech Style: Narrating
+Speed: Normal
+Price: 1 credits
+--------------------------------------------------------------------------------
+
+Speaker ID: 444
+Name: Nun (นุ่น)
+Gender: Female
+Age Style: Adult
+Primary Language: LO
+Available Languages: en, lo
+Voice Style: Cute, Confident
+Speech Style: Storytelling
+Speed: Normal
+Price: 1 credits
+--------------------------------------------------------------------------------
+
+Speaker ID: 445
+Name: Teacher Nut (อาจารย์นัท)
+Gender: Female
+Age Style: Adult
+Primary Language: LO
+Available Languages: en, lo
+Voice Style: Trustworthy
+Speech Style: Teaching, Local
+Speed: Normal
+Price: 0 credits
+--------------------------------------------------------------------------------
+
+Speaker ID: 446
+Name: Phana Gamer (ภนา )
+Gender: Male
+Age Style: Adult
+Primary Language: LO
+Available Languages: en, lo
+Voice Style: Exciting
+Speech Style: Anime
+Speed: Normal
+Price: 1 credits
+--------------------------------------------------------------------------------
+
+Speaker ID: 447
+Name: Teacher Phim (อาจารย์พิม)
+Gender: Female
+Age Style: Adult
+Primary Language: LO
+Available Languages: en, lo
+Voice Style: Confident
+Speech Style: News Reading, Teaching
+Speed: Normal
+Price: 1 credits
+--------------------------------------------------------------------------------
+
+Speaker ID: 448
+Name: Phone (โฟน)
+Gender: Female
+Age Style: Adult
+Primary Language: LO
+Available Languages: en, lo
+Voice Style: Cute, Calm
+Speech Style: Narrating
+Speed: Normal
+Price: 1 credits
+--------------------------------------------------------------------------------
+
+Speaker ID: 449
+Name: Piw Gamer (ปิว )
+Gender: Female
+Age Style: Adult
+Primary Language: LO
+Available Languages: en, lo
+Voice Style: Exciting
+Speech Style: Anime
+Speed: Normal
+Price: 1 credits
+--------------------------------------------------------------------------------
+
+Speaker ID: 450
+Name: Pong (พงศ์)
+Gender: Male
+Age Style: Adult
+Primary Language: LO
+Available Languages: en, lo
+Voice Style: Confident, Clear
+Speech Style: News Reading
+Speed: Normal
+Price: 1 credits
+--------------------------------------------------------------------------------
+
+Speaker ID: 451
+Name: Sakone (สาคอน)
+Gender: Male
+Age Style: Adult
+Primary Language: LO
+Available Languages: en, lo
+Voice Style: Calm
+Speech Style: Local
+Speed: Normal
+Price: 0 credits
+--------------------------------------------------------------------------------
+
+Speaker ID: 452
+Name: Setha (เศรษฐา)
+Gender: Male
+Age Style: Adult
+Primary Language: LO
+Available Languages: en, lo
+Voice Style: Mellow
+Speech Style: Narrating, Local
+Speed: Normal
+Price: 0 credits
+--------------------------------------------------------------------------------
+
+Speaker ID: 453
+Name: Sinxay (สินชัย)
+Gender: Male
+Age Style: Adult
+Primary Language: LO
+Available Languages: en, lo
+Voice Style: Clear
+Speech Style: Narrating
+Speed: Normal
+Price: 1 credits
+--------------------------------------------------------------------------------
+
+Speaker ID: 454
+Name: Som-o (ส้มโอ)
+Gender: Female
+Age Style: Adult
+Primary Language: LO
+Available Languages: en, lo
+Voice Style: Cute, Sweet
+Speech Style: Anime
+Speed: Normal
+Price: 1 credits
+--------------------------------------------------------------------------------
+
+Speaker ID: 455
+Name: Sompong (สมปอง)
+Gender: Female
+Age Style: Adult
+Primary Language: LO
+Available Languages: en, lo
+Voice Style: Cute
+Speech Style: Anime, Local
+Speed: Normal
+Price: 0 credits
+--------------------------------------------------------------------------------
+
+Speaker ID: 456
+Name: Somsy seller (แม่ค้าสมศรี)
+Gender: Female
+Age Style: Adult
+Primary Language: LO
+Available Languages: en, lo
+Voice Style: Confident, Clear
+Speech Style: N/A
+Speed: Normal
+Price: 1 credits
+--------------------------------------------------------------------------------
+
+Speaker ID: 457
+Name: Teacher Thida (อาจารย์ธิดา)
+Gender: Female
+Age Style: Adult
+Primary Language: LO
+Available Languages: en, lo
+Voice Style: Calm
+Speech Style: Documentary, Teaching
+Speed: Normal
+Price: 1 credits
+--------------------------------------------------------------------------------
+
+Speaker ID: 458
+Name: Thiw (ทิว)
+Gender: Male
+Age Style: Adult
+Primary Language: LO
+Available Languages: en, lo
+Voice Style: Calm
+Speech Style: Local
+Speed: Normal
+Price: 0 credits
+--------------------------------------------------------------------------------
+
+Speaker ID: 459
+Name: Toukta (ตุ๊กตา)
+Gender: Female
+Age Style: Adult
+Primary Language: LO
+Available Languages: en, lo
+Voice Style: Calm
+Speech Style: Narrating, Documentary
+Speed: Normal
+Price: 1 credits
+--------------------------------------------------------------------------------
+
+Speaker ID: 460
+Name: Yoy ( โย)
+Gender: Male
+Age Style: Adult
+Primary Language: LO
+Available Languages: en, lo
+Voice Style: Calm, Soothing
+Speech Style: News Reading
+Speed: Normal
+Price: 1 credits
+--------------------------------------------------------------------------------
+
+Speaker ID: 461
+Name: Ada (อะดา)
+Gender: Female
+Age Style: Adult
+Primary Language: TR
+Available Languages: en, tr
+Voice Style: Sweet
+Speech Style: Storytelling, News Reading
+Speed: Normal
+Price: 1 credits
+--------------------------------------------------------------------------------
+
+Speaker ID: 462
+Name: Ahmet (อาห์เม็ท)
+Gender: Male
+Age Style: Adult
+Primary Language: TR
+Available Languages: en, tr
+Voice Style: Calm, Soothing
+Speech Style: Documentary
+Speed: Normal
+Price: 1 credits
+--------------------------------------------------------------------------------
+
+Speaker ID: 463
+Name: Aslan (อัสลัน)
+Gender: Male
+Age Style: Adult
+Primary Language: TR
+Available Languages: en, tr
+Voice Style: Exciting
+Speech Style: News Reading, Narrating
+Speed: Normal
+Price: 1 credits
+--------------------------------------------------------------------------------
+
+Speaker ID: 464
+Name: Azra (อัซรา)
+Gender: Female
+Age Style: Adult
+Primary Language: TR
+Available Languages: en, tr
+Voice Style: Cute
+Speech Style: Storytelling, Anime
+Speed: Normal
+Price: 1 credits
+--------------------------------------------------------------------------------
+
+Speaker ID: 465
+Name: Professor Burak (อาจารย์บูรัค)
+Gender: Male
+Age Style: Adult
+Primary Language: TR
+Available Languages: en, tr
+Voice Style: Trustworthy, Clear
+Speech Style: Teaching
+Speed: Normal
+Price: 1 credits
+--------------------------------------------------------------------------------
+
+Speaker ID: 466
+Name: Ceylan (เจย์ลัน)
+Gender: Male
+Age Style: Adult
+Primary Language: TR
+Available Languages: en, tr
+Voice Style: Confident, Sweet
+Speech Style: News Reading
+Speed: Normal
+Price: 1 credits
+--------------------------------------------------------------------------------
+
+Speaker ID: 467
+Name: Professor Derya (อาจารย์เดรีย)
+Gender: Female
+Age Style: Adult
+Primary Language: TR
+Available Languages: en, tr
+Voice Style: Calm
+Speech Style: Teaching, Local
+Speed: Normal
+Price: 0 credits
+--------------------------------------------------------------------------------
+
+Speaker ID: 468
+Name: Ela (เอลา)
+Gender: Female
+Age Style: Adult
+Primary Language: TR
+Available Languages: en, tr
+Voice Style: Cute, Calm
+Speech Style: News Reading
+Speed: Normal
+Price: 1 credits
+--------------------------------------------------------------------------------
+
+Speaker ID: 469
+Name: Faruk (ฟารุก)
+Gender: Male
+Age Style: Adult
+Primary Language: TR
+Available Languages: en, tr
+Voice Style: Clear, Calm
+Speech Style: Narrating
+Speed: Normal
+Price: 1 credits
+--------------------------------------------------------------------------------
+
+Speaker ID: 470
+Name: Kerim (เคริม)
+Gender: Male
+Age Style: Adult
+Primary Language: TR
+Available Languages: en, tr
+Voice Style: Serious, Calm
+Speech Style: Documentary
+Speed: Normal
+Price: 1 credits
+--------------------------------------------------------------------------------
+
+Speaker ID: 471
+Name: Melik (เมลิก)
+Gender: Male
+Age Style: Adult
+Primary Language: TR
+Available Languages: en, tr
+Voice Style: Soothing
+Speech Style: Documentary, Local
+Speed: Normal
+Price: 0 credits
+--------------------------------------------------------------------------------
+
+Speaker ID: 472
+Name: Aili (ไอลี)
+Gender: Female
+Age Style: Adult
+Primary Language: ID
+Available Languages: en, id
+Voice Style: Cute
+Speech Style: Storytelling, Narrating
+Speed: Normal
+Price: 0 credits
+--------------------------------------------------------------------------------
+
+Speaker ID: 473
+Name: Alina_a (อาลินา)
+Gender: Female
+Age Style: Adult
+Primary Language: ID
+Available Languages: en, id
+Voice Style: Cute, Sweet
+Speech Style: Anime
+Speed: Normal
+Price: 0 credits
+--------------------------------------------------------------------------------
+
+Speaker ID: 474
+Name: Alvia_meilina (อัลเวีย เมลินา)
+Gender: Female
+Age Style: Adult
+Primary Language: ID
+Available Languages: en, id
+Voice Style: Exciting
+Speech Style: Anime, Local
+Speed: Normal
+Price: 0 credits
+--------------------------------------------------------------------------------
+
+Speaker ID: 475
+Name: Ando (อันโด)
+Gender: Male
+Age Style: Adult
+Primary Language: ID
+Available Languages: en, id
+Voice Style: Exciting
+Speech Style: News Reading
+Speed: Normal
+Price: 0 credits
+--------------------------------------------------------------------------------
+
+Speaker ID: 476
+Name: Ayu (อายุ)
+Gender: Female
+Age Style: Adult
+Primary Language: ID
+Available Languages: en, id
+Voice Style: Exciting
+Speech Style: Storytelling, News Reading
+Speed: Normal
+Price: 0 credits
+--------------------------------------------------------------------------------
+
+Speaker ID: 477
+Name:  Teacher Betcy (ครูเบทซี)
+Gender: Female
+Age Style: Adult
+Primary Language: ID
+Available Languages: en, id
+Voice Style: Trustworthy, Clear
+Speech Style: Teaching
+Speed: Normal
+Price: 0 credits
+--------------------------------------------------------------------------------
+
+Speaker ID: 478
+Name: Christa_a (คริสตา)
+Gender: Female
+Age Style: Adult
+Primary Language: ID
+Available Languages: en, id
+Voice Style: Soothing
+Speech Style: News Reading, Documentary
+Speed: Normal
+Price: 0 credits
+--------------------------------------------------------------------------------
+
+Speaker ID: 479
+Name: Cut_j (คัท เจ)
+Gender: Male
+Age Style: Adult
+Primary Language: ID
+Available Languages: en, id
+Voice Style: Cute, Calm
+Speech Style: Narrating
+Speed: Normal
+Price: 0 credits
+--------------------------------------------------------------------------------
+
+Speaker ID: 480
+Name: Dania (ดาเนีย)
+Gender: Female
+Age Style: Adult
+Primary Language: ID
+Available Languages: en, id
+Voice Style: Clear, Calm
+Speech Style: News Reading
+Speed: Normal
+Price: 0 credits
+--------------------------------------------------------------------------------
+
+Speaker ID: 481
+Name: Della (เดลลา)
+Gender: Female
+Age Style: Adult
+Primary Language: ID
+Available Languages: en, id
+Voice Style: Cute, Sweet
+Speech Style: Local
+Speed: Normal
+Price: 0 credits
+--------------------------------------------------------------------------------
+
+Speaker ID: 482
+Name: Dwi (ดวี)
+Gender: Female
+Age Style: Child
+Primary Language: ID
+Available Languages: en, id
+Voice Style: Cute
+Speech Style: Anime
+Speed: Normal
+Price: 0 credits
+--------------------------------------------------------------------------------
+
+Speaker ID: 483
+Name: Dwi_rumi (ดวี รูมิ)
+Gender: Female
+Age Style: Adult
+Primary Language: ID
+Available Languages: en, id
+Voice Style: Calm
+Speech Style: Narrating, Documentary
+Speed: Normal
+Price: 0 credits
+--------------------------------------------------------------------------------
+
+Speaker ID: 484
+Name: Eka_a (เอกา)
+Gender: Male
+Age Style: Adult
+Primary Language: ID
+Available Languages: en, id
+Voice Style: Calm, Soothing
+Speech Style: Storytelling
+Speed: Normal
+Price: 0 credits
+--------------------------------------------------------------------------------
+
+Speaker ID: 485
+Name: Eni seller (แม่ค้าเอไน)
+Gender: Female
+Age Style: Adult
+Primary Language: ID
+Available Languages: en, id
+Voice Style: Confident
+Speech Style: News Reading
+Speed: Normal
+Price: 0 credits
+--------------------------------------------------------------------------------
+
+Speaker ID: 486
+Name: Fransesco seller (พ่อค้าฟรานเชสโก)
+Gender: Male
+Age Style: Adult
+Primary Language: ID
+Available Languages: en, id
+Voice Style: Trustworthy, Confident
+Speech Style: N/A
+Speed: Normal
+Price: 0 credits
+--------------------------------------------------------------------------------
+
+Speaker ID: 487
+Name: Gina (จีน่า)
+Gender: Female
+Age Style: Adult
+Primary Language: ID
+Available Languages: en, id
+Voice Style: Calm
+Speech Style: Narrating, Local
+Speed: Normal
+Price: 0 credits
+--------------------------------------------------------------------------------
+
+Speaker ID: 488
+Name: Irly seller (แม่ค้าอิรลี)
+Gender: Female
+Age Style: Adult
+Primary Language: ID
+Available Languages: en, id
+Voice Style: Trustworthy
+Speech Style: Documentary
+Speed: Normal
+Price: 0 credits
+--------------------------------------------------------------------------------
+
+Speaker ID: 489
+Name: Irvan (อีร์วาน)
+Gender: Male
+Age Style: Adult
+Primary Language: ID
+Available Languages: en, id
+Voice Style: Clear, Calm
+Speech Style: Storytelling
+Speed: Normal
+Price: 0 credits
+--------------------------------------------------------------------------------
+
+Speaker ID: 490
+Name: Lilis (ลีลิส)
+Gender: Female
+Age Style: Adult
+Primary Language: ID
+Available Languages: en, id
+Voice Style: Calm
+Speech Style: Documentary, Local
+Speed: Normal
+Price: 0 credits
+--------------------------------------------------------------------------------
+
+Speaker ID: 491
+Name: Mely (เมลี)
+Gender: Female
+Age Style: Adult
+Primary Language: ID
+Available Languages: en, id
+Voice Style: Sweet
+Speech Style: News Reading, Narrating
+Speed: Normal
+Price: 0 credits
+--------------------------------------------------------------------------------
+
+Speaker ID: 492
+Name: Mona (โมนา)
+Gender: Female
+Age Style: Adult
+Primary Language: ID
+Available Languages: en, id
+Voice Style: Confident, Sweet
+Speech Style: Storytelling
+Speed: Normal
+Price: 0 credits
+--------------------------------------------------------------------------------
+
+Speaker ID: 493
+Name: Muhammad_iqbal (มูฮัมมัด อิกบาล)
+Gender: Male
+Age Style: Adult
+Primary Language: ID
+Available Languages: en, id
+Voice Style: Exciting, Soothing
+Speech Style: N/A
+Speed: Normal
+Price: 0 credits
+--------------------------------------------------------------------------------
+
+Speaker ID: 494
+Name: Teacher Nahri_s (ครูนาห์รี)
+Gender: Female
+Age Style: Adult
+Primary Language: ID
+Available Languages: en, id
+Voice Style: Confident, Clear
+Speech Style: Teaching
+Speed: Normal
+Price: 0 credits
+--------------------------------------------------------------------------------
+
+Speaker ID: 495
+Name: Nawra (นาวรา)
+Gender: Female
+Age Style: Adult
+Primary Language: ID
+Available Languages: en, id
+Voice Style: Confident, Clear
+Speech Style: News Reading
+Speed: Normal
+Price: 0 credits
+--------------------------------------------------------------------------------
+
+Speaker ID: 496
+Name: Neni_rizka (เนนี่ ริซกา)
+Gender: Female
+Age Style: Adult
+Primary Language: ID
+Available Languages: en, id
+Voice Style: Cute, Sweet
+Speech Style: Anime
+Speed: Normal
+Price: 0 credits
+--------------------------------------------------------------------------------
+
+Speaker ID: 497
+Name: Nizarea_frey (นิเซอรา ฟรี่)
+Gender: Female
+Age Style: Adult
+Primary Language: ID
+Available Languages: en, id
+Voice Style: Clear, Calm
+Speech Style: Narrating
+Speed: Normal
+Price: 0 credits
+--------------------------------------------------------------------------------
+
+Speaker ID: 498
+Name: Ovy (โอวี่)
+Gender: Female
+Age Style: Adult
+Primary Language: ID
+Available Languages: en, id
+Voice Style: Sweet, Calm
+Speech Style: News Reading
+Speed: Normal
+Price: 0 credits
+--------------------------------------------------------------------------------
+
+Speaker ID: 499
+Name: Paula (พอลา)
+Gender: Female
+Age Style: Adult
+Primary Language: ID
+Available Languages: en, id
+Voice Style: Calm, Mellow
+Speech Style: Narrating
+Speed: Normal
+Price: 0 credits
+--------------------------------------------------------------------------------
+
+Speaker ID: 500
+Name: Praptiwi (พรัปติวี)
+Gender: Female
+Age Style: Adult
+Primary Language: ID
+Available Languages: en, id
+Voice Style: Cute, Sweet
+Speech Style: Storytelling
+Speed: Normal
+Price: 0 credits
+--------------------------------------------------------------------------------
+
+Speaker ID: 501
+Name: Rihad (ริฮาด)
+Gender: Male
+Age Style: Adult
+Primary Language: ID
+Available Languages: en, id
+Voice Style: Soothing, Warm
+Speech Style: Documentary
+Speed: Normal
+Price: 0 credits
+--------------------------------------------------------------------------------
+
+Speaker ID: 502
+Name: Rina seller (แม่ค้ารีนา)
+Gender: Female
+Age Style: Adult
+Primary Language: ID
+Available Languages: en, id
+Voice Style: Confident, Clear
+Speech Style: N/A
+Speed: Normal
+Price: 0 credits
+--------------------------------------------------------------------------------
+
+Speaker ID: 503
+Name: Rini_rinjani (รีนี รินจานี)
+Gender: Female
+Age Style: Adult
+Primary Language: ID
+Available Languages: en, id
+Voice Style: Calm, Mellow
+Speech Style: Narrating
+Speed: Normal
+Price: 0 credits
+--------------------------------------------------------------------------------
+
+Speaker ID: 504
+Name: Ruby (รูบี้)
+Gender: Female
+Age Style: Adult
+Primary Language: ID
+Available Languages: en, id
+Voice Style: Sweet, Calm
+Speech Style: Storytelling
+Speed: Normal
+Price: 0 credits
+--------------------------------------------------------------------------------
+
+Speaker ID: 505
+Name: Ryan (ริยาน)
+Gender: Male
+Age Style: Adult
+Primary Language: ID
+Available Languages: en, id
+Voice Style: N/A
+Speech Style: Documentary
+Speed: Normal
+Price: 0 credits
+--------------------------------------------------------------------------------
+
+Speaker ID: 506
+Name: Professor Sayid (อาจารย์ซายิด)
+Gender: Male
+Age Style: Adult
+Primary Language: ID
+Available Languages: en, id
+Voice Style: Trustworthy
+Speech Style: Narrating
+Speed: Normal
+Price: 0 credits
+--------------------------------------------------------------------------------
+
+Speaker ID: 507
+Name: Shabrina (ชาบรีน่า)
+Gender: Female
+Age Style: Adult
+Primary Language: ID
+Available Languages: en, id
+Voice Style: Cute
+Speech Style: Narrating, Anime
+Speed: Normal
+Price: 0 credits
+--------------------------------------------------------------------------------
+
+Speaker ID: 508
+Name: Professor Sheva_david_h (อาจารย์เชวา ดาเวิด เฮช)
+Gender: Female
+Age Style: Adult
+Primary Language: ID
+Available Languages: en, id
+Voice Style: Clear
+Speech Style: Narrating, Teaching
+Speed: Normal
+Price: 0 credits
+--------------------------------------------------------------------------------
+
+Speaker ID: 509
+Name: Siti_q (ซิติ คิว)
+Gender: Female
+Age Style: Adult
+Primary Language: ID
+Available Languages: en, id
+Voice Style: Cute, Confident
+Speech Style: News Reading
+Speed: Normal
+Price: 0 credits
+--------------------------------------------------------------------------------
+
+Speaker ID: 510
+Name: Titin (ติติน)
+Gender: Female
+Age Style: Adult
+Primary Language: ID
+Available Languages: en, id
+Voice Style: Calm, Mellow
+Speech Style: Narrating
+Speed: Normal
+Price: 0 credits
+--------------------------------------------------------------------------------
+
+Speaker ID: 511
+Name: Umi (อูมิ)
+Gender: Female
+Age Style: Adult
+Primary Language: ID
+Available Languages: en, id
+Voice Style: Cute, Calm
+Speech Style: Narrating
+Speed: Normal
+Price: 0 credits
+--------------------------------------------------------------------------------
+
+Speaker ID: 512
+Name: Widha (วีดา)
+Gender: Female
+Age Style: Adult
+Primary Language: ID
+Available Languages: en, id
+Voice Style: Sweet, Calm
+Speech Style: Local
+Speed: Normal
+Price: 0 credits
+--------------------------------------------------------------------------------
+
+Speaker ID: 513
+Name: Zaipan (สายปาน)
+Gender: Male
+Age Style: Adult
+Primary Language: ID
+Available Languages: en, id
+Voice Style: N/A
+Speech Style: News Reading
+Speed: Normal
+Price: 0 credits
+--------------------------------------------------------------------------------
+
+Speaker ID: 514
+Name: Zizi (ซีซี)
+Gender: Female
+Age Style: Adult
+Primary Language: ID
+Available Languages: en, id
+Voice Style: Confident
+Speech Style: News Reading, Local
+Speed: Normal
+Price: 0 credits
+--------------------------------------------------------------------------------
+
+Speaker ID: 523
+Name: Bio (ไบโอ)
+Gender: Female
+Age Style: Adult
+Primary Language: TH
+Available Languages: en, th
+Voice Style: Cute
+Speech Style: Storytelling
+Speed: Normal
+Price: 1 credits
+--------------------------------------------------------------------------------
+
+Speaker ID: 524
+Name: callcenter_yin (callcenter_yin)
+Gender: Female
+Age Style: Adult
+Primary Language: TH
+Available Languages: en, th
+Voice Style: Melodious
+Speech Style: Storytelling, Anime
+Speed: Normal
+Price: 1 credits
+--------------------------------------------------------------------------------
+
+Speaker ID: 90
+Name: Aekkarat V1 (คุณเอกรัฐ V1)
+Gender: Male
+Age Style: Adult
+Primary Language: TH
+Available Languages: th, en
+Voice Style: Soothing
+Speech Style: N/A
+Speed: Normal
+Price: 1 credits
+--------------------------------------------------------------------------------
+
+Speaker ID: 55
+Name: JaiDee (ใจดี)
+Gender: Male
+Age Style: Adult
+Primary Language: TH
+Available Languages: th, en
+Voice Style: Trustworthy
+Speech Style: Storytelling
+Speed: Normal
+Price: 1 credits
+--------------------------------------------------------------------------------
+
+Speaker ID: 1
+Name: Ava (เอวา)
+Gender: Female
+Age Style: Teens
+Primary Language: TH
+Available Languages: en, id, ja, lo, my, th, vi, zh
+Voice Style: Cute
+Speech Style: Storytelling, News Reading
+Speed: Slow
+Price: 1 credits
+--------------------------------------------------------------------------------
+
+
+================================================================================
+                           © 2025 Botnoi Group Co., Ltd.
+================================================================================
