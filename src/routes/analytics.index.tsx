@@ -58,7 +58,7 @@ function AnalyticsPage() {
       }
 
       // Chart: calls per day (last 7 days)
-      const DAY_NAMES = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
+      const DAY_NAMES = ["อา", "จ", "อ", "พ", "พฤ", "ศ", "ส"];
       const today = new Date();
       const buckets = Array.from({ length: 7 }, (_, i) => {
         const d = new Date(today);
@@ -98,39 +98,39 @@ function AnalyticsPage() {
   return (
     <AppLayout>
       <div className="mx-auto max-w-7xl animate-page-in px-8 py-8">
-        <h1 className="text-2xl font-bold text-brand-700">Analytics</h1>
+        <h1 className="text-2xl font-bold text-brand-700">สถิติ</h1>
 
         {/* KPI cards */}
         <div className="mt-6 grid grid-cols-2 gap-4 md:grid-cols-4">
           <KPICard
             icon={<PhoneCall className="h-5 w-5" />}
             value={totalCalls}
-            label="Total Calls"
+            label="สายทั้งหมด"
             subText="ทุกแคมเปญ"
           />
           <KPICard
             icon={<CheckCircle2 className="h-5 w-5 text-green-600" />}
             value={`${successRate}%`}
-            label="Success Rate"
+            label="อัตราสำเร็จ"
             subText="ยืนยันแล้ว"
           />
           <KPICard
             icon={<TrendingUp className="h-5 w-5 text-brand-500" />}
             value={avgPerDay}
-            label="Avg / Day"
+            label="เฉลี่ยต่อวัน"
             subText="7 วันล่าสุด"
           />
           <KPICard
             icon={<Clock className="h-5 w-5 text-violet-500" />}
             value={avgDuration}
-            label="Avg Duration"
+            label="ระยะเวลาเฉลี่ย"
             subText="ต่อสาย"
           />
         </div>
 
         {/* Bar chart */}
         <div className="mt-6 rounded-2xl bg-white p-6 shadow-card">
-          <h3 className="mb-5 font-semibold text-gray-700">Calls per Day (7 days)</h3>
+          <h3 className="mb-5 font-semibold text-gray-700">การโทรต่อวัน (7 วันล่าสุด)</h3>
           <div className="h-56">
             <ResponsiveContainer width="100%" height="100%">
               <BarChart data={dailyData} barSize={32}>
@@ -155,7 +155,7 @@ function AnalyticsPage() {
                     fontSize: 13,
                   }}
                 />
-                <Bar dataKey="calls" fill="#7c3aed" radius={[6, 6, 0, 0]} />
+                <Bar dataKey="calls" name="สาย" fill="#7c3aed" radius={[6, 6, 0, 0]} />
               </BarChart>
             </ResponsiveContainer>
           </div>
@@ -163,7 +163,7 @@ function AnalyticsPage() {
 
         {/* Campaign performance table */}
         <div className="mt-6 rounded-2xl bg-white p-6 shadow-card">
-          <h3 className="mb-4 font-semibold text-gray-700">Campaign Performance</h3>
+          <h3 className="mb-4 font-semibold text-gray-700">ประสิทธิภาพแคมเปญ</h3>
           {campaignStats.length === 0 ? (
             <p className="py-8 text-center text-sm text-gray-400">ยังไม่มีข้อมูลการโทร</p>
           ) : (
@@ -171,10 +171,10 @@ function AnalyticsPage() {
               <table className="w-full text-left text-sm">
                 <thead>
                   <tr className="border-b border-gray-100 text-xs font-medium text-gray-400">
-                    <th className="pb-3 pr-4 font-medium">Campaign</th>
-                    <th className="pb-3 pr-4 text-right font-medium">Calls</th>
-                    <th className="pb-3 pr-4 text-right font-medium">Success</th>
-                    <th className="pb-3 font-medium">Rate</th>
+                    <th className="pb-3 pr-4 font-medium">แคมเปญ</th>
+                    <th className="pb-3 pr-4 text-right font-medium">สาย</th>
+                    <th className="pb-3 pr-4 text-right font-medium">สำเร็จ</th>
+                    <th className="pb-3 font-medium">อัตรา</th>
                   </tr>
                 </thead>
                 <tbody>

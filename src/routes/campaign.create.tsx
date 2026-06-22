@@ -4,6 +4,7 @@ import { format } from "date-fns";
 import {
   X,
   Calendar as CalendarIcon,
+  Clock,
   Download,
   Phone,
   UploadCloud,
@@ -489,12 +490,18 @@ function TimeInput({
   onChange: (v: string) => void;
 }) {
   return (
-    <input
-      type="time"
-      value={value}
-      onChange={(e) => onChange(e.target.value)}
-      placeholder="00:00 น."
-      className={inputClass}
-    />
+    <div className="relative">
+      <Clock className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-gray-400" />
+      <input
+        type="time"
+        value={value}
+        onChange={(e) => onChange(e.target.value)}
+        className={cn(
+          inputClass,
+          "pl-9 [&::-webkit-calendar-picker-indicator]:hidden [&::-webkit-calendar-picker-indicator]:appearance-none",
+          !value && "text-gray-400",
+        )}
+      />
+    </div>
   );
 }

@@ -17,10 +17,10 @@ interface NavItem {
 }
 
 const navItems: NavItem[] = [
-  { to: "/dashboard", label: "Dashboard", icon: <LayoutGrid className="h-5 w-5" /> },
-  { to: "/campaign", label: "Campaign", icon: <User className="h-5 w-5" />, matchPrefix: "/campaign" },
-  { to: "/analytics", label: "Analytics", icon: <BarChart3 className="h-5 w-5" />, matchPrefix: "/analytics" },
-  { to: "/settings", label: "Settings", icon: <SettingsIcon className="h-5 w-5" />, matchPrefix: "/settings" },
+  { to: "/dashboard", label: "แดชบอร์ด", icon: <LayoutGrid className="h-5 w-5" /> },
+  { to: "/campaign", label: "แคมเปญ", icon: <User className="h-5 w-5" />, matchPrefix: "/campaign" },
+  { to: "/analytics", label: "สถิติ", icon: <BarChart3 className="h-5 w-5" />, matchPrefix: "/analytics" },
+  { to: "/settings", label: "ตั้งค่า", icon: <SettingsIcon className="h-5 w-5" />, matchPrefix: "/settings" },
 ];
 
 interface AppLayoutProps {
@@ -42,10 +42,10 @@ function SidebarPoints() {
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-1.5 text-xs text-gray-500">
           <Coins className="h-3.5 w-3.5 text-brand-500" />
-          <span>Points Balance</span>
+          <span>พอยท์คงเหลือ</span>
         </div>
         <span className="text-xs font-semibold text-brand-700">
-          {pointsBalance !== null ? `${pointsBalance.toLocaleString()} pts` : "— pts"}
+          {pointsBalance !== null ? `${pointsBalance.toLocaleString()} pts` : "0 pts"}
         </span>
       </div>
     </div>

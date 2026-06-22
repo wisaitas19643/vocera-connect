@@ -238,7 +238,7 @@ function CallDefaultsPage() {
             </span>
             <div>
               <h3 className="font-semibold text-gray-800">ข้อความตอบกลับ</h3>
-              <p className="text-xs text-gray-400">ข้อความที่ BOTNOI จะพูดหลังผู้รับสายกดปุ่ม</p>
+              <p className="text-xs text-gray-400">ข้อความที่ BOTNOI จะพูดหลังผู้รับสายตอบกลับด้วยเสียง</p>
             </div>
           </div>
 
