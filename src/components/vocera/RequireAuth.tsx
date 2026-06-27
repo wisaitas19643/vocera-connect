@@ -1,6 +1,18 @@
-import type { ReactNode } from "react";
+import { useEffect, type ReactNode } from "react";
+import { useNavigate } from "@tanstack/react-router";
+import { useAuth } from "@/lib/useAuth";
 
-// DEV ONLY — auth bypassed. Restore original to re-enable.
 export function RequireAuth({ children }: { children: ReactNode }) {
+  const { user, loading } = useAuth();
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (!loading && user === null) {
+      navigate({ to: "/login" });
+    }
+  }, [user, loading, navigate]);
+
+  if (loading || user === null) return null;
+
   return <>{children}</>;
 }
